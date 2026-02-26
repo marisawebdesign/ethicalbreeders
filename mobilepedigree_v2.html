@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Sagar Faustus Moravia — Pedigree (Mobile)</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080808;
+  --card:#ffffff;
+  --card-border:#e0e0e0;
+  --text:#1a1a1a;
+  --text2:#555;
+  --text3:#999;
+  --label:#777;
+  --gold:#c9a96e;
+  --blue:#4a7fb5;
+  --pink:#b54a7f;
+  --green:#2d8a56;
+  --line-male:#4a7fb5;
+  --line-female:#b54a7f;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Outfit',system-ui,sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+html{font-size:16px;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:#fff;font-family:var(--sans);overflow-x:hidden;min-height:100vh}
+
+/* ===== HEADER ===== */
+.header{padding:1.5rem 1.25rem 1rem;max-width:480px;margin:0 auto}
+.header-label{font-size:.6rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem}
+.header-title{font-family:var(--serif);font-size:1.6rem;font-weight:400;color:#f0f0f0;line-height:1.15;margin-bottom:.35rem}
+.header-sub{font-size:.78rem;color:#888;font-weight:300;line-height:1.5}
+
+/* ===== GENERATION LABELS ===== */
+.gen-label{
+  text-align:center;font-size:.55rem;font-weight:600;letter-spacing:.22em;
+  text-transform:uppercase;color:#555;padding:.75rem 0 .5rem;
+  max-width:480px;margin:0 auto;
+}
+
+/* ===== CARD CONTAINERS ===== */
+.card-container{max-width:480px;margin:0 auto;padding:0 1.25rem}
+
+/* ===== FULL-WIDTH CARD (subject + parents) ===== */
+/* Photo spans the full card width on top, info below */
+.dog-card{
+  background:var(--card);border:1px solid var(--card-border);
+  cursor:pointer;transition:box-shadow .25s ease;
+  position:relative;color:var(--text);overflow:hidden;
+}
+.dog-card:active{box-shadow:0 1px 6px rgba(0,0,0,.1)}
+
+/* Photo: full width, landscape ratio */
+.card-photo{
+  width:100%;
+  aspect-ratio:16/9;
+  background:#d8d8d8;
+  overflow:hidden;
+  flex-shrink:0;
+  display:block;
+  position:relative;
+}
+.card-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.card-photo.empty{background:#e0e0e0}
+
+/* Photo tint overlay for gender color on top-left corner */
+.card-photo::after{
+  content:'';
+  position:absolute;
+  top:0;left:0;
+  width:3px;height:100%;
+  background:var(--card-accent, #e0e0e0);
+}
+
+.card-info{
+  padding:11px 13px 12px;
+}
+
+.card-relation{
+  font-size:.56rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+  margin-bottom:4px;
+}
+
+.card-name{
+  font-family:var(--serif);font-size:1.05rem;font-weight:500;
+  line-height:1.2;color:var(--text);margin-bottom:4px;
+}
+
+.card-meta{
+  font-size:.7rem;color:var(--text2);line-height:1.5;font-weight:300;
+  margin-bottom:5px;
+}
+
+/* Titles row: monospace chips */
+.card-titles{
+  display:flex;flex-wrap:wrap;gap:3px;margin-bottom:7px;
+}
+.title-chip{
+  font-family:var(--mono);font-size:.58rem;font-weight:400;
+  color:var(--text2);background:#f5f5f5;border:1px solid #e5e5e5;
+  padding:2px 6px;letter-spacing:.02em;
+  cursor:pointer;position:relative;
+  transition:background .15s ease, border-color .15s ease;
+}
+.title-chip:hover,.title-chip.show-tip{background:#eeeeee;border-color:#ccc}
+
+/* Health tags row */
+.card-tags{display:flex;flex-wrap:wrap;gap:4px;}
+
+.htag{
+  font-size:.55rem;font-weight:500;letter-spacing:.03em;
+  padding:2px 7px;cursor:pointer;
+  position:relative;
+  transition:opacity .15s ease;
+}
+.htag.green{background:#e8f5ee;border:1px solid #c3e6d1;color:var(--green)}
+.htag.gold{background:#f5f0e3;border:1px solid #e0d4b5;color:#8a7230}
+.htag.muted{background:#f0f0f0;border:1px solid #ddd;color:#999}
+.htag.blue{background:#eaf0f8;border:1px solid #c3d4e8;color:#3a6fa5}
+
+/* ===== SHARED TOOLTIP POPUP ===== */
+/* Single floating tooltip, positioned via JS */
+#tip-popup{
+  position:fixed;
+  background:#1a1a1a;
+  color:#fff;
+  font-family:var(--sans);
+  font-size:.72rem;
+  font-weight:400;
+  line-height:1.5;
+  padding:10px 13px;
+  width:240px;
+  z-index:1000;
+  pointer-events:none;
+  opacity:0;
+  transition:opacity .15s ease;
+  box-shadow:0 4px 20px rgba(0,0,0,.4);
+}
+#tip-popup.visible{opacity:1}
+#tip-popup .tip-label{
+  font-size:.58rem;
+  font-weight:600;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:4px;
+}
+#tip-popup .tip-full{
+  font-size:.68rem;
+  color:#aaa;
+  margin-bottom:5px;
+  font-style:italic;
+}
+#tip-popup .tip-body{
+  font-size:.72rem;
+  color:#e8e8e8;
+}
+#tip-popup::after{
+  content:'';
+  position:absolute;
+  width:0;height:0;
+  border:6px solid transparent;
+}
+#tip-popup.arrow-down::after{
+  top:100%;left:50%;transform:translateX(-50%);
+  border-top-color:#1a1a1a;
+}
+#tip-popup.arrow-up::after{
+  bottom:100%;left:50%;transform:translateX(-50%);
+  border-bottom-color:#1a1a1a;
+}
+
+/* Tap arrow on full card */
+.card-tap{
+  position:absolute;bottom:11px;right:12px;
+  width:14px;height:14px;color:#bbb;opacity:.6;
+}
+
+/* ===== ROOT CARD ===== */
+.dog-card.root{border:2px solid var(--gold);}
+.dog-card.root .card-name{font-size:1.18rem}
+.dog-card.root .card-photo{aspect-ratio:16/7}
+
+/* ===== PAIR ROW (2 cards side by side) ===== */
+.pair-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;
+  max-width:480px;margin:0 auto;padding:0 1.25rem;
+}
+/* Pair cards: compact photo on top, smaller text */
+.pair-row .dog-card{}
+.pair-row .card-photo{aspect-ratio:4/3}
+.pair-row .card-info{padding:9px 10px 10px}
+.pair-row .card-name{font-size:.82rem}
+.pair-row .card-meta{font-size:.62rem}
+.pair-row .card-relation{font-size:.5rem}
+.pair-row .title-chip{font-size:.52rem;padding:1px 4px}
+.pair-row .htag{font-size:.5rem;padding:2px 5px}
+.pair-row .card-titles{gap:2px;margin-bottom:5px}
+.pair-row .card-tags{gap:3px}
+
+/* ===== CONNECTING LINES ===== */
+.fork{position:relative;height:32px;max-width:480px;margin:0 auto;padding:0 1.25rem}
+.fork-inner{position:relative;height:100%;margin:0 auto}
+.fork-stem{position:absolute;left:50%;top:0;width:2px;height:50%;transform:translateX(-50%)}
+.fork-bar{position:absolute;top:50%;height:2px;left:25%;width:50%}
+.fork-left{position:absolute;top:50%;left:25%;width:2px;height:50%}
+.fork-right{position:absolute;top:50%;right:25%;width:2px;height:50%}
+
+.fork-stem.male,.fork-bar.male,.fork-left.male,.fork-right.male{background:var(--line-male)}
+.fork-stem.female,.fork-bar.female,.fork-left.female,.fork-right.female{background:var(--line-female)}
+.fork-stem.gold,.fork-bar.gold{background:var(--gold)}
+.fork-left.blue{background:var(--line-male)}
+.fork-right.pink{background:var(--line-female)}
+
+/* ===== SIDE SWITCHER ===== */
+.side-switcher{
+  display:flex;max-width:480px;margin:0 auto;padding:0 1.25rem;gap:0;
+}
+.side-btn{
+  flex:1;padding:.65rem 0;text-align:center;
+  font-size:.65rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;
+  cursor:pointer;border:none;font-family:var(--sans);
+  transition:all .25s ease;position:relative;
+}
+.side-btn.sire-btn{
+  background:rgba(74,127,181,.08);color:var(--line-male);
+  border-bottom:2px solid transparent;
+}
+.side-btn.dam-btn{
+  background:rgba(181,74,127,.08);color:var(--line-female);
+  border-bottom:2px solid transparent;
+}
+.side-btn.active.sire-btn{border-bottom-color:var(--line-male);background:rgba(74,127,181,.15)}
+.side-btn.active.dam-btn{border-bottom-color:var(--line-female);background:rgba(181,74,127,.15)}
+
+/* ===== SIDE PANELS ===== */
+.side-panel{display:none;animation:slideIn .3s ease}
+.side-panel.active{display:block}
+@keyframes slideIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ===== SPACING ===== */
+.spacer{height:6px}
+.spacer-lg{height:16px}
+.bottom-pad{height:80px}
+</style>
+</head>
+<body>
+
+<!-- Global tooltip popup (one shared instance) -->
+<div id="tip-popup" role="tooltip" aria-live="polite">
+  <div class="tip-label" id="tip-label"></div>
+  <div class="tip-full" id="tip-full"></div>
+  <div class="tip-body" id="tip-body"></div>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-label">WoodWolf Kennels / Pedigree</div>
+  <h1 class="header-title">Sagar Faustus Moravia "Sagi"</h1>
+  <p class="header-sub">Three generations of Czech working lines. Tap any card for full details. Tap any title or health badge to learn what it means.</p>
+</header>
+
+<!-- ===== SUBJECT CARD ===== -->
+<div class="gen-label">Subject</div>
+<div class="card-container">
+  <div class="dog-card root" onclick="showDetail('sagar')">
+    <div class="card-photo">
+      <img src="https://static.wixstatic.com/media/e2b819_8d01e7615ddb46e7b9a20e402687568d~mv2.jpg/v1/fill/w_600,h_400,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/DSC_0211.jpg" alt="Sagar Faustus Moravia">
+    </div>
+    <div class="card-info">
+      <div class="card-name">Sagar Faustus Moravia "Sagi"</div>
+      <div class="card-meta">Born July 7, 2019 &nbsp;·&nbsp; Dark / Black Sable, Long Coat</div>
+      <div class="card-titles">
+        <span class="title-chip" data-tip-label="IGP 3" data-tip-full="Internationale Gebrauchshund Prüfung — Level 3" data-tip-body="The highest level international working dog title. Evaluates tracking, obedience, and protection to elite standard.">IGP3</span>
+        <span class="title-chip" data-tip-label="KKL" data-tip-full="Körklasse" data-tip-body="Breed survey classification. Dogs are evaluated in person for conformation, character, and working ability before being approved for breeding.">KKL</span>
+        <span class="title-chip" data-tip-label="Ang*" data-tip-full="Angekört" data-tip-body="Approved and recommended for breeding. The asterisk denotes a lifetime breed survey, the highest designation.">Ang*</span>
+        <span class="title-chip" data-tip-label="FO" data-tip-full="Fährtenhund" data-tip-body="Tracking dog title. Tests the dog's ability to follow a scent trail and indicate objects found along the track.">FO</span>
+        <span class="title-chip" data-tip-label="BH / VT" data-tip-full="Begleithundprüfung / Verkehrssicherheitstest" data-tip-body="Companion dog test plus traffic safety test. Confirms stable temperament around people, traffic, and other dogs.">BH/VT</span>
+        <span class="title-chip" data-tip-label="AD" data-tip-full="Ausdauerprüfung" data-tip-body="Endurance test: 20 km at a steady pace alongside a bicycle. Confirms the dog has the physical fitness for working.">AD</span>
+      </div>
+      <div class="card-tags">
+        <span class="htag gold" data-tip-label="TSB Pronounced" data-tip-full="Triebveranlagung, Selbstsicherheit, Belastbarkeit" data-tip-body="Drive, self-assurance, and stress capacity. Evaluated at breed survey. 'Pronounced' is the highest rating — the dog shows exceptional working drives with no anxiety under pressure.">TSB Pronounced</span>
+        <span class="htag green" data-tip-label="DM N/N" data-tip-full="Degenerative Myelopathy — DNA clear" data-tip-body="Genetic test result. N/N means the dog carries zero copies of the DM mutation. Cannot develop the disease or pass it to offspring.">DM N/N</span>
+        <span class="htag green" data-tip-label="HD A1" data-tip-full="Hüftgelenksdysplasie — Grade A1" data-tip-body="Hip dysplasia rating under the German SV system. A1 is the top grade: excellent hip joint formation, no signs of dysplasia.">HD A1</span>
+        <span class="htag green" data-tip-label="ED A1" data-tip-full="Ellbogendysplasie — Grade A1" data-tip-body="Elbow dysplasia rating under the German SV system. A1 is the best possible result: no signs of elbow dysplasia.">ED A1</span>
+      </div>
+    </div>
+    <svg class="card-tap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+  </div>
+</div>
+
+<!-- Fork: Subject → Parents -->
+<div class="fork">
+  <div class="fork-inner">
+    <div class="fork-stem gold"></div>
+    <div class="fork-bar gold"></div>
+    <div class="fork-left blue"></div>
+    <div class="fork-right pink"></div>
+  </div>
+</div>
+
+<!-- ===== PARENTS ===== -->
+<div class="gen-label">Parents</div>
+<div class="pair-row">
+  <!-- SIRE -->
+  <div class="dog-card" style="--card-accent:var(--line-male)" onclick="showDetail('chiro')">
+    <div class="card-photo empty"></div>
+    <div class="card-info">
+      <div class="card-relation" style="color:var(--line-male)">Father</div>
+      <div class="card-name">Chiro Provocativo</div>
+      <div class="card-meta">Feb 8, 2013 · Short Coat</div>
+      <div class="card-titles">
+        <span class="title-chip" data-tip-label="IPO 2" data-tip-full="Internationale Prüfungs-Ordnung — Level 2" data-tip-body="Previous name for the IGP title. Level 2 of 3 in the international working dog certification.">IPO2</span>
+        <span class="title-chip" data-tip-label="FPr1" data-tip-full="Fährtenhundprüfung — Level 1" data-tip-body="Tracking trial, level 1. Tests scent-following ability on an aged track with turns.">FPr1</span>
+        <span class="title-chip" data-tip-label="KKL 1" data-tip-full="Körklasse 1" data-tip-body="Top tier breed survey rating. Especially recommended for breeding based on conformation and character evaluation.">KKL1</span>
+      </div>
+      <div class="card-tags">
+        <span class="htag green" data-tip-label="DM N/N" data-tip-full="Degenerative Myelopathy — DNA clear" data-tip-body="Carries zero copies of the DM mutation. Cannot develop the disease or pass it on.">DM N/N</span>
+        <span class="htag green" data-tip-label="HD 0/0" data-tip-full="Hüftgelenksdysplasie — Czech grade 0/0" data-tip-body="Czech hip dysplasia rating. 0/0 indicates both hip joints are clear with no signs of dysplasia.">HD 0/0</span>
+        <span class="htag green" data-tip-label="ED 0/0" data-tip-full="Ellbogendysplasie — Czech grade 0/0" data-tip-body="Czech elbow dysplasia rating. Both elbows show no signs of dysplasia.">ED 0/0</span>
+      </div>
+    </div>
+  </div>
+  <!-- DAM -->
+  <div class="dog-card" style="--card-accent:var(--line-female)" onclick="showDetail('kasiopea')">
+    <div class="card-photo empty"></div>
+    <div class="card-info">
+      <div class="card-relation" style="color:var(--line-female)">Mother</div>
+      <div class="card-name">Kasiopea Faustus Moravia</div>
+      <div class="card-meta">May 8, 2014 · Short Coat</div>
+      <div class="card-titles">
+        <span class="title-chip" data-tip-label="CMKU DS/94819/14" data-tip-full="Czech Moravian Kennel Union registry number" data-tip-body="Official Czech studbook registration. DS = Německý ovčák (German Shepherd Dog).">CMKU DS/94819/14</span>
+      </div>
+      <div class="card-tags">
+        <span class="htag green" data-tip-label="HD A/A" data-tip-full="Hüftgelenksdysplasie — DKK grade A/A" data-tip-body="Danish hip certification. A/A is the top grade, indicating excellent hip joint formation.">HD A/A</span>
+        <span class="htag green" data-tip-label="ED 0/0" data-tip-full="Ellbogendysplasie — DLK grade 0/0" data-tip-body="Danish elbow certification. 0/0 confirms both elbows are free of dysplasia.">ED 0/0</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="spacer-lg"></div>
+
+<!-- ===== SIDE SWITCHER ===== -->
+<div class="side-switcher">
+  <button class="side-btn sire-btn active" onclick="switchSide('sire',this)">Father's Line</button>
+  <button class="side-btn dam-btn" onclick="switchSide('dam',this)">Mother's Line</button>
+</div>
+
+<!-- ===== SIRE'S SIDE ===== -->
+<div class="side-panel active" id="sire-panel">
+
+  <div class="fork">
+    <div class="fork-inner">
+      <div class="fork-stem male"></div>
+      <div class="fork-bar male"></div>
+      <div class="fork-left blue"></div>
+      <div class="fork-right pink"></div>
+    </div>
+  </div>
+
+  <div class="gen-label">Paternal Grandparents</div>
+  <div class="pair-row">
+    <div class="dog-card" style="--card-accent:var(--line-male)" onclick="showDetail('cox')">
+      <div class="card-photo empty"></div>
+      <div class="card-info">
+        <div class="card-relation" style="color:var(--line-male)">Grandfather</div>
+        <div class="card-name">Cox Vikar CS</div>
+        <div class="card-meta">Aug 25, 2006</div>
+        <div class="card-titles">
+          <span class="title-chip" data-tip-label="CMKU/DS 60346" data-tip-full="Czech studbook registry number" data-tip-body="Official Czech registration for this dog.">CMKU/DS 60346</span>
+        </div>
+        <div class="card-tags">
+          <span class="htag green" data-tip-label="HD Fast Normal" data-tip-full="Hüftgelenksdysplasie — Czech 'Fast Normal'" data-tip-body="Czech hip rating meaning 'nearly normal.' Acceptable result, one step below the top grade.">HD F.Normal</span>
+        </div>
+      </div>
+    </div>
+    <div class="dog-card" style="--card-accent:var(--line-female)" onclick="showDetail('bauli')">
+      <div class="card-photo empty"></div>
+      <div class="card-info">
+        <div class="card-relation" style="color:var(--line-female)">Grandmother</div>
+        <div class="card-name">Bauli Vikar CS</div>
+        <div class="card-meta">Mar 25, 2006</div>
+        <div class="card-titles"></div>
+        <div class="card-tags">
+          <span class="htag muted">Data pending</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cox's parents -->
+  <div class="fork">
+    <div class="fork-inner">
+      <div class="fork-stem male"></div>
+      <div class="fork-bar male"></div>
+      <div class="fork-left blue"></div>
+      <div class="fork-right pink"></div>
+    </div>
+  </div>
+  <div class="gen-label">Pat. Great-Grandparents (via Cox)</div>
+  <div class="pair-row">
+    <div class="dog-card" style="--card-accent:var(--line-male)" onclick="showDetail('nobby')">
+      <div class="card-photo empty"></div>
+      <div class="card-info">
+        <div class="card-relation" style="color:var(--line-male)">Great-Grandfather</div>
+        <div class="card-name">Nobby Vikar CS</div>
+        <div class="card-meta">Oct 26, 2009</div>
+        <div class="card-tags">
+          <span class="htag green" data-tip-label="HD Normal" data-tip-full="Hüftgelenksdysplasie — Normal" data-tip-body="Czech hip dysplasia result. 'Normal' confirms clear hip joints.">HD Norm</span>
+          <span class="htag green" data-tip-label="ED Normal" data-tip-full="Ellbogendysplasie — Normal" data-tip-body="Czech elbow dysplasia result. Both elbows are clear.">ED Norm</span>
+        </div>
+      </div>
+    </div>
+    <div class="dog-card" style="--card-accent:var(--line-female)" onclick="showDetail('hoky')">
+      <div class="card-photo empty"></div>
+      <div class="card-info">
+        <div class="card-relation" style="color:var(--line-female)">Great-Grandmother</div>
+        <div class="card-name">Hoky Va-Pe</div>
+        <div class="card-meta">Jun 23, 2004</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spacer-lg"></div>
+
+  <!-- Bauli's parents -->
+  <div class="fork">
+    <div class="fork-inner">
+      <div class="fork-stem female"></div>
+      <div class="fork-bar female"></div>
+      <div class="fork-left blue"></div>
+      <div class="fork-right pink"></div>
+    </div>
+  </div>
+  <div class="gen-label">Pat. Great-Grandparents (via Bauli)</div>
+  <div class="pair-row">
+    <div class="dog-card" style="--card-accent:var(--line-male)" onclick="showDetail('veleno')">
+      <div class="card-photo empty"></div>
+      <div class="card-info">
+        <div class="card-relation" style="color:var(--line-male)">Great-Grandfather</div>
+        <div class="card-name">Veleno</div>
+        <div class="card-meta">Apr 30, 2001</div>
+        <div class="card-titles">
+          <span class="title-chip" data-tip-label="CMKU DS 55340" data-tip-full="Czech studbook registry number" data-tip-body="Official Czech registration for this dog.">CMKU DS 55340</span>
+        </div>
+      </div>
+    </div>
+    <div class="dog-card" style="--card-accent:var(--line-female)" onclick="showDetail('indy')">
+      <div class="card-photo empty"></div>
+      <div class="card-info">
+        <div class="card-relation" style="color:var(--line-female)">Great-Grandmother</div>
+        <div class="card-name">Indy von der Maineiche</div>
+        <div class="card-meta">Aug 16, 2004</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== DAM'S SIDE ===== -->
+<div class="side-panel" id="dam-panel">
+
+  <div class="fork">
+    <div class="fork-inner">
+      <div class="fork-stem female"></div>
+      <div class="fork-bar female"></div>
+      <div class="fork-left blue"></div>
+      <div class="fork-right pink"></div>
+    </div>
+  </div>
+
+  <div class="gen-label">Maternal Grandparents</div>
+  <div class="pair-row">
+    <div class="dog-card" style="--card-accent:var(--line-male)" onclick="showDetail('yankee')">
+      <div class="card-photo empty"></div>
+      <div class="card-info">
+        <div class="card-relation" style="color:var(--line-male)">Grandfather</div>
+        <div class="card-name">Yankee ze Stříbrného kamene</div>
+        <div class="card-meta">Nov 15, 2009</div>
+        <div class="card-titles">
+          <span class="title-chip" data-tip-label="CMKU/DS 75856" data-tip-full="Czech studbook registry number" data-tip-body="Official Czech registration for this dog.">CMKU/DS 75856</span>
+        </div>
+        <div class="card-tags">
+          <span class="htag green" data-tip-label="HD Normal" data-tip-full="Hüftgelenksdysplasie — Normal" data-tip-body="Czech hip dysplasia result confirming clear hip joints.">HD Norm</span>
+          <span class="htag green" data-tip-label="ED Normal" data-tip-full="Ellbogendysplasie — Normal" data-tip-body="Czech elbow result. Both elbows clear.">ED Norm</span>
+        </div>
+      </div>
+    </div>
+    <div class="dog-card" style="--card-accent:var(--line-female)" onclick="showDetail('charrissma')">
+      <div class="card-photo empty"></div>
+      <div class="card-info">
+        <div class="card-relation" style="color:var(--line-female)">Grandmother</div>
+        <div class="card-name">Charrissma Faustus Moravia</div>
+        <div class="card-meta">Jun 29, 2010</div>
+        <div class="card-titles">
+          <span class="title-chip" data-tip-label="BH / VT" data-tip-full="Begleithundprüfung / Verkehrssicherheitstest" data-tip-body="Companion dog test plus traffic safety test. Confirms stable temperament.">BH</span>
+          <span class="title-chip" data-tip-label="IPO 1" data-tip-full="Internationale Prüfungs-Ordnung — Level 1" data-tip-body="Previous name for IGP. Entry-level international working dog title.">IPO1</span>
+          <span class="title-chip" data-tip-label="FPR 3" data-tip-full="Fährtenhundprüfung — Level 3" data-tip-body="Advanced tracking trial. Follows an old, complex scent trail with multiple turns and articles.">FPR3</span>
+          <span class="title-chip" data-tip-label="ZOP" data-tip-full="Základní zkouška ovladatelnosti psů" data-tip-body="Czech basic obedience test. Confirms the dog can be safely handled in everyday situations.">ZOP</span>
+        </div>
+        <div class="card-tags">
+          <span class="htag green" data-tip-label="HD 0/0" data-tip-full="Hüftgelenksdysplasie — Czech grade 0/0" data-tip-body="Both hips clear. No signs of dysplasia.">HD 0/0</span>
+          <span class="htag green" data-tip-label="ED 0/0" data-tip-full="Ellbogendysplasie — Czech grade 0/0" data-tip-body="Both elbows clear. No signs of dysplasia.">ED 0/0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Yankee's parents -->
+  <div class="fork">
+    <div class="fork-inner">
+      <div class="fork-stem male"></div>
+      <div class="fork-bar male"></div>
+      <div class="fork-left blue"></div>
+      <div class="fork-right pink"></div>
+    </div>
+  </div>
+  <div class="gen-label">Mat. Great-Grandparents (via Yankee)</div>
+  <div class="pair-row">
+    <div class="dog-card" style="--card-accent:var(--line-male)">
+      <div class="card-photo empty"></div>
+      <div class="card-info">
+        <div class="card-relation" style="color:var(--line-male)">Great-Grandfather</div>
+        <div class="card-name">Sire of Yankee</div>
+        <div class="card-meta">Stříbrný kámen line</div>
+      </div>
+    </div>
+    <div class="dog-card" style="--card-accent:var(--line-female)">
+      <div class="card-photo empty"></div>
+      <div class="card-info">
+        <div class="card-relation" style="color:var(--line-female)">Great-Grandmother</div>
+        <div class="card-name">Dam of Yankee</div>
+        <div class="card-meta">Czech working line</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spacer-lg"></div>
+
+  <!-- Charrissma's parents -->
+  <div class="fork">
+    <div class="fork-inner">
+      <div class="fork-stem female"></div>
+      <div class="fork-bar female"></div>
+      <div class="fork-left blue"></div>
+      <div class="fork-right pink"></div>
+    </div>
+  </div>
+  <div class="gen-label">Mat. Great-Grandparents (via Charrissma)</div>
+  <div class="pair-row">
+    <div class="dog-card" style="--card-accent:var(--line-male)" onclick="showDetail('woltair')">
+      <div class="card-photo empty"></div>
+      <div class="card-info">
+        <div class="card-relation" style="color:var(--line-male)">Great-Grandfather</div>
+        <div class="card-name">Woltair Gaja-Nova</div>
+        <div class="card-meta">Sep 6, 2007</div>
+      </div>
+    </div>
+    <div class="dog-card" style="--card-accent:var(--line-female)" onclick="showDetail('arma')">
+      <div class="card-photo empty"></div>
+      <div class="card-info">
+        <div class="card-relation" style="color:var(--line-female)">Great-Grandmother</div>
+        <div class="card-name">Arma z Duhového lesa</div>
+        <div class="card-meta">Feb 17, 2005</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="bottom-pad"></div>
+
+<script>
+// ===== TOOLTIP SYSTEM =====
+// One shared popup, positioned on each tap. Dismisses when tapping anything else.
+
+const popup = document.getElementById('tip-popup');
+const tipLabel = document.getElementById('tip-label');
+const tipFull = document.getElementById('tip-full');
+const tipBody = document.getElementById('tip-body');
+let activeChip = null;
+
+function showTip(chip) {
+  // If tapping the same chip, dismiss
+  if (activeChip === chip) {
+    hideTip();
+    return;
+  }
+
+  // Dismiss any currently open tip
+  hideTip(false);
+
+  const label = chip.dataset.tipLabel || '';
+  const full = chip.dataset.tipFull || '';
+  const body = chip.dataset.tipBody || '';
+
+  if (!label && !body) return;
+
+  tipLabel.textContent = label;
+  tipFull.textContent = full;
+  tipBody.textContent = body;
+  tipFull.style.display = full ? 'block' : 'none';
+
+  // Temporarily show offscreen to measure
+  popup.style.opacity = '0';
+  popup.style.display = 'block';
+  popup.classList.remove('visible', 'arrow-down', 'arrow-up');
+
+  const chipRect = chip.getBoundingClientRect();
+  const popW = popup.offsetWidth;
+  const popH = popup.offsetHeight;
+  const margin = 10;
+  const arrowH = 6;
+
+  let top, left, arrowDir;
+
+  // Prefer above, fall back to below
+  if (chipRect.top - popH - arrowH - margin > 0) {
+    top = chipRect.top - popH - arrowH - margin + window.scrollY;
+    arrowDir = 'arrow-down';
+  } else {
+    top = chipRect.bottom + arrowH + margin + window.scrollY;
+    arrowDir = 'arrow-up';
+  }
+
+  // Center on chip, clamp to viewport
+  left = chipRect.left + chipRect.width / 2 - popW / 2;
+  left = Math.max(margin, Math.min(left, window.innerWidth - popW - margin));
+
+  popup.style.top = top + 'px';
+  popup.style.left = left + 'px';
+  popup.classList.add(arrowDir, 'visible');
+
+  // Update arrow horizontal position to still point at chip center
+  const chipCenter = chipRect.left + chipRect.width / 2;
+  const arrowLeft = chipCenter - parseFloat(popup.style.left);
+  const clampedArrow = Math.max(12, Math.min(arrowLeft, popW - 12));
+  popup.style.setProperty('--arrow-left', clampedArrow + 'px');
+
+  activeChip = chip;
+  chip.classList.add('show-tip');
+}
+
+function hideTip(clearActive = true) {
+  popup.classList.remove('visible');
+  setTimeout(() => {
+    if (!popup.classList.contains('visible')) {
+      popup.style.display = 'none';
+    }
+  }, 150);
+  if (activeChip) {
+    activeChip.classList.remove('show-tip');
+  }
+  if (clearActive) activeChip = null;
+}
+
+// Override the arrow position with a CSS var
+const styleSheet = document.createElement('style');
+styleSheet.textContent = `
+  #tip-popup.arrow-down::after { left: var(--arrow-left, 50%); transform: none; }
+  #tip-popup.arrow-up::after   { left: var(--arrow-left, 50%); transform: none; }
+`;
+document.head.appendChild(styleSheet);
+
+// Attach tap handlers to all tippable chips
+document.addEventListener('click', function(e) {
+  const chip = e.target.closest('[data-tip-label]');
+
+  if (chip) {
+    e.stopPropagation();
+    showTip(chip);
+    return;
+  }
+
+  // Tapped anywhere else — dismiss
+  hideTip();
+});
+
+// Hide on scroll
+window.addEventListener('scroll', hideTip, { passive: true });
+
+
+// ===== SIDE SWITCHER =====
+function switchSide(side, btn) {
+  document.querySelectorAll('.side-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.side-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(side + '-panel').classList.add('active');
+  hideTip();
+}
+
+// ===== CARD DETAIL (placeholder) =====
+function showDetail(id) {
+  console.log('Open detail modal for:', id);
+}
+</script>
+
+</body>
+</html>
