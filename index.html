@@ -717,7 +717,102 @@
       });
 
       function renderResults() {
-        // Will be wired in subsequent tasks
+        var damDM = document.getElementById('dmStatus').value;
+        var damCoat = document.getElementById('coatLength').value;
+        var damColor = document.getElementById('baseColor').value;
+        var heatDate = document.getElementById('heatDate').value;
+        var prog = parseFloat(document.getElementById('progesterone').value) || 0;
+
+        // --- DM Bar ---
+        var dm = calcDM(damDM);
+        var dmBar = document.getElementById('dmBar');
+        dmBar.innerHTML = '';
+        if (dm.clear > 0) {
+          var seg = document.createElement('div');
+          seg.className = 'dm-segment dm-clear';
+          seg.style.width = dm.clear + '%';
+          seg.textContent = 'Clear ' + dm.clear + '%';
+          dmBar.appendChild(seg);
+        }
+        if (dm.carrier > 0) {
+          var seg2 = document.createElement('div');
+          seg2.className = 'dm-segment dm-carrier';
+          seg2.style.width = dm.carrier + '%';
+          seg2.textContent = 'Carrier ' + dm.carrier + '%';
+          dmBar.appendChild(seg2);
+        }
+        if (dm.affected > 0) {
+          var seg3 = document.createElement('div');
+          seg3.className = 'dm-segment dm-affected';
+          seg3.style.width = dm.affected + '%';
+          seg3.textContent = 'Affected ' + dm.affected + '%';
+          dmBar.appendChild(seg3);
+        }
+
+        // --- Coat Swatches ---
+        var coatResults = calcCoat(damCoat);
+        var coatContainer = document.getElementById('coatSwatches');
+        coatContainer.innerHTML = '';
+        coatResults.forEach(function(item) {
+          var swatch = document.createElement('div');
+          swatch.className = 'swatch fade-item';
+          var colorDiv = document.createElement('div');
+          colorDiv.className = 'swatch-color';
+          colorDiv.style.background = COAT_LENGTH_COLORS[item.type] || '#555';
+          var labelDiv = document.createElement('div');
+          labelDiv.className = 'swatch-label';
+          labelDiv.textContent = item.type;
+          var pctDiv = document.createElement('div');
+          pctDiv.className = 'swatch-pct';
+          pctDiv.textContent = item.pct + '%';
+          swatch.appendChild(colorDiv);
+          swatch.appendChild(labelDiv);
+          swatch.appendChild(pctDiv);
+          coatContainer.appendChild(swatch);
+        });
+
+        // --- Color Swatches ---
+        var colorResults = calcColor(damColor);
+        var colorContainer = document.getElementById('colorSwatches');
+        colorContainer.innerHTML = '';
+        colorResults.forEach(function(item) {
+          var swatch = document.createElement('div');
+          swatch.className = 'swatch fade-item';
+          var colorDiv = document.createElement('div');
+          colorDiv.className = 'swatch-color';
+          colorDiv.style.background = COAT_COLORS[item.phenotype] || '#555';
+          var labelDiv = document.createElement('div');
+          labelDiv.className = 'swatch-label';
+          labelDiv.textContent = item.phenotype;
+          var pctDiv = document.createElement('div');
+          pctDiv.className = 'swatch-pct';
+          pctDiv.textContent = item.pct + '%';
+          swatch.appendChild(colorDiv);
+          swatch.appendChild(labelDiv);
+          swatch.appendChild(pctDiv);
+          colorContainer.appendChild(swatch);
+        });
+
+        // --- Breeding Window ---
+        var bw = calcBreedingWindow(heatDate, prog);
+        var strip = document.getElementById('calendarStrip');
+        strip.innerHTML = '';
+        bw.days.forEach(function(day) {
+          var cell = document.createElement('div');
+          cell.className = 'cal-day ' + day.intensity + ' fade-item';
+          var numDiv = document.createElement('div');
+          numDiv.className = 'cal-day-num';
+          numDiv.textContent = day.dayNum;
+          var labelDiv = document.createElement('div');
+          labelDiv.className = 'cal-day-label';
+          labelDiv.textContent = day.dayName;
+          cell.appendChild(numDiv);
+          cell.appendChild(labelDiv);
+          strip.appendChild(cell);
+        });
+
+        var noteEl = document.getElementById('progNote');
+        noteEl.textContent = bw.note;
       }
 
       // Initialize
