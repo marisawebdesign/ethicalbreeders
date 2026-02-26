@@ -8,136 +8,136 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #0a0a0a;
-      --gold: #b8882a;
-      --cream: #ede8dc;
-      --divider: rgba(255, 255, 255, 0.15);
-      --input-bg: #141414;
-      --input-border: #2a2a2a;
-      --font-serif: 'Cormorant Garamond', Georgia, serif;
-      --font-sans: 'DM Sans', system-ui, sans-serif;
-      --transition-speed: 380ms;
-    }
-
-    *, *::before, *::after {
+    /* === Demo page centering (remove when embedding) === */
+    body.bgc-demo {
       margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0a0a0a;
+      padding: 2rem;
     }
 
-    html, body {
-      height: 100%;
-      background: var(--bg);
-      color: var(--cream);
-      font-family: var(--font-sans);
+    /* === Widget: self-contained container === */
+    .calculator-wrapper {
+      --bgc-bg: #0a0a0a;
+      --bgc-gold: #b8882a;
+      --bgc-cream: #ede8dc;
+      --bgc-divider: rgba(255, 255, 255, 0.15);
+      --bgc-input-bg: #141414;
+      --bgc-input-border: #2a2a2a;
+      --bgc-font-serif: 'Cormorant Garamond', Georgia, serif;
+      --bgc-font-sans: 'DM Sans', system-ui, sans-serif;
+      --bgc-speed: 380ms;
+
+      width: 100%;
+      max-width: 480px;
+      background: var(--bgc-bg);
+      color: var(--bgc-cream);
+      font-family: var(--bgc-font-sans);
       font-size: 16px;
       line-height: 1.5;
+      padding: 2rem 2.25rem;
+      box-sizing: border-box;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
 
-    body {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 2rem;
-    }
-
-    .calculator-wrapper {
-      width: 100%;
-      max-width: 520px;
+    .calculator-wrapper *, .calculator-wrapper *::before, .calculator-wrapper *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     .calculator {
       width: 100%;
     }
 
-    h2.step-title {
-      font-family: var(--font-serif);
+    .calculator-wrapper h2.step-title {
+      font-family: var(--bgc-font-serif);
       font-weight: 500;
-      font-size: 1.65rem;
+      font-size: 1.5rem;
       letter-spacing: 0.01em;
-      margin-bottom: 1.75rem;
-      color: var(--cream);
+      margin-bottom: 1.5rem;
+      color: var(--bgc-cream);
     }
 
-    .steps-viewport {
+    .calculator-wrapper .steps-viewport {
       overflow: hidden;
       position: relative;
     }
 
-    .steps-track {
+    .calculator-wrapper .steps-track {
       display: flex;
-      transition: transform var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+      transition: transform var(--bgc-speed) cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .step {
+    .calculator-wrapper .step {
       min-width: 100%;
       flex-shrink: 0;
-      padding: 0.5rem 0;
+      padding: 0.25rem 0;
     }
 
-    .nav-buttons {
+    .calculator-wrapper .nav-buttons {
       display: flex;
       justify-content: space-between;
-      margin-top: 2rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--divider);
+      margin-top: 1.75rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--bgc-divider);
     }
 
-    .btn {
-      font-family: var(--font-sans);
-      font-size: 0.875rem;
+    .calculator-wrapper .btn {
+      font-family: var(--bgc-font-sans);
+      font-size: 0.8rem;
       font-weight: 500;
       letter-spacing: 0.04em;
       text-transform: uppercase;
       border: none;
       cursor: pointer;
-      padding: 0.7rem 1.8rem;
+      padding: 0.6rem 1.5rem;
       transition: opacity 200ms ease, background 200ms ease;
     }
 
-    .btn-back {
+    .calculator-wrapper .btn-back {
       background: transparent;
-      color: var(--cream);
+      color: var(--bgc-cream);
       opacity: 0.5;
     }
 
-    .btn-back:hover {
+    .calculator-wrapper .btn-back:hover {
       opacity: 0.8;
     }
 
-    .btn-next {
-      background: var(--gold);
-      color: var(--bg);
+    .calculator-wrapper .btn-next {
+      background: var(--bgc-gold);
+      color: var(--bgc-bg);
     }
 
-    .btn-next:hover {
+    .calculator-wrapper .btn-next:hover {
       background: #c9963a;
     }
 
-    .btn[disabled] {
+    .calculator-wrapper .btn[disabled] {
       opacity: 0.25;
       cursor: default;
       pointer-events: none;
     }
 
     /* Step Indicator */
-    .step-indicator {
+    .calculator-wrapper .step-indicator {
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 2.5rem;
+      margin-bottom: 2rem;
       gap: 0;
     }
 
-    .si-step {
-      font-family: var(--font-sans);
+    .calculator-wrapper .si-step {
+      font-family: var(--bgc-font-sans);
       font-size: 0.8rem;
       font-weight: 500;
-      color: var(--cream);
+      color: var(--bgc-cream);
       opacity: 0.25;
       transition: opacity 300ms ease, color 300ms ease;
       width: 1.5rem;
@@ -145,48 +145,48 @@
       flex-shrink: 0;
     }
 
-    .si-step.active {
+    .calculator-wrapper .si-step.active {
       opacity: 1;
-      color: var(--gold);
+      color: var(--bgc-gold);
     }
 
-    .si-step.completed {
+    .calculator-wrapper .si-step.completed {
       opacity: 0.5;
     }
 
-    .si-line {
+    .calculator-wrapper .si-line {
       height: 1px;
       width: 3rem;
-      background: var(--cream);
+      background: var(--bgc-cream);
       opacity: 0.15;
       flex-shrink: 0;
     }
 
     /* Form Fields */
-    .field {
+    .calculator-wrapper .field {
       margin-bottom: 1.25rem;
     }
 
-    .field-label {
+    .calculator-wrapper .field-label {
       display: block;
-      font-family: var(--font-sans);
+      font-family: var(--bgc-font-sans);
       font-size: 0.75rem;
       font-weight: 500;
       letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: var(--cream);
+      color: var(--bgc-cream);
       opacity: 0.6;
       margin-bottom: 0.5rem;
     }
 
-    .field-input {
+    .calculator-wrapper .field-input {
       width: 100%;
-      padding: 0.75rem 0.875rem;
-      font-family: var(--font-sans);
-      font-size: 0.9375rem;
-      color: var(--cream);
-      background: var(--input-bg);
-      border: 1px solid var(--input-border);
+      padding: 0.7rem 0.875rem;
+      font-family: var(--bgc-font-sans);
+      font-size: 0.875rem;
+      color: var(--bgc-cream);
+      background: var(--bgc-input-bg);
+      border: 1px solid var(--bgc-input-border);
       border-radius: 0;
       outline: none;
       transition: border-color 200ms ease, box-shadow 200ms ease;
@@ -194,12 +194,12 @@
       appearance: none;
     }
 
-    .field-input:focus {
-      border-color: var(--gold);
+    .calculator-wrapper .field-input:focus {
+      border-color: var(--bgc-gold);
       box-shadow: 0 0 0 1px rgba(184, 136, 42, 0.25);
     }
 
-    select.field-input {
+    .calculator-wrapper select.field-input {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23ede8dc' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: right 0.875rem center;
@@ -207,12 +207,12 @@
       cursor: pointer;
     }
 
-    select.field-input option {
-      background: var(--input-bg);
-      color: var(--cream);
+    .calculator-wrapper select.field-input option {
+      background: var(--bgc-input-bg);
+      color: var(--bgc-cream);
     }
 
-    .optional-tag {
+    .calculator-wrapper .optional-tag {
       font-size: 0.65rem;
       font-weight: 400;
       text-transform: none;
@@ -221,273 +221,268 @@
       margin-left: 0.35rem;
     }
 
-    input[type="date"].field-input {
+    .calculator-wrapper input[type="date"].field-input {
       color-scheme: dark;
     }
 
-    input[type="number"].field-input::-webkit-inner-spin-button,
-    input[type="number"].field-input::-webkit-outer-spin-button {
+    .calculator-wrapper input[type="number"].field-input::-webkit-inner-spin-button,
+    .calculator-wrapper input[type="number"].field-input::-webkit-outer-spin-button {
       opacity: 0.3;
     }
 
-    input::placeholder {
-      color: var(--cream);
+    .calculator-wrapper input::placeholder {
+      color: var(--bgc-cream);
       opacity: 0.2;
     }
 
     /* Results Section */
-    .results-section {
-      margin-bottom: 2rem;
+    .calculator-wrapper .results-section {
+      margin-bottom: 1.75rem;
     }
 
-    .section-header {
-      font-family: var(--font-serif);
+    .calculator-wrapper .section-header {
+      font-family: var(--bgc-font-serif);
       font-weight: 500;
-      font-size: 1.15rem;
-      color: var(--cream);
+      font-size: 1.05rem;
+      color: var(--bgc-cream);
+      margin-bottom: 1rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--bgc-divider);
+    }
+
+    .calculator-wrapper .result-group {
       margin-bottom: 1.25rem;
-      padding-bottom: 0.75rem;
-      border-bottom: 1px solid var(--divider);
     }
 
-    .result-group {
-      margin-bottom: 1.5rem;
-    }
-
-    .result-subhead {
-      font-family: var(--font-sans);
-      font-size: 0.7rem;
+    .calculator-wrapper .result-subhead {
+      font-family: var(--bgc-font-sans);
+      font-size: 0.65rem;
       font-weight: 500;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--cream);
+      color: var(--bgc-cream);
       opacity: 0.45;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.6rem;
     }
 
     /* DM Bar */
-    .dm-bar {
+    .calculator-wrapper .dm-bar {
       display: flex;
-      height: 2rem;
+      height: 1.75rem;
       width: 100%;
       overflow: hidden;
     }
 
-    .dm-segment {
+    .calculator-wrapper .dm-segment {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: var(--font-sans);
-      font-size: 0.7rem;
+      font-family: var(--bgc-font-sans);
+      font-size: 0.65rem;
       font-weight: 500;
-      color: var(--bg);
+      color: var(--bgc-bg);
       transition: width 400ms cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .dm-clear { background: #5a8a5a; }
-    .dm-carrier { background: #c9963a; }
-    .dm-affected { background: #8b4a4a; }
+    .calculator-wrapper .dm-clear { background: #5a8a5a; }
+    .calculator-wrapper .dm-carrier { background: #c9963a; }
+    .calculator-wrapper .dm-affected { background: #8b4a4a; }
 
     /* Swatches */
-    .swatch-row {
+    .calculator-wrapper .swatch-row {
       display: flex;
-      gap: 0.75rem;
+      gap: 0.65rem;
       flex-wrap: wrap;
     }
 
-    .swatch {
+    .calculator-wrapper .swatch {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.4rem;
     }
 
-    .swatch-color {
-      width: 3.5rem;
-      height: 3.5rem;
+    .calculator-wrapper .swatch-color {
+      width: 3rem;
+      height: 3rem;
     }
 
-    .swatch-label {
-      font-family: var(--font-sans);
-      font-size: 0.65rem;
+    .calculator-wrapper .swatch-label {
+      font-family: var(--bgc-font-sans);
+      font-size: 0.6rem;
       font-weight: 500;
-      color: var(--cream);
+      color: var(--bgc-cream);
       opacity: 0.7;
       text-align: center;
-      max-width: 4.5rem;
+      max-width: 4rem;
     }
 
-    .swatch-pct {
-      font-family: var(--font-sans);
-      font-size: 0.7rem;
+    .calculator-wrapper .swatch-pct {
+      font-family: var(--bgc-font-sans);
+      font-size: 0.65rem;
       font-weight: 600;
-      color: var(--cream);
+      color: var(--bgc-cream);
       text-align: center;
     }
 
     /* Calendar Strip */
-    .calendar-strip {
+    .calculator-wrapper .calendar-strip {
       display: flex;
-      gap: 0.375rem;
+      gap: 0.35rem;
       justify-content: center;
     }
 
-    .cal-day {
+    .calculator-wrapper .cal-day {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.35rem;
+      gap: 0.3rem;
     }
 
-    .cal-day-num {
-      width: 2.75rem;
-      height: 2.75rem;
+    .calculator-wrapper .cal-day-num {
+      width: 2.5rem;
+      height: 2.5rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: var(--font-sans);
-      font-size: 0.85rem;
+      font-family: var(--bgc-font-sans);
+      font-size: 0.8rem;
       font-weight: 500;
-      border: 1px solid var(--input-border);
+      border: 1px solid var(--bgc-input-border);
       transition: background 300ms ease, border-color 300ms ease;
     }
 
-    .cal-day-label {
-      font-family: var(--font-sans);
-      font-size: 0.6rem;
+    .calculator-wrapper .cal-day-label {
+      font-family: var(--bgc-font-sans);
+      font-size: 0.55rem;
       font-weight: 500;
       text-transform: uppercase;
       letter-spacing: 0.04em;
       opacity: 0.4;
     }
 
-    .cal-day.peak .cal-day-num {
-      background: var(--gold);
-      border-color: var(--gold);
-      color: var(--bg);
+    .calculator-wrapper .cal-day.peak .cal-day-num {
+      background: var(--bgc-gold);
+      border-color: var(--bgc-gold);
+      color: var(--bgc-bg);
     }
 
-    .cal-day.near .cal-day-num {
+    .calculator-wrapper .cal-day.near .cal-day-num {
       background: rgba(184, 136, 42, 0.5);
       border-color: rgba(184, 136, 42, 0.5);
-      color: var(--cream);
+      color: var(--bgc-cream);
     }
 
-    .cal-day.far .cal-day-num {
+    .calculator-wrapper .cal-day.far .cal-day-num {
       background: rgba(184, 136, 42, 0.2);
       border-color: rgba(184, 136, 42, 0.25);
-      color: var(--cream);
+      color: var(--bgc-cream);
     }
 
-    .prog-note {
-      font-family: var(--font-sans);
-      font-size: 0.75rem;
-      color: var(--cream);
+    .calculator-wrapper .prog-note {
+      font-family: var(--bgc-font-sans);
+      font-size: 0.7rem;
+      color: var(--bgc-cream);
       opacity: 0.4;
-      margin-top: 1rem;
+      margin-top: 0.85rem;
       text-align: center;
     }
 
-    .prog-note:empty {
+    .calculator-wrapper .prog-note:empty {
       display: none;
     }
 
-    /* Mobile Responsive */
+    /* Mobile: compact widget scales down gracefully */
     @media (max-width: 540px) {
-      body {
-        padding: 1rem;
-        align-items: flex-start;
-        padding-top: 2rem;
-      }
-
       .calculator-wrapper {
+        padding: 1.5rem 1.25rem;
         max-width: 100%;
       }
 
-      h2.step-title {
-        font-size: 1.35rem;
-        margin-bottom: 1.25rem;
+      .calculator-wrapper h2.step-title {
+        font-size: 1.25rem;
+        margin-bottom: 1.15rem;
       }
 
-      .field-input {
-        font-size: 1rem;
-        padding: 0.85rem 0.875rem;
+      .calculator-wrapper .field-input {
+        font-size: 0.9375rem;
+        padding: 0.75rem 0.875rem;
       }
 
-      .swatch-color {
-        width: 3rem;
-        height: 3rem;
+      .calculator-wrapper .swatch-color {
+        width: 2.5rem;
+        height: 2.5rem;
       }
 
-      .swatch-row {
+      .calculator-wrapper .swatch-row {
         gap: 0.5rem;
       }
 
-      .swatch-label {
-        font-size: 0.6rem;
-        max-width: 3.5rem;
+      .calculator-wrapper .swatch-label {
+        font-size: 0.55rem;
+        max-width: 3rem;
       }
 
-      .cal-day-num {
-        width: 2.35rem;
-        height: 2.35rem;
-        font-size: 0.8rem;
+      .calculator-wrapper .cal-day-num {
+        width: 2.15rem;
+        height: 2.15rem;
+        font-size: 0.7rem;
       }
 
-      .calendar-strip {
-        gap: 0.25rem;
+      .calculator-wrapper .calendar-strip {
+        gap: 0.2rem;
       }
 
-      .dm-segment {
-        font-size: 0.6rem;
+      .calculator-wrapper .dm-segment {
+        font-size: 0.55rem;
       }
 
-      .btn {
-        padding: 0.6rem 1.2rem;
-        font-size: 0.8rem;
+      .calculator-wrapper .btn {
+        padding: 0.55rem 1rem;
+        font-size: 0.75rem;
       }
 
-      .nav-buttons {
-        margin-top: 1.5rem;
-        padding-top: 1rem;
+      .calculator-wrapper .nav-buttons {
+        margin-top: 1.25rem;
+        padding-top: 0.85rem;
       }
 
-      .si-line {
+      .calculator-wrapper .si-line {
         width: 2rem;
       }
     }
 
     @media (max-width: 360px) {
-      .swatch-color {
-        width: 2.5rem;
-        height: 2.5rem;
+      .calculator-wrapper .swatch-color {
+        width: 2.15rem;
+        height: 2.15rem;
       }
 
-      .cal-day-num {
-        width: 2rem;
-        height: 2rem;
-        font-size: 0.7rem;
+      .calculator-wrapper .cal-day-num {
+        width: 1.85rem;
+        height: 1.85rem;
+        font-size: 0.65rem;
       }
 
-      .swatch-row {
+      .calculator-wrapper .swatch-row {
         gap: 0.35rem;
       }
     }
 
     /* Stagger-fade animation */
-    .fade-item {
+    .calculator-wrapper .fade-item {
       opacity: 0;
       transform: translateY(6px);
       transition: opacity 300ms ease, transform 300ms ease;
     }
 
-    .fade-item.visible {
+    .calculator-wrapper .fade-item.visible {
       opacity: 1;
       transform: translateY(0);
     }
   </style>
 </head>
-<body>
+<body class="bgc-demo">
   <div class="calculator-wrapper">
     <div class="calculator">
 
