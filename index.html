@@ -324,6 +324,73 @@
       color: var(--cream);
       text-align: center;
     }
+
+    /* Calendar Strip */
+    .calendar-strip {
+      display: flex;
+      gap: 0.375rem;
+      justify-content: center;
+    }
+
+    .cal-day {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .cal-day-num {
+      width: 2.75rem;
+      height: 2.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      font-weight: 500;
+      border: 1px solid var(--input-border);
+      transition: background 300ms ease, border-color 300ms ease;
+    }
+
+    .cal-day-label {
+      font-family: var(--font-sans);
+      font-size: 0.6rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      opacity: 0.4;
+    }
+
+    .cal-day.peak .cal-day-num {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--bg);
+    }
+
+    .cal-day.near .cal-day-num {
+      background: rgba(184, 136, 42, 0.5);
+      border-color: rgba(184, 136, 42, 0.5);
+      color: var(--cream);
+    }
+
+    .cal-day.far .cal-day-num {
+      background: rgba(184, 136, 42, 0.2);
+      border-color: rgba(184, 136, 42, 0.25);
+      color: var(--cream);
+    }
+
+    .prog-note {
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      color: var(--cream);
+      opacity: 0.4;
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    .prog-note:empty {
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -420,7 +487,10 @@
               </div>
 
               <!-- Breeding Window -->
-              <div class="results-section" id="breedingWindow">
+              <div class="results-section fade-item" id="breedingWindow">
+                <h3 class="section-header">Breeding Window</h3>
+                <div class="calendar-strip" id="calendarStrip"></div>
+                <p class="prog-note" id="progNote"></p>
               </div>
 
             </div>
