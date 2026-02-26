@@ -211,6 +211,29 @@
       background: var(--input-bg);
       color: var(--cream);
     }
+
+    .optional-tag {
+      font-size: 0.65rem;
+      font-weight: 400;
+      text-transform: none;
+      letter-spacing: 0.02em;
+      opacity: 0.4;
+      margin-left: 0.35rem;
+    }
+
+    input[type="date"].field-input {
+      color-scheme: dark;
+    }
+
+    input[type="number"].field-input::-webkit-inner-spin-button,
+    input[type="number"].field-input::-webkit-outer-spin-button {
+      opacity: 0.3;
+    }
+
+    input::placeholder {
+      color: var(--cream);
+      opacity: 0.2;
+    }
   </style>
 </head>
 <body>
@@ -270,6 +293,14 @@
           <div class="step" id="step2">
             <h2 class="step-title">Heat Cycle</h2>
             <div class="step-content">
+              <div class="field">
+                <label class="field-label" for="heatDate">First Day of Visible Heat</label>
+                <input type="date" class="field-input" id="heatDate">
+              </div>
+              <div class="field">
+                <label class="field-label" for="progesterone">Progesterone (ng/mL) <span class="optional-tag">Optional</span></label>
+                <input type="number" class="field-input" id="progesterone" placeholder="e.g. 5.0" step="0.1" min="0">
+              </div>
             </div>
           </div>
 
