@@ -234,6 +234,257 @@
       color: var(--cream);
       opacity: 0.2;
     }
+
+    /* Results Section */
+    .results-section {
+      margin-bottom: 2rem;
+    }
+
+    .section-header {
+      font-family: var(--font-serif);
+      font-weight: 500;
+      font-size: 1.15rem;
+      color: var(--cream);
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--divider);
+    }
+
+    .result-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .result-subhead {
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--cream);
+      opacity: 0.45;
+      margin-bottom: 0.75rem;
+    }
+
+    /* DM Bar */
+    .dm-bar {
+      display: flex;
+      height: 2rem;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .dm-segment {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: var(--bg);
+      transition: width 400ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .dm-clear { background: #5a8a5a; }
+    .dm-carrier { background: #c9963a; }
+    .dm-affected { background: #8b4a4a; }
+
+    /* Swatches */
+    .swatch-row {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .swatch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .swatch-color {
+      width: 3.5rem;
+      height: 3.5rem;
+    }
+
+    .swatch-label {
+      font-family: var(--font-sans);
+      font-size: 0.65rem;
+      font-weight: 500;
+      color: var(--cream);
+      opacity: 0.7;
+      text-align: center;
+      max-width: 4.5rem;
+    }
+
+    .swatch-pct {
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--cream);
+      text-align: center;
+    }
+
+    /* Calendar Strip */
+    .calendar-strip {
+      display: flex;
+      gap: 0.375rem;
+      justify-content: center;
+    }
+
+    .cal-day {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .cal-day-num {
+      width: 2.75rem;
+      height: 2.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      font-weight: 500;
+      border: 1px solid var(--input-border);
+      transition: background 300ms ease, border-color 300ms ease;
+    }
+
+    .cal-day-label {
+      font-family: var(--font-sans);
+      font-size: 0.6rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      opacity: 0.4;
+    }
+
+    .cal-day.peak .cal-day-num {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--bg);
+    }
+
+    .cal-day.near .cal-day-num {
+      background: rgba(184, 136, 42, 0.5);
+      border-color: rgba(184, 136, 42, 0.5);
+      color: var(--cream);
+    }
+
+    .cal-day.far .cal-day-num {
+      background: rgba(184, 136, 42, 0.2);
+      border-color: rgba(184, 136, 42, 0.25);
+      color: var(--cream);
+    }
+
+    .prog-note {
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      color: var(--cream);
+      opacity: 0.4;
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    .prog-note:empty {
+      display: none;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 540px) {
+      body {
+        padding: 1rem;
+        align-items: flex-start;
+        padding-top: 2rem;
+      }
+
+      .calculator-wrapper {
+        max-width: 100%;
+      }
+
+      h2.step-title {
+        font-size: 1.35rem;
+        margin-bottom: 1.25rem;
+      }
+
+      .field-input {
+        font-size: 1rem;
+        padding: 0.85rem 0.875rem;
+      }
+
+      .swatch-color {
+        width: 3rem;
+        height: 3rem;
+      }
+
+      .swatch-row {
+        gap: 0.5rem;
+      }
+
+      .swatch-label {
+        font-size: 0.6rem;
+        max-width: 3.5rem;
+      }
+
+      .cal-day-num {
+        width: 2.35rem;
+        height: 2.35rem;
+        font-size: 0.8rem;
+      }
+
+      .calendar-strip {
+        gap: 0.25rem;
+      }
+
+      .dm-segment {
+        font-size: 0.6rem;
+      }
+
+      .btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.8rem;
+      }
+
+      .nav-buttons {
+        margin-top: 1.5rem;
+        padding-top: 1rem;
+      }
+
+      .si-line {
+        width: 2rem;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .swatch-color {
+        width: 2.5rem;
+        height: 2.5rem;
+      }
+
+      .cal-day-num {
+        width: 2rem;
+        height: 2rem;
+        font-size: 0.7rem;
+      }
+
+      .swatch-row {
+        gap: 0.35rem;
+      }
+    }
+
+    /* Stagger-fade animation */
+    .fade-item {
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 300ms ease, transform 300ms ease;
+    }
+
+    .fade-item.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
   </style>
 </head>
 <body>
@@ -308,8 +559,34 @@
           <div class="step" id="step3">
             <h2 class="step-title">Results</h2>
             <div class="step-content">
-              <div id="geneticsResults"></div>
-              <div id="breedingWindow"></div>
+
+              <!-- Genetics Results -->
+              <div class="results-section" id="geneticsResults">
+                <h3 class="section-header">Genetics</h3>
+
+                <div class="result-group fade-item">
+                  <h4 class="result-subhead">DM Status</h4>
+                  <div class="dm-bar" id="dmBar"></div>
+                </div>
+
+                <div class="result-group fade-item">
+                  <h4 class="result-subhead">Coat Length</h4>
+                  <div class="swatch-row" id="coatSwatches"></div>
+                </div>
+
+                <div class="result-group fade-item">
+                  <h4 class="result-subhead">Color Outcomes</h4>
+                  <div class="swatch-row" id="colorSwatches"></div>
+                </div>
+              </div>
+
+              <!-- Breeding Window -->
+              <div class="results-section fade-item" id="breedingWindow">
+                <h3 class="section-header">Breeding Window</h3>
+                <div class="calendar-strip" id="calendarStrip"></div>
+                <p class="prog-note" id="progNote"></p>
+              </div>
+
             </div>
           </div>
 
@@ -326,7 +603,334 @@
   </div>
 
   <script>
-    // JavaScript will be added in subsequent tasks
+    (function() {
+      'use strict';
+
+      const TOTAL_STEPS = 3;
+      let currentStep = 0;
+
+      const track = document.getElementById('stepsTrack');
+      const btnBack = document.getElementById('btnBack');
+      const btnNext = document.getElementById('btnNext');
+      const siSteps = document.querySelectorAll('.si-step');
+
+      // === Sagi's Genetics (hardcoded) ===
+      // DM: N/N, Coat: l/l (short non-carrier), Color: Ay/a (sable carrier of recessive black)
+      var SIRE = { dm: 'N/N', coat: 'LL', colorAlleles: ['Ay', 'a'] };
+
+      // === Genetics Calculations ===
+      function calcDM(damDM) {
+        // Sire is N/N — always contributes N
+        // Dam: N/N → 100% clear, N/DM → 50% clear 50% carrier, DM/DM → 100% carrier
+        if (damDM === 'N/N')  return { clear: 100, carrier: 0, affected: 0 };
+        if (damDM === 'N/DM') return { clear: 50, carrier: 50, affected: 0 };
+        if (damDM === 'DM/DM') return { clear: 0, carrier: 100, affected: 0 };
+        return { clear: 0, carrier: 0, affected: 0 };
+      }
+
+      function calcCoat(damCoat) {
+        // Sire is LL (short, non-carrier of long = L/L)
+        // l = long allele, L = short allele
+        // Sire L/L x Dam L/L → 100% LL (short)
+        // Sire L/L x Dam L/l → 50% LL, 50% Ll (all short)
+        // Sire L/L x Dam l/l → 100% Ll (all short, all carriers)
+        if (damCoat === 'LL') return [{ type: 'Short', pct: 100 }];
+        if (damCoat === 'Ll') return [{ type: 'Short', pct: 50 }, { type: 'Short (Carries Long)', pct: 50 }];
+        if (damCoat === 'll') return [{ type: 'Short (Carries Long)', pct: 100 }];
+        return [];
+      }
+
+      function calcColor(damColor) {
+        // Sire: Ay/a (Sable, carries recessive black)
+        // Ay = sable (dominant), at = tan point, a = recessive black
+        // Black & Tan / Black & Red = at/at or at/a
+        // Bicolor = at/at (extreme tan point expression) — genetically same as B&T
+        // Solid Black = a/a
+        // Sable = Ay/Ay or Ay/at or Ay/a
+
+        var sireA = SIRE.colorAlleles; // ['Ay', 'a']
+        var damA;
+
+        if (damColor === 'sable') {
+          // Assume Ay/a (most common in working lines)
+          damA = ['Ay', 'a'];
+        } else if (damColor === 'black_tan' || damColor === 'black_red') {
+          // at/at (standard tan point)
+          damA = ['at', 'at'];
+        } else if (damColor === 'bicolor') {
+          // at/at (bicolor is extreme expression of tan point)
+          damA = ['at', 'at'];
+        } else if (damColor === 'solid_black') {
+          // a/a
+          damA = ['a', 'a'];
+        } else {
+          return [];
+        }
+
+        // Cross: each sire allele x each dam allele
+        var combos = {};
+        for (var i = 0; i < sireA.length; i++) {
+          for (var j = 0; j < damA.length; j++) {
+            var pair = [sireA[i], damA[j]].sort(alleleSort);
+            var key = pair.join('/');
+            combos[key] = (combos[key] || 0) + 1;
+          }
+        }
+
+        var total = sireA.length * damA.length;
+        var results = [];
+        for (var k in combos) {
+          results.push({ genotype: k, pct: Math.round((combos[k] / total) * 100), phenotype: phenotypeFromGenotype(k) });
+        }
+        return results;
+      }
+
+      function alleleSort(a, b) {
+        var order = { 'Ay': 0, 'at': 1, 'a': 2 };
+        return (order[a] || 99) - (order[b] || 99);
+      }
+
+      function phenotypeFromGenotype(g) {
+        if (g.indexOf('Ay') !== -1) return 'Sable';
+        if (g === 'at/at' || g === 'at/a') return 'Black & Tan';
+        if (g === 'a/a') return 'Solid Black';
+        return 'Unknown';
+      }
+
+      // Color swatch hex values for GSD coat colors
+      var COAT_COLORS = {
+        'Sable':       '#8B7355',
+        'Black & Tan': '#2E1A0E',
+        'Solid Black': '#0f0f0f',
+        'Unknown':     '#333333'
+      };
+
+      var COAT_LENGTH_COLORS = {
+        'Short':                '#6B5B3E',
+        'Short (Carries Long)': '#7A6644',
+        'Long':                 '#8B7355'
+      };
+
+      // === Breeding Window Calculation ===
+      function calcBreedingWindow(heatDateStr, progesterone) {
+        var heatDate = new Date(heatDateStr + 'T00:00:00');
+        var baseOffset = 11; // Day 11-12 from first visible heat is typical peak
+        var note = '';
+
+        if (progesterone && progesterone > 0) {
+          // Progesterone-based refinement
+          // < 2 ng/mL: pre-ovulation, breeding in ~4-6 days
+          // 2-5 ng/mL: near ovulation, breeding in ~2-3 days
+          // 5-8 ng/mL: ovulation occurring, breed within 1-2 days
+          // > 8 ng/mL: post-ovulation, breed immediately or within 1 day
+          if (progesterone < 2) {
+            baseOffset = 14;
+            note = 'Window adjusted for pre-ovulatory progesterone reading.';
+          } else if (progesterone <= 5) {
+            baseOffset = 12;
+            note = 'Window refined based on near-ovulation progesterone level.';
+          } else if (progesterone <= 8) {
+            baseOffset = 10;
+            note = 'Window adjusted for active ovulation progesterone level.';
+          } else {
+            baseOffset = 9;
+            note = 'Window adjusted for post-ovulatory progesterone reading.';
+          }
+        }
+
+        // Build 5-day window centered on peak
+        var days = [];
+        var DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        for (var i = -2; i <= 2; i++) {
+          var d = new Date(heatDate);
+          d.setDate(d.getDate() + baseOffset + i);
+          var intensity;
+          if (i === 0) intensity = 'peak';
+          else if (Math.abs(i) === 1) intensity = 'near';
+          else intensity = 'far';
+          days.push({
+            date: d,
+            dayNum: d.getDate(),
+            dayName: DAY_NAMES[d.getDay()],
+            intensity: intensity
+          });
+        }
+
+        return { days: days, note: note };
+      }
+
+      function goToStep(step) {
+        if (step < 0 || step >= TOTAL_STEPS) return;
+        currentStep = step;
+        track.style.transform = 'translateX(-' + (currentStep * 100) + '%)';
+        updateIndicator();
+        updateButtons();
+        if (currentStep === 2) {
+          renderResults();
+        }
+      }
+
+      function updateIndicator() {
+        siSteps.forEach(function(el) {
+          var s = parseInt(el.dataset.step, 10);
+          el.classList.remove('active', 'completed');
+          if (s === currentStep) el.classList.add('active');
+          else if (s < currentStep) el.classList.add('completed');
+        });
+      }
+
+      function updateButtons() {
+        btnBack.disabled = currentStep === 0;
+        if (currentStep === TOTAL_STEPS - 1) {
+          btnNext.style.display = 'none';
+        } else {
+          btnNext.style.display = '';
+          btnNext.textContent = 'Next';
+        }
+      }
+
+      function validateStep(step) {
+        if (step === 0) {
+          return document.getElementById('dmStatus').value &&
+                 document.getElementById('coatLength').value &&
+                 document.getElementById('baseColor').value;
+        }
+        if (step === 1) {
+          return document.getElementById('heatDate').value;
+        }
+        return true;
+      }
+
+      btnNext.addEventListener('click', function() {
+        if (!validateStep(currentStep)) return;
+        goToStep(currentStep + 1);
+      });
+
+      btnBack.addEventListener('click', function() {
+        goToStep(currentStep - 1);
+      });
+
+      function renderResults() {
+        var damDM = document.getElementById('dmStatus').value;
+        var damCoat = document.getElementById('coatLength').value;
+        var damColor = document.getElementById('baseColor').value;
+        var heatDate = document.getElementById('heatDate').value;
+        var prog = parseFloat(document.getElementById('progesterone').value) || 0;
+
+        // --- DM Bar ---
+        var dm = calcDM(damDM);
+        var dmBar = document.getElementById('dmBar');
+        dmBar.innerHTML = '';
+        if (dm.clear > 0) {
+          var seg = document.createElement('div');
+          seg.className = 'dm-segment dm-clear';
+          seg.style.width = dm.clear + '%';
+          seg.textContent = 'Clear ' + dm.clear + '%';
+          dmBar.appendChild(seg);
+        }
+        if (dm.carrier > 0) {
+          var seg2 = document.createElement('div');
+          seg2.className = 'dm-segment dm-carrier';
+          seg2.style.width = dm.carrier + '%';
+          seg2.textContent = 'Carrier ' + dm.carrier + '%';
+          dmBar.appendChild(seg2);
+        }
+        if (dm.affected > 0) {
+          var seg3 = document.createElement('div');
+          seg3.className = 'dm-segment dm-affected';
+          seg3.style.width = dm.affected + '%';
+          seg3.textContent = 'Affected ' + dm.affected + '%';
+          dmBar.appendChild(seg3);
+        }
+
+        // --- Coat Swatches ---
+        var coatResults = calcCoat(damCoat);
+        var coatContainer = document.getElementById('coatSwatches');
+        coatContainer.innerHTML = '';
+        coatResults.forEach(function(item) {
+          var swatch = document.createElement('div');
+          swatch.className = 'swatch fade-item';
+          var colorDiv = document.createElement('div');
+          colorDiv.className = 'swatch-color';
+          colorDiv.style.background = COAT_LENGTH_COLORS[item.type] || '#555';
+          var labelDiv = document.createElement('div');
+          labelDiv.className = 'swatch-label';
+          labelDiv.textContent = item.type;
+          var pctDiv = document.createElement('div');
+          pctDiv.className = 'swatch-pct';
+          pctDiv.textContent = item.pct + '%';
+          swatch.appendChild(colorDiv);
+          swatch.appendChild(labelDiv);
+          swatch.appendChild(pctDiv);
+          coatContainer.appendChild(swatch);
+        });
+
+        // --- Color Swatches ---
+        var colorResults = calcColor(damColor);
+        var colorContainer = document.getElementById('colorSwatches');
+        colorContainer.innerHTML = '';
+        colorResults.forEach(function(item) {
+          var swatch = document.createElement('div');
+          swatch.className = 'swatch fade-item';
+          var colorDiv = document.createElement('div');
+          colorDiv.className = 'swatch-color';
+          colorDiv.style.background = COAT_COLORS[item.phenotype] || '#555';
+          var labelDiv = document.createElement('div');
+          labelDiv.className = 'swatch-label';
+          labelDiv.textContent = item.phenotype;
+          var pctDiv = document.createElement('div');
+          pctDiv.className = 'swatch-pct';
+          pctDiv.textContent = item.pct + '%';
+          swatch.appendChild(colorDiv);
+          swatch.appendChild(labelDiv);
+          swatch.appendChild(pctDiv);
+          colorContainer.appendChild(swatch);
+        });
+
+        // --- Breeding Window ---
+        var bw = calcBreedingWindow(heatDate, prog);
+        var strip = document.getElementById('calendarStrip');
+        strip.innerHTML = '';
+        bw.days.forEach(function(day) {
+          var cell = document.createElement('div');
+          cell.className = 'cal-day ' + day.intensity + ' fade-item';
+          var numDiv = document.createElement('div');
+          numDiv.className = 'cal-day-num';
+          numDiv.textContent = day.dayNum;
+          var labelDiv = document.createElement('div');
+          labelDiv.className = 'cal-day-label';
+          labelDiv.textContent = day.dayName;
+          cell.appendChild(numDiv);
+          cell.appendChild(labelDiv);
+          strip.appendChild(cell);
+        });
+
+        var noteEl = document.getElementById('progNote');
+        noteEl.textContent = bw.note;
+
+        // Stagger-fade all .fade-item elements in step 3
+        triggerStaggerFade();
+      }
+
+      function triggerStaggerFade() {
+        var step3 = document.getElementById('step3');
+        var items = step3.querySelectorAll('.fade-item');
+        items.forEach(function(el) {
+          el.classList.remove('visible');
+        });
+        // Use requestAnimationFrame to ensure DOM is painted before animating
+        requestAnimationFrame(function() {
+          items.forEach(function(el, i) {
+            setTimeout(function() {
+              el.classList.add('visible');
+            }, i * 80);
+          });
+        });
+      }
+
+      // Initialize
+      updateButtons();
+    })();
   </script>
 </body>
 </html>
