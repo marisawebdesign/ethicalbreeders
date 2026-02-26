@@ -473,6 +473,18 @@
         gap: 0.35rem;
       }
     }
+
+    /* Stagger-fade animation */
+    .fade-item {
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 300ms ease, transform 300ms ease;
+    }
+
+    .fade-item.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
   </style>
 </head>
 <body>
@@ -895,6 +907,25 @@
 
         var noteEl = document.getElementById('progNote');
         noteEl.textContent = bw.note;
+
+        // Stagger-fade all .fade-item elements in step 3
+        triggerStaggerFade();
+      }
+
+      function triggerStaggerFade() {
+        var step3 = document.getElementById('step3');
+        var items = step3.querySelectorAll('.fade-item');
+        items.forEach(function(el) {
+          el.classList.remove('visible');
+        });
+        // Use requestAnimationFrame to ensure DOM is painted before animating
+        requestAnimationFrame(function() {
+          items.forEach(function(el, i) {
+            setTimeout(function() {
+              el.classList.add('visible');
+            }, i * 80);
+          });
+        });
       }
 
       // Initialize
