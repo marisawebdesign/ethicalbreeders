@@ -161,6 +161,56 @@
       opacity: 0.15;
       flex-shrink: 0;
     }
+
+    /* Form Fields */
+    .field {
+      margin-bottom: 1.25rem;
+    }
+
+    .field-label {
+      display: block;
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--cream);
+      opacity: 0.6;
+      margin-bottom: 0.5rem;
+    }
+
+    .field-input {
+      width: 100%;
+      padding: 0.75rem 0.875rem;
+      font-family: var(--font-sans);
+      font-size: 0.9375rem;
+      color: var(--cream);
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 0;
+      outline: none;
+      transition: border-color 200ms ease, box-shadow 200ms ease;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .field-input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 1px rgba(184, 136, 42, 0.25);
+    }
+
+    select.field-input {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23ede8dc' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.875rem center;
+      padding-right: 2.5rem;
+      cursor: pointer;
+    }
+
+    select.field-input option {
+      background: var(--input-bg);
+      color: var(--cream);
+    }
   </style>
 </head>
 <body>
@@ -184,6 +234,35 @@
           <div class="step" id="step1">
             <h2 class="step-title">About Your Female</h2>
             <div class="step-content">
+              <div class="field">
+                <label class="field-label" for="dmStatus">DM Status</label>
+                <select class="field-input" id="dmStatus">
+                  <option value="" disabled selected>Select</option>
+                  <option value="N/N">N/N</option>
+                  <option value="N/DM">N/DM</option>
+                  <option value="DM/DM">DM/DM</option>
+                </select>
+              </div>
+              <div class="field">
+                <label class="field-label" for="coatLength">Coat Length</label>
+                <select class="field-input" id="coatLength">
+                  <option value="" disabled selected>Select</option>
+                  <option value="LL">Short / Non-Carrier</option>
+                  <option value="Ll">Short / Carries Long</option>
+                  <option value="ll">Long Coat</option>
+                </select>
+              </div>
+              <div class="field">
+                <label class="field-label" for="baseColor">Base Color</label>
+                <select class="field-input" id="baseColor">
+                  <option value="" disabled selected>Select</option>
+                  <option value="sable">Sable</option>
+                  <option value="black_tan">Black &amp; Tan</option>
+                  <option value="black_red">Black &amp; Red</option>
+                  <option value="bicolor">Bicolor</option>
+                  <option value="solid_black">Solid Black</option>
+                </select>
+              </div>
             </div>
           </div>
 
