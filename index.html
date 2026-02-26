@@ -96,6 +96,8 @@
       border: none;
       cursor: pointer;
       padding: 0.6rem 1.5rem;
+      min-height: 2.5rem;
+      touch-action: manipulation;
       transition: opacity 200ms ease, background 200ms ease;
     }
 
@@ -182,6 +184,7 @@
     .calculator-wrapper .field-input {
       width: 100%;
       padding: 0.7rem 0.875rem;
+      min-height: 2.75rem;
       font-family: var(--bgc-font-sans);
       font-size: 0.875rem;
       color: var(--bgc-cream);
@@ -392,21 +395,31 @@
       display: none;
     }
 
-    /* Mobile: compact widget scales down gracefully */
+    /* Mobile: widget fills parent, scales down for small viewports */
     @media (max-width: 540px) {
       .calculator-wrapper {
         padding: 1.5rem 1.25rem;
         max-width: 100%;
+        font-size: 15px;
       }
 
       .calculator-wrapper h2.step-title {
         font-size: 1.25rem;
-        margin-bottom: 1.15rem;
+        margin-bottom: 1rem;
+      }
+
+      .calculator-wrapper .step-indicator {
+        margin-bottom: 1.5rem;
       }
 
       .calculator-wrapper .field-input {
-        font-size: 0.9375rem;
-        padding: 0.75rem 0.875rem;
+        font-size: 16px; /* prevents iOS auto-zoom on focus */
+        padding: 0.8rem 0.75rem;
+        min-height: 2.75rem;
+      }
+
+      .calculator-wrapper .section-header {
+        font-size: 0.95rem;
       }
 
       .calculator-wrapper .swatch-color {
@@ -420,17 +433,29 @@
 
       .calculator-wrapper .swatch-label {
         font-size: 0.55rem;
-        max-width: 3rem;
+        max-width: 3.25rem;
+      }
+
+      .calculator-wrapper .swatch-pct {
+        font-size: 0.6rem;
       }
 
       .calculator-wrapper .cal-day-num {
-        width: 2.15rem;
-        height: 2.15rem;
-        font-size: 0.7rem;
+        width: 2.25rem;
+        height: 2.25rem;
+        font-size: 0.75rem;
       }
 
       .calculator-wrapper .calendar-strip {
         gap: 0.2rem;
+      }
+
+      .calculator-wrapper .cal-day-label {
+        font-size: 0.5rem;
+      }
+
+      .calculator-wrapper .dm-bar {
+        height: 1.5rem;
       }
 
       .calculator-wrapper .dm-segment {
@@ -438,7 +463,7 @@
       }
 
       .calculator-wrapper .btn {
-        padding: 0.55rem 1rem;
+        padding: 0.55rem 1.1rem;
         font-size: 0.75rem;
       }
 
@@ -450,22 +475,95 @@
       .calculator-wrapper .si-line {
         width: 2rem;
       }
+
+      .calculator-wrapper .result-group {
+        margin-bottom: 1rem;
+      }
+
+      .calculator-wrapper .results-section {
+        margin-bottom: 1.25rem;
+      }
     }
 
-    @media (max-width: 360px) {
+    @media (max-width: 380px) {
+      .calculator-wrapper {
+        padding: 1.25rem 1rem;
+        font-size: 14px;
+      }
+
+      .calculator-wrapper h2.step-title {
+        font-size: 1.1rem;
+      }
+
       .calculator-wrapper .swatch-color {
         width: 2.15rem;
         height: 2.15rem;
       }
 
+      .calculator-wrapper .swatch-row {
+        gap: 0.4rem;
+      }
+
+      .calculator-wrapper .swatch-label {
+        font-size: 0.5rem;
+        max-width: 2.75rem;
+      }
+
       .calculator-wrapper .cal-day-num {
-        width: 1.85rem;
-        height: 1.85rem;
+        width: 2rem;
+        height: 2rem;
+        font-size: 0.7rem;
+      }
+
+      .calculator-wrapper .cal-day-label {
+        font-size: 0.45rem;
+      }
+
+      .calculator-wrapper .si-step {
+        font-size: 0.7rem;
+        width: 1.25rem;
+      }
+
+      .calculator-wrapper .si-line {
+        width: 1.5rem;
+      }
+
+      .calculator-wrapper .field-label {
         font-size: 0.65rem;
       }
 
-      .calculator-wrapper .swatch-row {
-        gap: 0.35rem;
+      .calculator-wrapper .btn {
+        padding: 0.5rem 0.85rem;
+        font-size: 0.7rem;
+      }
+
+      .calculator-wrapper .prog-note {
+        font-size: 0.6rem;
+      }
+    }
+
+    @media (max-width: 320px) {
+      .calculator-wrapper {
+        padding: 1rem 0.75rem;
+      }
+
+      .calculator-wrapper .swatch-color {
+        width: 1.85rem;
+        height: 1.85rem;
+      }
+
+      .calculator-wrapper .cal-day-num {
+        width: 1.75rem;
+        height: 1.75rem;
+        font-size: 0.6rem;
+      }
+
+      .calculator-wrapper .dm-segment {
+        font-size: 0.5rem;
+      }
+
+      .calculator-wrapper .calendar-strip {
+        gap: 0.15rem;
       }
     }
 
