@@ -8,7 +8,121 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    /* CSS will be added in subsequent tasks */
+    :root {
+      --bg: #0a0a0a;
+      --gold: #b8882a;
+      --cream: #ede8dc;
+      --divider: rgba(255, 255, 255, 0.15);
+      --input-bg: #141414;
+      --input-border: #2a2a2a;
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-sans: 'DM Sans', system-ui, sans-serif;
+      --transition-speed: 380ms;
+    }
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--cream);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    .calculator-wrapper {
+      width: 100%;
+      max-width: 520px;
+    }
+
+    .calculator {
+      width: 100%;
+    }
+
+    h2.step-title {
+      font-family: var(--font-serif);
+      font-weight: 500;
+      font-size: 1.65rem;
+      letter-spacing: 0.01em;
+      margin-bottom: 1.75rem;
+      color: var(--cream);
+    }
+
+    .steps-viewport {
+      overflow: hidden;
+      position: relative;
+    }
+
+    .steps-track {
+      display: flex;
+      transition: transform var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .step {
+      min-width: 100%;
+      flex-shrink: 0;
+      padding: 0.5rem 0;
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--divider);
+    }
+
+    .btn {
+      font-family: var(--font-sans);
+      font-size: 0.875rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      padding: 0.7rem 1.8rem;
+      transition: opacity 200ms ease, background 200ms ease;
+    }
+
+    .btn-back {
+      background: transparent;
+      color: var(--cream);
+      opacity: 0.5;
+    }
+
+    .btn-back:hover {
+      opacity: 0.8;
+    }
+
+    .btn-next {
+      background: var(--gold);
+      color: var(--bg);
+    }
+
+    .btn-next:hover {
+      background: #c9963a;
+    }
+
+    .btn[disabled] {
+      opacity: 0.25;
+      cursor: default;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
