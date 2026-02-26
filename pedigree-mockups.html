@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pedigree Tree — 5 Layout Mockups</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070707;--card:#0d0d0d;--card-hover:#141414;--el:#1a1a1a;
+  --txt:#f0f0f0;--txt2:#a0a0a0;--txt3:#5a5a5a;
+  --bdr:rgba(255,255,255,.07);--bdr2:rgba(255,255,255,.14);
+  --gold:#c9a96e;--gold-d:rgba(201,169,110,.1);--gold-l:rgba(201,169,110,.3);
+  --blue:#5b8cc9;--pink:#c95b8c;--green:#6ee7a0;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Outfit',system-ui,sans-serif;
+  --mono:'JetBrains Mono',monospace;
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+html{font-size:16px;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:var(--sans)}
+::selection{background:var(--gold);color:var(--bg)}
+
+/* ===== MOCKUP SELECTOR NAV ===== */
+.mockup-nav{
+  position:sticky;top:0;z-index:500;
+  background:rgba(7,7,7,.92);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--bdr);
+  display:flex;align-items:center;gap:0;
+  padding:0 2rem;overflow-x:auto;
+}
+.mockup-nav-label{
+  font-size:.65rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);padding:1rem 1.5rem 1rem 0;white-space:nowrap;border-right:1px solid var(--bdr);margin-right:.5rem;
+}
+.mockup-btn{
+  padding:.85rem 1.5rem;font-size:.72rem;font-weight:500;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--txt3);cursor:pointer;
+  border:none;background:transparent;font-family:var(--sans);
+  border-bottom:2px solid transparent;transition:all .3s var(--ease);white-space:nowrap;
+}
+.mockup-btn:hover{color:var(--txt2)}
+.mockup-btn.active{color:var(--gold);border-bottom-color:var(--gold)}
+
+/* ===== MOCKUP SECTIONS ===== */
+.mockup{display:none;width:100%;min-height:100vh;padding:2rem;position:relative}
+.mockup.active{display:block;animation:fadeIn .4s var(--ease)}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.mockup-title{
+  font-family:var(--serif);font-size:1.8rem;font-weight:300;margin-bottom:.35rem;
+}
+.mockup-desc{font-size:.85rem;color:var(--txt2);font-weight:300;margin-bottom:2rem;max-width:700px}
+
+/* ===== SHARED CARD STYLES ===== */
+.p-card{
+  background:var(--card);border:1px solid var(--bdr);
+  cursor:pointer;transition:all .35s var(--ease);position:relative;overflow:hidden;
+}
+.p-card:hover{background:var(--card-hover);border-color:var(--bdr2)}
+.p-card.root{border-color:var(--gold-l);background:linear-gradient(135deg,rgba(201,169,110,.06),rgba(201,169,110,.01))}
+.p-card.root:hover{border-color:var(--gold)}
+
+.p-card .relation{
+  font-size:.6rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--txt3);margin-bottom:4px;
+}
+.p-card.root .relation{color:var(--gold)}
+.p-card .dog-name{
+  font-family:var(--serif);font-weight:500;line-height:1.15;margin-bottom:4px;
+}
+.p-card.root .dog-name{color:var(--gold)}
+.p-card .meta-line{
+  font-size:.72rem;color:var(--txt2);font-weight:300;line-height:1.4;margin-bottom:3px;
+}
+.p-card .titles-line{
+  font-family:var(--mono);font-size:.65rem;color:var(--txt2);margin-bottom:4px;
+  letter-spacing:.02em;
+}
+.p-card .health-row{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.htag{
+  font-size:.55rem;font-weight:500;letter-spacing:.05em;padding:2px 6px;
+  text-transform:uppercase;
+}
+.htag.green{background:rgba(110,231,160,.08);border:1px solid rgba(110,231,160,.15);color:var(--green)}
+.htag.gold{background:var(--gold-d);border:1px solid rgba(201,169,110,.2);color:var(--gold)}
+.htag.muted{background:rgba(255,255,255,.03);border:1px solid var(--bdr);color:var(--txt3)}
+
+/* Sex indicator */
+.sex-ind{display:inline-block;width:8px;height:8px;border-radius:50%;vertical-align:middle;margin-right:4px}
+.sex-ind.m{background:var(--blue)}
+.sex-ind.f{background:var(--pink)}
+
+/* Photo circle */
+.photo-circle{
+  border-radius:50%;overflow:hidden;flex-shrink:0;
+  background:var(--el);border:1.5px solid var(--bdr);
+  display:flex;align-items:center;justify-content:center;
+}
+.photo-circle img{width:100%;height:100%;object-fit:cover;filter:grayscale(25%)}
+.photo-circle .ph{color:var(--txt3);font-weight:300}
+
+/* Connector lines shared */
+.tree-svg{position:absolute;inset:0;pointer-events:none;z-index:0}
+.tree-svg path{
+  fill:none;stroke:rgba(201,169,110,.2);stroke-width:1.5;
+  stroke-dasharray:6 3;animation:dash 3s linear infinite;
+}
+.tree-svg path.thick{stroke:rgba(201,169,110,.35);stroke-width:2}
+@keyframes dash{to{stroke-dashoffset:-18}}
+
+
+/* ============================================================
+   MOCKUP 1: CLASSIC HORIZONTAL — Full-width L-to-R
+   ============================================================ */
+#m1 .tree1{
+  display:grid;
+  grid-template-columns:1.4fr 1.1fr 1fr .9fr;
+  grid-template-rows:repeat(8,1fr);
+  width:100%;min-height:calc(100vh - 180px);
+  gap:0;position:relative;
+}
+#m1 .g0{grid-column:1;grid-row:1/9;align-self:center;padding:8px 16px 8px 0}
+#m1 .g1s{grid-column:2;grid-row:1/5;align-self:center;padding:8px}
+#m1 .g1d{grid-column:2;grid-row:5/9;align-self:center;padding:8px}
+#m1 .g2ss{grid-column:3;grid-row:1/3;align-self:center;padding:6px}
+#m1 .g2sd{grid-column:3;grid-row:3/5;align-self:center;padding:6px}
+#m1 .g2ds{grid-column:3;grid-row:5/7;align-self:center;padding:6px}
+#m1 .g2dd{grid-column:3;grid-row:7/9;align-self:center;padding:6px}
+#m1 .g3a{grid-column:4;grid-row:1;align-self:center;padding:4px}
+#m1 .g3b{grid-column:4;grid-row:2;align-self:center;padding:4px}
+#m1 .g3c{grid-column:4;grid-row:3;align-self:center;padding:4px}
+#m1 .g3d{grid-column:4;grid-row:4;align-self:center;padding:4px}
+#m1 .g3e{grid-column:4;grid-row:5;align-self:center;padding:4px}
+#m1 .g3f{grid-column:4;grid-row:6;align-self:center;padding:4px}
+#m1 .g3g{grid-column:4;grid-row:7;align-self:center;padding:4px}
+#m1 .g3h{grid-column:4;grid-row:8;align-self:center;padding:4px}
+
+#m1 .p-card{padding:14px 16px;display:flex;align-items:center;gap:12px}
+#m1 .g0 .p-card{padding:20px}
+#m1 .g0 .dog-name{font-size:1.3rem}
+#m1 .g1s .dog-name, #m1 .g1d .dog-name{font-size:1.05rem}
+#m1 .g2ss .dog-name,#m1 .g2sd .dog-name,#m1 .g2ds .dog-name,#m1 .g2dd .dog-name{font-size:.92rem}
+#m1 [class^="g3"] .dog-name{font-size:.82rem}
+#m1 [class^="g3"] .meta-line{font-size:.65rem}
+#m1 [class^="g3"] .titles-line{font-size:.58rem}
+#m1 [class^="g3"] .htag{font-size:.5rem}
+
+#m1 .g0 .photo-circle{width:68px;height:68px}
+#m1 .g1s .photo-circle,#m1 .g1d .photo-circle{width:52px;height:52px}
+#m1 .g2ss .photo-circle,#m1 .g2sd .photo-circle,#m1 .g2ds .photo-circle,#m1 .g2dd .photo-circle{width:42px;height:42px}
+#m1 [class^="g3"] .photo-circle{width:34px;height:34px}
+
+
+/* ============================================================
+   MOCKUP 2: VERTICAL TOP-DOWN — Subject at top, branches down
+   ============================================================ */
+#m2 .tree2{width:100%;position:relative}
+#m2 .gen-row{display:flex;justify-content:center;gap:16px;margin-bottom:12px;position:relative}
+#m2 .gen-row.row0{margin-bottom:24px}
+#m2 .gen-label-row{
+  text-align:center;font-size:.55rem;font-weight:600;letter-spacing:.25em;
+  text-transform:uppercase;color:var(--txt3);margin-bottom:6px;
+}
+#m2 .p-card{padding:16px 18px;min-width:220px;max-width:320px;flex:1}
+#m2 .row0 .p-card{max-width:420px;padding:20px 24px}
+#m2 .row0 .dog-name{font-size:1.3rem}
+#m2 .row3 .p-card{min-width:140px;max-width:180px;padding:10px 12px}
+#m2 .row3 .dog-name{font-size:.8rem}
+#m2 .row3 .meta-line{font-size:.62rem}
+#m2 .row3 .titles-line{font-size:.55rem}
+#m2 .row3 .htag{font-size:.48rem}
+#m2 .dog-name{font-size:1rem}
+#m2 .photo-circle{width:44px;height:44px;margin-bottom:8px}
+#m2 .row0 .photo-circle{width:64px;height:64px}
+#m2 .row3 .photo-circle{width:30px;height:30px}
+#m2 .p-card .card-inner{text-align:center}
+#m2 .p-card .health-row{justify-content:center}
+
+
+/* ============================================================
+   MOCKUP 3: STAGGERED BRACKETS — Tournament/bracket style
+   ============================================================ */
+#m3 .tree3{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr 1fr;
+  grid-template-rows:repeat(8,auto);
+  width:100%;gap:10px 24px;position:relative;align-items:stretch;
+}
+#m3 .p-card{padding:14px 16px}
+#m3 .b-root{grid-column:1;grid-row:1/9;display:flex;align-items:center}
+#m3 .b-root .p-card{width:100%}
+#m3 .b-root .dog-name{font-size:1.3rem}
+#m3 .b-root .photo-circle{width:60px;height:60px}
+
+#m3 .b-s{grid-column:2;grid-row:1/5;display:flex;align-items:center}
+#m3 .b-d{grid-column:2;grid-row:5/9;display:flex;align-items:center}
+#m3 .b-s .p-card,#m3 .b-d .p-card{width:100%}
+#m3 .b-s .dog-name,#m3 .b-d .dog-name{font-size:1.05rem}
+
+#m3 .b-ss{grid-column:3;grid-row:1/3;display:flex;align-items:center}
+#m3 .b-sd{grid-column:3;grid-row:3/5;display:flex;align-items:center}
+#m3 .b-ds{grid-column:3;grid-row:5/7;display:flex;align-items:center}
+#m3 .b-dd{grid-column:3;grid-row:7/9;display:flex;align-items:center}
+#m3 [class^="b-s"] .p-card,#m3 [class^="b-d"] .p-card{width:100%}
+
+#m3 .b3-1{grid-column:4;grid-row:1}
+#m3 .b3-2{grid-column:4;grid-row:2}
+#m3 .b3-3{grid-column:4;grid-row:3}
+#m3 .b3-4{grid-column:4;grid-row:4}
+#m3 .b3-5{grid-column:4;grid-row:5}
+#m3 .b3-6{grid-column:4;grid-row:6}
+#m3 .b3-7{grid-column:4;grid-row:7}
+#m3 .b3-8{grid-column:4;grid-row:8}
+#m3 [class^="b3"] .dog-name{font-size:.82rem}
+#m3 [class^="b3"] .meta-line{font-size:.62rem}
+#m3 [class^="b3"] .htag{font-size:.5rem}
+#m3 [class^="b3"] .photo-circle{width:32px;height:32px}
+
+#m3 .photo-circle{width:44px;height:44px}
+#m3 .b-root .photo-circle{width:60px;height:60px}
+#m3 .p-card{display:flex;align-items:center;gap:12px}
+
+/* Bracket lines */
+#m3 .bracket-line{
+  position:absolute;border:1.5px solid var(--gold-l);border-left:none;
+  border-radius:0 6px 6px 0;
+}
+
+
+/* ============================================================
+   MOCKUP 4: TABLE/ROWS — Classic pedigree certificate style
+   ============================================================ */
+#m4 .tree4{width:100%;border:1px solid var(--bdr)}
+#m4 .ped-table{width:100%;border-collapse:collapse}
+#m4 .ped-table td{border:1px solid var(--bdr);vertical-align:middle;padding:0}
+#m4 .ped-table .p-card{border:none;background:transparent;padding:12px 14px}
+#m4 .ped-table .p-card:hover{background:var(--card-hover)}
+#m4 .col-root{width:28%}
+#m4 .col-parent{width:24%}
+#m4 .col-gp{width:24%}
+#m4 .col-ggp{width:24%}
+#m4 .gen-header{
+  background:var(--el);padding:8px 14px;
+  font-size:.58rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold);border:1px solid var(--bdr);text-align:center;
+}
+#m4 .dog-name{font-size:.95rem}
+#m4 .col-root .dog-name{font-size:1.2rem}
+#m4 .col-ggp .dog-name{font-size:.8rem}
+#m4 .col-ggp .meta-line{font-size:.62rem}
+#m4 .col-ggp .htag{font-size:.48rem}
+#m4 .photo-circle{width:40px;height:40px;margin-right:10px;float:left}
+#m4 .col-root .photo-circle{width:56px;height:56px}
+#m4 .col-ggp .photo-circle{width:28px;height:28px}
+
+
+/* ============================================================
+   MOCKUP 5: CENTERED RADIAL — Subject center, arcs outward  
+   ============================================================ */
+#m5 .tree5{
+  display:flex;flex-direction:column;align-items:center;
+  width:100%;position:relative;gap:20px;padding:1rem 0;
+}
+#m5 .ring{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;width:100%}
+#m5 .ring-label{
+  width:100%;text-align:center;font-size:.55rem;font-weight:600;
+  letter-spacing:.25em;text-transform:uppercase;color:var(--txt3);
+  margin-bottom:4px;
+}
+#m5 .ring0 .p-card{
+  max-width:500px;padding:24px 28px;display:flex;align-items:center;gap:16px;
+}
+#m5 .ring0 .dog-name{font-size:1.4rem}
+#m5 .ring0 .photo-circle{width:72px;height:72px}
+
+#m5 .ring1 .p-card{flex:1;max-width:380px;padding:16px 18px;display:flex;align-items:center;gap:12px}
+#m5 .ring1 .dog-name{font-size:1.05rem}
+#m5 .ring1 .photo-circle{width:48px;height:48px}
+
+#m5 .ring2 .p-card{flex:1;max-width:260px;padding:12px 14px;display:flex;align-items:center;gap:10px}
+#m5 .ring2 .dog-name{font-size:.9rem}
+#m5 .ring2 .photo-circle{width:38px;height:38px}
+
+#m5 .ring3 .p-card{flex:1;min-width:160px;max-width:200px;padding:10px 12px;display:flex;align-items:center;gap:8px}
+#m5 .ring3 .dog-name{font-size:.78rem}
+#m5 .ring3 .meta-line{font-size:.62rem}
+#m5 .ring3 .htag{font-size:.48rem}
+#m5 .ring3 .photo-circle{width:30px;height:30px}
+
+/* Vertical connector dots between rings */
+#m5 .connector-dots{
+  display:flex;justify-content:center;gap:3px;padding:4px 0;
+}
+#m5 .cdot{width:3px;height:3px;border-radius:50%;background:var(--gold-l);animation:pulse 2s ease infinite}
+#m5 .cdot:nth-child(2){animation-delay:.3s}
+#m5 .cdot:nth-child(3){animation-delay:.6s}
+@keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:900px){
+  .mockup{padding:1rem}
+  #m2 .gen-row{flex-wrap:wrap}
+  #m2 .p-card{min-width:160px}
+  #m5 .ring{flex-wrap:wrap}
+  #m5 .ring3 .p-card{min-width:140px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="mockup-nav">
+  <div class="mockup-nav-label">Pedigree Layouts</div>
+  <button class="mockup-btn active" onclick="showMockup(1,this)">1 — Classic Horizontal</button>
+  <button class="mockup-btn" onclick="showMockup(2,this)">2 — Vertical Cascade</button>
+  <button class="mockup-btn" onclick="showMockup(3,this)">3 — Bracket</button>
+  <button class="mockup-btn" onclick="showMockup(4,this)">4 — Certificate Table</button>
+  <button class="mockup-btn" onclick="showMockup(5,this)">5 — Centered Rings</button>
+</nav>
+
+<!-- ============================================================
+     MOCKUP 1: CLASSIC HORIZONTAL
+     ============================================================ -->
+<section class="mockup active" id="m1">
+  <div class="mockup-title">1 — Classic Horizontal Tree</div>
+  <div class="mockup-desc">Traditional left-to-right pedigree. Subject anchored left, ancestors branch right. Full viewport width. Sized proportionally by generation importance.</div>
+  <div class="tree1" id="tree1">
+    <svg class="tree-svg" id="svg1"></svg>
+    <!-- Gen 0 -->
+    <div class="g0">
+      <div class="p-card root">
+        <div class="photo-circle"><img src="https://static.wixstatic.com/media/e2b819_8d01e7615ddb46e7b9a20e402687568d~mv2.jpg/v1/fill/w_200,h_200,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/DSC_0211.jpg" alt="Sagi"></div>
+        <div>
+          <div class="relation">Stud Dog</div>
+          <div class="dog-name">Sagar Faustus Moravia "Sagi"</div>
+          <div class="meta-line"><span class="sex-ind m"></span>Born Jul 7, 2019 · Dark/Black Sable Long Coat</div>
+          <div class="titles-line">IGP3 · KKL · Ang* · FO · BH/VT · AD</div>
+          <div class="health-row">
+            <span class="htag gold">TSB Pronounced</span>
+            <span class="htag green">DM N/N</span>
+            <span class="htag green">HD A1</span>
+            <span class="htag green">ED A1</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Gen 1 -->
+    <div class="g1s">
+      <div class="p-card">
+        <div class="photo-circle"><div class="ph" style="font-size:.9rem">♂</div></div>
+        <div>
+          <div class="relation">Father (Sire)</div>
+          <div class="dog-name">Chiro Provocativo</div>
+          <div class="meta-line"><span class="sex-ind m"></span>Born Feb 8, 2013 · Short Coat</div>
+          <div class="titles-line">BH · IPO2 · FPr1 · KKL1</div>
+          <div class="health-row"><span class="htag green">DM N/N</span><span class="htag green">HD 0/0</span><span class="htag green">ED 0/0</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="g1d">
+      <div class="p-card">
+        <div class="photo-circle"><div class="ph" style="font-size:.9rem">♀</div></div>
+        <div>
+          <div class="relation">Mother (Dam)</div>
+          <div class="dog-name">Kasiopea Faustus Moravia</div>
+          <div class="meta-line"><span class="sex-ind f"></span>Born May 8, 2014 · Short Coat</div>
+          <div class="titles-line">CMKU DS/94819/14</div>
+          <div class="health-row"><span class="htag green">HD A/A</span><span class="htag green">ED 0/0</span></div>
+        </div>
+      </div>
+    </div>
+    <!-- Gen 2 -->
+    <div class="g2ss">
+      <div class="p-card">
+        <div class="photo-circle"><div class="ph" style="font-size:.8rem">♂</div></div>
+        <div>
+          <div class="relation">Pat. Grandfather</div>
+          <div class="dog-name">Cox Vikar CS</div>
+          <div class="meta-line"><span class="sex-ind m"></span>Born Aug 25, 2006</div>
+          <div class="titles-line">CMKU/DS 60346</div>
+          <div class="health-row"><span class="htag green">HD F.Norm</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="g2sd">
+      <div class="p-card">
+        <div class="photo-circle"><div class="ph" style="font-size:.8rem">♀</div></div>
+        <div>
+          <div class="relation">Pat. Grandmother</div>
+          <div class="dog-name">Bauli Vikar CS</div>
+          <div class="meta-line"><span class="sex-ind f"></span>Born Mar 25, 2006</div>
+          <div class="health-row"><span class="htag muted">Pending</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="g2ds">
+      <div class="p-card">
+        <div class="photo-circle"><div class="ph" style="font-size:.8rem">♂</div></div>
+        <div>
+          <div class="relation">Mat. Grandfather</div>
+          <div class="dog-name">Yankee ze Stříbrného kamene</div>
+          <div class="meta-line"><span class="sex-ind m"></span>Born Nov 15, 2009</div>
+          <div class="health-row"><span class="htag green">HD Norm</span><span class="htag green">ED Norm</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="g2dd">
+      <div class="p-card">
+        <div class="photo-circle"><div class="ph" style="font-size:.8rem">♀</div></div>
+        <div>
+          <div class="relation">Mat. Grandmother</div>
+          <div class="dog-name">Charrissma Faustus Moravia</div>
+          <div class="meta-line"><span class="sex-ind f"></span>Jun 29, 2010 – Apr 12, 2020</div>
+          <div class="titles-line">BH · IPO1 · FPR3 · ZOP · 5V1/P</div>
+          <div class="health-row"><span class="htag green">HD 0/0</span><span class="htag green">ED 0/0</span></div>
+        </div>
+      </div>
+    </div>
+    <!-- Gen 3 -->
+    <div class="g3a"><div class="p-card"><div class="photo-circle"><div class="ph" style="font-size:.7rem">♂</div></div><div><div class="relation">GG-Father</div><div class="dog-name">Nobby Vikar CS</div><div class="meta-line"><span class="sex-ind m"></span>Oct 26, 2009</div><div class="health-row"><span class="htag green">HD Norm</span></div></div></div></div>
+    <div class="g3b"><div class="p-card"><div class="photo-circle"><div class="ph" style="font-size:.7rem">♀</div></div><div><div class="relation">GG-Mother</div><div class="dog-name">Hoky Va-Pe</div><div class="meta-line"><span class="sex-ind f"></span>Jun 23, 2004</div><div class="health-row"><span class="htag muted">—</span></div></div></div></div>
+    <div class="g3c"><div class="p-card"><div class="photo-circle"><div class="ph" style="font-size:.7rem">♂</div></div><div><div class="relation">GG-Father</div><div class="dog-name">Veleno</div><div class="meta-line"><span class="sex-ind m"></span>Apr 30, 2001</div><div class="health-row"><span class="htag muted">—</span></div></div></div></div>
+    <div class="g3d"><div class="p-card"><div class="photo-circle"><div class="ph" style="font-size:.7rem">♀</div></div><div><div class="relation">GG-Mother</div><div class="dog-name">Indy v.d. Maineiche</div><div class="meta-line"><span class="sex-ind f"></span>Aug 16, 2004</div><div class="health-row"><span class="htag muted">—</span></div></div></div></div>
+    <div class="g3e"><div class="p-card"><div class="photo-circle"><div class="ph" style="font-size:.7rem">♂</div></div><div><div class="relation">GG-Father</div><div class="dog-name">Sire of Yankee</div><div class="meta-line"><span class="sex-ind m"></span>Stříbrný kámen line</div><div class="health-row"><span class="htag muted">—</span></div></div></div></div>
+    <div class="g3f"><div class="p-card"><div class="photo-circle"><div class="ph" style="font-size:.7rem">♀</div></div><div><div class="relation">GG-Mother</div><div class="dog-name">Dam of Yankee</div><div class="meta-line"><span class="sex-ind f"></span>Czech Working Line</div><div class="health-row"><span class="htag muted">—</span></div></div></div></div>
+    <div class="g3g"><div class="p-card"><div class="photo-circle"><div class="ph" style="font-size:.7rem">♂</div></div><div><div class="relation">GG-Father</div><div class="dog-name">Woltair Gaja-Nova</div><div class="meta-line"><span class="sex-ind m"></span>Sep 6, 2007</div><div class="health-row"><span class="htag muted">—</span></div></div></div></div>
+    <div class="g3h"><div class="p-card"><div class="photo-circle"><div class="ph" style="font-size:.7rem">♀</div></div><div><div class="relation">GG-Mother</div><div class="dog-name">Arma z Duhového lesa</div><div class="meta-line"><span class="sex-ind f"></span>Feb 17, 2005</div><div class="health-row"><span class="htag muted">—</span></div></div></div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     MOCKUP 2: VERTICAL CASCADE
+     ============================================================ -->
+<section class="mockup" id="m2">
+  <div class="mockup-title">2 — Vertical Cascade</div>
+  <div class="mockup-desc">Subject at top, each generation flows downward in centered rows. Best for mobile vertical scrolling. Cards shrink as generations deepen.</div>
+  <div class="tree2">
+    <div class="gen-label-row">Subject</div>
+    <div class="gen-row row0"><div class="p-card root"><div class="card-inner"><div class="photo-circle" style="margin:0 auto 8px"><img src="https://static.wixstatic.com/media/e2b819_8d01e7615ddb46e7b9a20e402687568d~mv2.jpg/v1/fill/w_200,h_200,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/DSC_0211.jpg" alt="Sagi"></div><div class="relation">Stud Dog</div><div class="dog-name">Sagar Faustus Moravia "Sagi"</div><div class="meta-line"><span class="sex-ind m"></span>Jul 7, 2019 · Dark/Black Sable Long Coat</div><div class="titles-line">IGP3 · KKL · Ang* · FO · BH/VT · AD</div><div class="health-row"><span class="htag gold">TSB Pronounced</span><span class="htag green">DM N/N</span><span class="htag green">HD A1</span><span class="htag green">ED A1</span></div></div></div></div>
+    <div class="gen-label-row">Parents</div>
+    <div class="gen-row row1">
+      <div class="p-card"><div class="card-inner"><div class="photo-circle" style="margin:0 auto 8px"><div class="ph">♂</div></div><div class="relation">Father (Sire)</div><div class="dog-name">Chiro Provocativo</div><div class="meta-line"><span class="sex-ind m"></span>Feb 8, 2013 · Short Coat</div><div class="titles-line">BH · IPO2 · FPr1 · KKL1</div><div class="health-row"><span class="htag green">DM N/N</span><span class="htag green">HD 0/0</span><span class="htag green">ED 0/0</span></div></div></div>
+      <div class="p-card"><div class="card-inner"><div class="photo-circle" style="margin:0 auto 8px"><div class="ph">♀</div></div><div class="relation">Mother (Dam)</div><div class="dog-name">Kasiopea Faustus Moravia</div><div class="meta-line"><span class="sex-ind f"></span>May 8, 2014 · Short Coat</div><div class="titles-line">CMKU DS/94819/14</div><div class="health-row"><span class="htag green">HD A/A</span><span class="htag green">ED 0/0</span></div></div></div>
+    </div>
+    <div class="gen-label-row">Grandparents</div>
+    <div class="gen-row row2">
+      <div class="p-card"><div class="card-inner"><div class="photo-circle" style="margin:0 auto 8px"><div class="ph">♂</div></div><div class="relation">Pat. Grandfather</div><div class="dog-name">Cox Vikar CS</div><div class="meta-line"><span class="sex-ind m"></span>Aug 25, 2006</div><div class="health-row"><span class="htag green">HD F.Norm</span></div></div></div>
+      <div class="p-card"><div class="card-inner"><div class="photo-circle" style="margin:0 auto 8px"><div class="ph">♀</div></div><div class="relation">Pat. Grandmother</div><div class="dog-name">Bauli Vikar CS</div><div class="meta-line"><span class="sex-ind f"></span>Mar 25, 2006</div><div class="health-row"><span class="htag muted">Pending</span></div></div></div>
+      <div class="p-card"><div class="card-inner"><div class="photo-circle" style="margin:0 auto 8px"><div class="ph">♂</div></div><div class="relation">Mat. Grandfather</div><div class="dog-name">Yankee ze Stříbrného kamene</div><div class="meta-line"><span class="sex-ind m"></span>Nov 15, 2009</div><div class="health-row"><span class="htag green">HD Norm</span><span class="htag green">ED Norm</span></div></div></div>
+      <div class="p-card"><div class="card-inner"><div class="photo-circle" style="margin:0 auto 8px"><div class="ph">♀</div></div><div class="relation">Mat. Grandmother</div><div class="dog-name">Charrissma Faustus Moravia</div><div class="meta-line"><span class="sex-ind f"></span>Jun 29, 2010</div><div class="titles-line">BH · IPO1 · FPR3 · ZOP</div><div class="health-row"><span class="htag green">HD 0/0</span><span class="htag green">ED 0/0</span></div></div></div>
+    </div>
+    <div class="gen-label-row">Great-Grandparents</div>
+    <div class="gen-row row3">
+      <div class="p-card"><div class="card-inner"><div class="photo-circle" style="margin:0 auto 6px"><div class="ph" style="font-size:.65rem">♂</div></div><div class="relation">GG-Father</div><div class="dog-name">Nobby Vikar CS</div><div class="meta-line">Oct 26, 2009</div><div class="health-row"><span class="htag green">HD N</span></div></div></div>
+      <div class="p-card"><div class="card-inner"><div class="photo-circle" style="margin:0 auto 6px"><div class="ph" style="font-size:.65rem">♀</div></div><div class="relation">GG-Mother</div><div class="dog-name">Hoky Va-Pe</div><div class="meta-line">Jun 2004</div></div></div>
+      <div class="p-card"><div class="card-inner"><div class="photo-circle" style="margin:0 auto 6px"><div class="ph" style="font-size:.65rem">♂</div></div><div class="relation">GG-Father</div><div class="dog-name">Veleno</div><div class="meta-line">Apr 2001</div></div></div>
+      <div class="p-card"><div class="card-inner"><div class="photo-circle" style="margin:0 auto 6px"><div class="ph" style="font-size:.65rem">♀</div></div><div class="relation">GG-Mother</div><div class="dog-name">Indy v.d. Maineiche</div><div class="meta-line">Aug 2004</div></div></div>
+      <div class="p-card"><div class="card-inner"><div class="photo-circle" style="margin:0 auto 6px"><div class="ph" style="font-size:.65rem">♂</div></div><div class="relation">GG-Father</div><div class="dog-name">Sire of Yankee</div><div class="meta-line">Stříbrný kámen</div></div></div>
+      <div class="p-card"><div class="card-inner"><div class="photo-circle" style="margin:0 auto 6px"><div class="ph" style="font-size:.65rem">♀</div></div><div class="relation">GG-Mother</div><div class="dog-name">Dam of Yankee</div><div class="meta-line">Czech Line</div></div></div>
+      <div class="p-card"><div class="card-inner"><div class="photo-circle" style="margin:0 auto 6px"><div class="ph" style="font-size:.65rem">♂</div></div><div class="relation">GG-Father</div><div class="dog-name">Woltair Gaja-Nova</div><div class="meta-line">Sep 2007</div></div></div>
+      <div class="p-card"><div class="card-inner"><div class="photo-circle" style="margin:0 auto 6px"><div class="ph" style="font-size:.65rem">♀</div></div><div class="relation">GG-Mother</div><div class="dog-name">Arma z Duhového lesa</div><div class="meta-line">Feb 2005</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     MOCKUP 3: BRACKET STYLE
+     ============================================================ -->
+<section class="mockup" id="m3">
+  <div class="mockup-title">3 — Tournament Bracket</div>
+  <div class="mockup-desc">Sports bracket layout with equal column widths. Clean grid alignment with thick bracket-style connector lines. Bold and structured.</div>
+  <div class="tree3">
+    <div class="b-root"><div class="p-card root"><div class="photo-circle"><img src="https://static.wixstatic.com/media/e2b819_8d01e7615ddb46e7b9a20e402687568d~mv2.jpg/v1/fill/w_200,h_200,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/DSC_0211.jpg" alt="Sagi"></div><div><div class="relation">Stud Dog</div><div class="dog-name">Sagar Faustus Moravia "Sagi"</div><div class="meta-line"><span class="sex-ind m"></span>Jul 7, 2019 · Dark/Black Sable Long Coat</div><div class="titles-line">IGP3 · KKL · Ang* · FO · BH/VT · AD</div><div class="health-row"><span class="htag gold">TSB Pronounced</span><span class="htag green">DM N/N</span><span class="htag green">HD A1</span><span class="htag green">ED A1</span></div></div></div></div>
+    <div class="b-s"><div class="p-card"><div class="photo-circle"><div class="ph">♂</div></div><div><div class="relation">Father (Sire)</div><div class="dog-name">Chiro Provocativo</div><div class="meta-line"><span class="sex-ind m"></span>Feb 8, 2013 · Short Coat</div><div class="titles-line">BH · IPO2 · FPr1 · KKL1</div><div class="health-row"><span class="htag green">DM N/N</span><span class="htag green">HD 0/0</span></div></div></div></div>
+    <div class="b-d"><div class="p-card"><div class="photo-circle"><div class="ph">♀</div></div><div><div class="relation">Mother (Dam)</div><div class="dog-name">Kasiopea Faustus Moravia</div><div class="meta-line"><span class="sex-ind f"></span>May 8, 2014 · Short Coat</div><div class="health-row"><span class="htag green">HD A/A</span><span class="htag green">ED 0/0</span></div></div></div></div>
+    <div class="b-ss"><div class="p-card"><div class="photo-circle"><div class="ph">♂</div></div><div><div class="relation">Pat. Grandfather</div><div class="dog-name">Cox Vikar CS</div><div class="meta-line"><span class="sex-ind m"></span>Aug 2006</div><div class="health-row"><span class="htag green">HD F.Norm</span></div></div></div></div>
+    <div class="b-sd"><div class="p-card"><div class="photo-circle"><div class="ph">♀</div></div><div><div class="relation">Pat. Grandmother</div><div class="dog-name">Bauli Vikar CS</div><div class="meta-line"><span class="sex-ind f"></span>Mar 2006</div></div></div></div>
+    <div class="b-ds"><div class="p-card"><div class="photo-circle"><div class="ph">♂</div></div><div><div class="relation">Mat. Grandfather</div><div class="dog-name">Yankee ze Stříbrného kamene</div><div class="meta-line"><span class="sex-ind m"></span>Nov 2009</div><div class="health-row"><span class="htag green">HD N</span><span class="htag green">ED N</span></div></div></div></div>
+    <div class="b-dd"><div class="p-card"><div class="photo-circle"><div class="ph">♀</div></div><div><div class="relation">Mat. Grandmother</div><div class="dog-name">Charrissma Faustus Moravia</div><div class="meta-line"><span class="sex-ind f"></span>Jun 2010</div><div class="titles-line">BH · IPO1 · FPR3 · ZOP</div><div class="health-row"><span class="htag green">HD 0/0</span></div></div></div></div>
+    <div class="b3-1"><div class="p-card"><div class="photo-circle"><div class="ph" style="font-size:.65rem">♂</div></div><div><div class="relation">GG-Father</div><div class="dog-name">Nobby Vikar CS</div><div class="meta-line">Oct 2009</div></div></div></div>
+    <div class="b3-2"><div class="p-card"><div class="photo-circle"><div class="ph" style="font-size:.65rem">♀</div></div><div><div class="relation">GG-Mother</div><div class="dog-name">Hoky Va-Pe</div><div class="meta-line">Jun 2004</div></div></div></div>
+    <div class="b3-3"><div class="p-card"><div class="photo-circle"><div class="ph" style="font-size:.65rem">♂</div></div><div><div class="relation">GG-Father</div><div class="dog-name">Veleno</div><div class="meta-line">Apr 2001</div></div></div></div>
+    <div class="b3-4"><div class="p-card"><div class="photo-circle"><div class="ph" style="font-size:.65rem">♀</div></div><div><div class="relation">GG-Mother</div><div class="dog-name">Indy v.d. Maineiche</div><div class="meta-line">Aug 2004</div></div></div></div>
+    <div class="b3-5"><div class="p-card"><div class="photo-circle"><div class="ph" style="font-size:.65rem">♂</div></div><div><div class="relation">GG-Father</div><div class="dog-name">Sire of Yankee</div><div class="meta-line">Stříbrný kámen</div></div></div></div>
+    <div class="b3-6"><div class="p-card"><div class="photo-circle"><div class="ph" style="font-size:.65rem">♀</div></div><div><div class="relation">GG-Mother</div><div class="dog-name">Dam of Yankee</div><div class="meta-line">Czech Line</div></div></div></div>
+    <div class="b3-7"><div class="p-card"><div class="photo-circle"><div class="ph" style="font-size:.65rem">♂</div></div><div><div class="relation">GG-Father</div><div class="dog-name">Woltair Gaja-Nova</div><div class="meta-line">Sep 2007</div></div></div></div>
+    <div class="b3-8"><div class="p-card"><div class="photo-circle"><div class="ph" style="font-size:.65rem">♀</div></div><div><div class="relation">GG-Mother</div><div class="dog-name">Arma z Duhového lesa</div><div class="meta-line">Feb 2005</div></div></div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     MOCKUP 4: CERTIFICATE TABLE
+     ============================================================ -->
+<section class="mockup" id="m4">
+  <div class="mockup-title">4 — Certificate Table</div>
+  <div class="mockup-desc">Traditional pedigree certificate layout using a bordered table. Familiar to breeders who read paper pedigrees. Clean rows with clear hierarchy.</div>
+  <div class="tree4">
+    <table class="ped-table">
+      <thead><tr><td class="gen-header col-root">Subject</td><td class="gen-header col-parent">Parents</td><td class="gen-header col-gp">Grandparents</td><td class="gen-header col-ggp">Great-Grandparents</td></tr></thead>
+      <tbody>
+        <tr>
+          <td class="col-root" rowspan="8">
+            <div class="p-card root">
+              <div class="photo-circle"><img src="https://static.wixstatic.com/media/e2b819_8d01e7615ddb46e7b9a20e402687568d~mv2.jpg/v1/fill/w_200,h_200,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/DSC_0211.jpg" alt="Sagi"></div>
+              <div class="relation">Stud Dog</div>
+              <div class="dog-name">Sagar Faustus Moravia "Sagi"</div>
+              <div class="meta-line"><span class="sex-ind m"></span>Jul 7, 2019 · Dark/Black Sable Long Coat</div>
+              <div class="titles-line">IGP3 · KKL · Ang* · FO · BH/VT · AD</div>
+              <div class="health-row"><span class="htag gold">TSB Pronounced</span><span class="htag green">DM N/N</span><span class="htag green">HD A1</span><span class="htag green">ED A1</span></div>
+            </div>
+          </td>
+          <td class="col-parent" rowspan="4">
+            <div class="p-card"><div class="photo-circle"><div class="ph">♂</div></div><div class="relation">Father (Sire)</div><div class="dog-name">Chiro Provocativo</div><div class="meta-line"><span class="sex-ind m"></span>Feb 8, 2013 · Short Coat</div><div class="titles-line">BH · IPO2 · FPr1 · KKL1</div><div class="health-row"><span class="htag green">DM N/N</span><span class="htag green">HD 0/0</span><span class="htag green">ED 0/0</span></div></div>
+          </td>
+          <td class="col-gp" rowspan="2">
+            <div class="p-card"><div class="photo-circle"><div class="ph">♂</div></div><div class="relation">Pat. Grandfather</div><div class="dog-name">Cox Vikar CS</div><div class="meta-line"><span class="sex-ind m"></span>Aug 2006</div><div class="health-row"><span class="htag green">HD F.Norm</span></div></div>
+          </td>
+          <td class="col-ggp"><div class="p-card"><div class="photo-circle"><div class="ph" style="font-size:.6rem">♂</div></div><div class="relation">GG-Father</div><div class="dog-name">Nobby Vikar CS</div><div class="meta-line">Oct 2009</div><div class="health-row"><span class="htag green">HD N</span></div></div></td>
+        </tr>
+        <tr><td class="col-ggp"><div class="p-card"><div class="photo-circle"><div class="ph" style="font-size:.6rem">♀</div></div><div class="relation">GG-Mother</div><div class="dog-name">Hoky Va-Pe</div><div class="meta-line">Jun 2004</div></div></td></tr>
+        <tr>
+          <td class="col-gp" rowspan="2"><div class="p-card"><div class="photo-circle"><div class="ph">♀</div></div><div class="relation">Pat. Grandmother</div><div class="dog-name">Bauli Vikar CS</div><div class="meta-line"><span class="sex-ind f"></span>Mar 2006</div></div></td>
+          <td class="col-ggp"><div class="p-card"><div class="photo-circle"><div class="ph" style="font-size:.6rem">♂</div></div><div class="relation">GG-Father</div><div class="dog-name">Veleno</div><div class="meta-line">Apr 2001</div></div></td>
+        </tr>
+        <tr><td class="col-ggp"><div class="p-card"><div class="photo-circle"><div class="ph" style="font-size:.6rem">♀</div></div><div class="relation">GG-Mother</div><div class="dog-name">Indy v.d. Maineiche</div><div class="meta-line">Aug 2004</div></div></td></tr>
+        <tr>
+          <td class="col-parent" rowspan="4"><div class="p-card"><div class="photo-circle"><div class="ph">♀</div></div><div class="relation">Mother (Dam)</div><div class="dog-name">Kasiopea Faustus Moravia</div><div class="meta-line"><span class="sex-ind f"></span>May 8, 2014 · Short Coat</div><div class="health-row"><span class="htag green">HD A/A</span><span class="htag green">ED 0/0</span></div></div></td>
+          <td class="col-gp" rowspan="2"><div class="p-card"><div class="photo-circle"><div class="ph">♂</div></div><div class="relation">Mat. Grandfather</div><div class="dog-name">Yankee ze Stříbrného kamene</div><div class="meta-line"><span class="sex-ind m"></span>Nov 2009</div><div class="health-row"><span class="htag green">HD N</span><span class="htag green">ED N</span></div></div></td>
+          <td class="col-ggp"><div class="p-card"><div class="photo-circle"><div class="ph" style="font-size:.6rem">♂</div></div><div class="relation">GG-Father</div><div class="dog-name">Sire of Yankee</div><div class="meta-line">Stříbrný kámen</div></div></td>
+        </tr>
+        <tr><td class="col-ggp"><div class="p-card"><div class="photo-circle"><div class="ph" style="font-size:.6rem">♀</div></div><div class="relation">GG-Mother</div><div class="dog-name">Dam of Yankee</div><div class="meta-line">Czech Line</div></div></td></tr>
+        <tr>
+          <td class="col-gp" rowspan="2"><div class="p-card"><div class="photo-circle"><div class="ph">♀</div></div><div class="relation">Mat. Grandmother</div><div class="dog-name">Charrissma Faustus Moravia</div><div class="meta-line"><span class="sex-ind f"></span>Jun 2010</div><div class="titles-line">BH · IPO1 · FPR3 · ZOP</div><div class="health-row"><span class="htag green">HD 0/0</span><span class="htag green">ED 0/0</span></div></div></td>
+          <td class="col-ggp"><div class="p-card"><div class="photo-circle"><div class="ph" style="font-size:.6rem">♂</div></div><div class="relation">GG-Father</div><div class="dog-name">Woltair Gaja-Nova</div><div class="meta-line">Sep 2007</div></div></td>
+        </tr>
+        <tr><td class="col-ggp"><div class="p-card"><div class="photo-circle"><div class="ph" style="font-size:.6rem">♀</div></div><div class="relation">GG-Mother</div><div class="dog-name">Arma z Duhového lesa</div><div class="meta-line">Feb 2005</div></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================
+     MOCKUP 5: CENTERED RINGS
+     ============================================================ -->
+<section class="mockup" id="m5">
+  <div class="mockup-title">5 — Centered Rings</div>
+  <div class="mockup-desc">Subject centered at top, each generation radiates outward as a horizontal ring. Natural vertical scroll on mobile. Animated connector dots between layers.</div>
+  <div class="tree5">
+    <div class="ring-label">Subject</div>
+    <div class="ring ring0">
+      <div class="p-card root">
+        <div class="photo-circle"><img src="https://static.wixstatic.com/media/e2b819_8d01e7615ddb46e7b9a20e402687568d~mv2.jpg/v1/fill/w_200,h_200,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/DSC_0211.jpg" alt="Sagi"></div>
+        <div><div class="relation">Stud Dog</div><div class="dog-name">Sagar Faustus Moravia "Sagi"</div><div class="meta-line"><span class="sex-ind m"></span>Jul 7, 2019 · Dark/Black Sable Long Coat</div><div class="titles-line">IGP3 · KKL · Ang* · FO · BH/VT · AD</div><div class="health-row"><span class="htag gold">TSB Pronounced</span><span class="htag green">DM N/N</span><span class="htag green">HD A1</span><span class="htag green">ED A1</span></div></div>
+      </div>
+    </div>
+    <div class="connector-dots"><div class="cdot"></div><div class="cdot"></div><div class="cdot"></div></div>
+    <div class="ring-label">Parents</div>
+    <div class="ring ring1">
+      <div class="p-card"><div class="photo-circle"><div class="ph">♂</div></div><div><div class="relation">Father (Sire)</div><div class="dog-name">Chiro Provocativo</div><div class="meta-line"><span class="sex-ind m"></span>Feb 8, 2013 · Short Coat</div><div class="titles-line">BH · IPO2 · FPr1 · KKL1</div><div class="health-row"><span class="htag green">DM N/N</span><span class="htag green">HD 0/0</span><span class="htag green">ED 0/0</span></div></div></div>
+      <div class="p-card"><div class="photo-circle"><div class="ph">♀</div></div><div><div class="relation">Mother (Dam)</div><div class="dog-name">Kasiopea Faustus Moravia</div><div class="meta-line"><span class="sex-ind f"></span>May 8, 2014 · Short Coat</div><div class="health-row"><span class="htag green">HD A/A</span><span class="htag green">ED 0/0</span></div></div></div>
+    </div>
+    <div class="connector-dots"><div class="cdot"></div><div class="cdot"></div><div class="cdot"></div></div>
+    <div class="ring-label">Grandparents</div>
+    <div class="ring ring2">
+      <div class="p-card"><div class="photo-circle"><div class="ph">♂</div></div><div><div class="relation">Pat. Grandfather</div><div class="dog-name">Cox Vikar CS</div><div class="meta-line"><span class="sex-ind m"></span>Aug 2006</div><div class="health-row"><span class="htag green">HD F.Norm</span></div></div></div>
+      <div class="p-card"><div class="photo-circle"><div class="ph">♀</div></div><div><div class="relation">Pat. Grandmother</div><div class="dog-name">Bauli Vikar CS</div><div class="meta-line"><span class="sex-ind f"></span>Mar 2006</div></div></div>
+      <div class="p-card"><div class="photo-circle"><div class="ph">♂</div></div><div><div class="relation">Mat. Grandfather</div><div class="dog-name">Yankee ze Stříbrného kamene</div><div class="meta-line"><span class="sex-ind m"></span>Nov 2009</div><div class="health-row"><span class="htag green">HD N</span><span class="htag green">ED N</span></div></div></div>
+      <div class="p-card"><div class="photo-circle"><div class="ph">♀</div></div><div><div class="relation">Mat. Grandmother</div><div class="dog-name">Charrissma Faustus Moravia</div><div class="meta-line"><span class="sex-ind f"></span>Jun 2010</div><div class="titles-line">BH · IPO1 · FPR3 · ZOP</div><div class="health-row"><span class="htag green">HD 0/0</span></div></div></div>
+    </div>
+    <div class="connector-dots"><div class="cdot"></div><div class="cdot"></div><div class="cdot"></div></div>
+    <div class="ring-label">Great-Grandparents</div>
+    <div class="ring ring3">
+      <div class="p-card"><div class="photo-circle"><div class="ph" style="font-size:.65rem">♂</div></div><div><div class="relation">GG-Father</div><div class="dog-name">Nobby Vikar CS</div><div class="meta-line">Oct 2009</div></div></div>
+      <div class="p-card"><div class="photo-circle"><div class="ph" style="font-size:.65rem">♀</div></div><div><div class="relation">GG-Mother</div><div class="dog-name">Hoky Va-Pe</div><div class="meta-line">Jun 2004</div></div></div>
+      <div class="p-card"><div class="photo-circle"><div class="ph" style="font-size:.65rem">♂</div></div><div><div class="relation">GG-Father</div><div class="dog-name">Veleno</div><div class="meta-line">Apr 2001</div></div></div>
+      <div class="p-card"><div class="photo-circle"><div class="ph" style="font-size:.65rem">♀</div></div><div><div class="relation">GG-Mother</div><div class="dog-name">Indy v.d. Maineiche</div><div class="meta-line">Aug 2004</div></div></div>
+      <div class="p-card"><div class="photo-circle"><div class="ph" style="font-size:.65rem">♂</div></div><div><div class="relation">GG-Father</div><div class="dog-name">Sire of Yankee</div><div class="meta-line">Stříbrný kámen</div></div></div>
+      <div class="p-card"><div class="photo-circle"><div class="ph" style="font-size:.65rem">♀</div></div><div><div class="relation">GG-Mother</div><div class="dog-name">Dam of Yankee</div><div class="meta-line">Czech Line</div></div></div>
+      <div class="p-card"><div class="photo-circle"><div class="ph" style="font-size:.65rem">♂</div></div><div><div class="relation">GG-Father</div><div class="dog-name">Woltair Gaja-Nova</div><div class="meta-line">Sep 2007</div></div></div>
+      <div class="p-card"><div class="photo-circle"><div class="ph" style="font-size:.65rem">♀</div></div><div><div class="relation">GG-Mother</div><div class="dog-name">Arma z Duhového lesa</div><div class="meta-line">Feb 2005</div></div></div>
+    </div>
+  </div>
+</section>
+
+<script>
+function showMockup(n, btn) {
+  document.querySelectorAll('.mockup').forEach(m => m.classList.remove('active'));
+  document.querySelectorAll('.mockup-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('m'+n).classList.add('active');
+  btn.classList.add('active');
+  // Draw connectors for mockup 1 if needed
+  if (n === 1) setTimeout(drawM1Connectors, 100);
+}
+
+// Mockup 1 connector lines
+function drawM1Connectors() {
+  const svg = document.getElementById('svg1');
+  const tree = document.getElementById('tree1');
+  if (!svg || !tree) return;
+  const r = tree.getBoundingClientRect();
+  svg.setAttribute('width', tree.offsetWidth);
+  svg.setAttribute('height', tree.offsetHeight);
+  svg.innerHTML = '';
+  
+  const pairs = [
+    ['.g0 .p-card','.g1s .p-card','thick'],['.g0 .p-card','.g1d .p-card','thick'],
+    ['.g1s .p-card','.g2ss .p-card',''],['.g1s .p-card','.g2sd .p-card',''],
+    ['.g1d .p-card','.g2ds .p-card',''],['.g1d .p-card','.g2dd .p-card',''],
+    ['.g2ss .p-card','.g3a .p-card',''],['.g2ss .p-card','.g3b .p-card',''],
+    ['.g2sd .p-card','.g3c .p-card',''],['.g2sd .p-card','.g3d .p-card',''],
+    ['.g2ds .p-card','.g3e .p-card',''],['.g2ds .p-card','.g3f .p-card',''],
+    ['.g2dd .p-card','.g3g .p-card',''],['.g2dd .p-card','.g3h .p-card',''],
+  ];
+  
+  pairs.forEach(([a,b,cls]) => {
+    const elA = tree.querySelector(a);
+    const elB = tree.querySelector(b);
+    if (!elA || !elB) return;
+    const ra = elA.getBoundingClientRect();
+    const rb = elB.getBoundingClientRect();
+    const x1 = ra.right - r.left;
+    const y1 = ra.top + ra.height/2 - r.top;
+    const x2 = rb.left - r.left;
+    const y2 = rb.top + rb.height/2 - r.top;
+    const mx = x1 + (x2-x1)*.5;
+    const p = document.createElementNS('http://www.w3.org/2000/svg','path');
+    p.setAttribute('d',`M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`);
+    p.setAttribute('class', cls);
+    svg.appendChild(p);
+  });
+}
+
+window.addEventListener('load', () => setTimeout(drawM1Connectors, 200));
+window.addEventListener('resize', drawM1Connectors);
+</script>
+
+</body>
+</html>
