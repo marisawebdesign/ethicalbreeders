@@ -234,6 +234,96 @@
       color: var(--cream);
       opacity: 0.2;
     }
+
+    /* Results Section */
+    .results-section {
+      margin-bottom: 2rem;
+    }
+
+    .section-header {
+      font-family: var(--font-serif);
+      font-weight: 500;
+      font-size: 1.15rem;
+      color: var(--cream);
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--divider);
+    }
+
+    .result-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .result-subhead {
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--cream);
+      opacity: 0.45;
+      margin-bottom: 0.75rem;
+    }
+
+    /* DM Bar */
+    .dm-bar {
+      display: flex;
+      height: 2rem;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .dm-segment {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: var(--bg);
+      transition: width 400ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .dm-clear { background: #5a8a5a; }
+    .dm-carrier { background: #c9963a; }
+    .dm-affected { background: #8b4a4a; }
+
+    /* Swatches */
+    .swatch-row {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .swatch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .swatch-color {
+      width: 3.5rem;
+      height: 3.5rem;
+    }
+
+    .swatch-label {
+      font-family: var(--font-sans);
+      font-size: 0.65rem;
+      font-weight: 500;
+      color: var(--cream);
+      opacity: 0.7;
+      text-align: center;
+      max-width: 4.5rem;
+    }
+
+    .swatch-pct {
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--cream);
+      text-align: center;
+    }
   </style>
 </head>
 <body>
@@ -308,8 +398,31 @@
           <div class="step" id="step3">
             <h2 class="step-title">Results</h2>
             <div class="step-content">
-              <div id="geneticsResults"></div>
-              <div id="breedingWindow"></div>
+
+              <!-- Genetics Results -->
+              <div class="results-section" id="geneticsResults">
+                <h3 class="section-header">Genetics</h3>
+
+                <div class="result-group fade-item">
+                  <h4 class="result-subhead">DM Status</h4>
+                  <div class="dm-bar" id="dmBar"></div>
+                </div>
+
+                <div class="result-group fade-item">
+                  <h4 class="result-subhead">Coat Length</h4>
+                  <div class="swatch-row" id="coatSwatches"></div>
+                </div>
+
+                <div class="result-group fade-item">
+                  <h4 class="result-subhead">Color Outcomes</h4>
+                  <div class="swatch-row" id="colorSwatches"></div>
+                </div>
+              </div>
+
+              <!-- Breeding Window -->
+              <div class="results-section" id="breedingWindow">
+              </div>
+
             </div>
           </div>
 
