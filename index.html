@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Breeding Genetics Calculator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --gold: #b8882a;
+      --cream: #ede8dc;
+      --divider: rgba(255, 255, 255, 0.15);
+      --input-bg: #141414;
+      --input-border: #2a2a2a;
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-sans: 'DM Sans', system-ui, sans-serif;
+      --transition-speed: 380ms;
+    }
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--cream);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    .calculator-wrapper {
+      width: 100%;
+      max-width: 520px;
+    }
+
+    .calculator {
+      width: 100%;
+    }
+
+    h2.step-title {
+      font-family: var(--font-serif);
+      font-weight: 500;
+      font-size: 1.65rem;
+      letter-spacing: 0.01em;
+      margin-bottom: 1.75rem;
+      color: var(--cream);
+    }
+
+    .steps-viewport {
+      overflow: hidden;
+      position: relative;
+    }
+
+    .steps-track {
+      display: flex;
+      transition: transform var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .step {
+      min-width: 100%;
+      flex-shrink: 0;
+      padding: 0.5rem 0;
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--divider);
+    }
+
+    .btn {
+      font-family: var(--font-sans);
+      font-size: 0.875rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      padding: 0.7rem 1.8rem;
+      transition: opacity 200ms ease, background 200ms ease;
+    }
+
+    .btn-back {
+      background: transparent;
+      color: var(--cream);
+      opacity: 0.5;
+    }
+
+    .btn-back:hover {
+      opacity: 0.8;
+    }
+
+    .btn-next {
+      background: var(--gold);
+      color: var(--bg);
+    }
+
+    .btn-next:hover {
+      background: #c9963a;
+    }
+
+    .btn[disabled] {
+      opacity: 0.25;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    /* Step Indicator */
+    .step-indicator {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 2.5rem;
+      gap: 0;
+    }
+
+    .si-step {
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--cream);
+      opacity: 0.25;
+      transition: opacity 300ms ease, color 300ms ease;
+      width: 1.5rem;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .si-step.active {
+      opacity: 1;
+      color: var(--gold);
+    }
+
+    .si-step.completed {
+      opacity: 0.5;
+    }
+
+    .si-line {
+      height: 1px;
+      width: 3rem;
+      background: var(--cream);
+      opacity: 0.15;
+      flex-shrink: 0;
+    }
+
+    /* Form Fields */
+    .field {
+      margin-bottom: 1.25rem;
+    }
+
+    .field-label {
+      display: block;
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--cream);
+      opacity: 0.6;
+      margin-bottom: 0.5rem;
+    }
+
+    .field-input {
+      width: 100%;
+      padding: 0.75rem 0.875rem;
+      font-family: var(--font-sans);
+      font-size: 0.9375rem;
+      color: var(--cream);
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 0;
+      outline: none;
+      transition: border-color 200ms ease, box-shadow 200ms ease;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .field-input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 1px rgba(184, 136, 42, 0.25);
+    }
+
+    select.field-input {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23ede8dc' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.875rem center;
+      padding-right: 2.5rem;
+      cursor: pointer;
+    }
+
+    select.field-input option {
+      background: var(--input-bg);
+      color: var(--cream);
+    }
+
+    .optional-tag {
+      font-size: 0.65rem;
+      font-weight: 400;
+      text-transform: none;
+      letter-spacing: 0.02em;
+      opacity: 0.4;
+      margin-left: 0.35rem;
+    }
+
+    input[type="date"].field-input {
+      color-scheme: dark;
+    }
+
+    input[type="number"].field-input::-webkit-inner-spin-button,
+    input[type="number"].field-input::-webkit-outer-spin-button {
+      opacity: 0.3;
+    }
+
+    input::placeholder {
+      color: var(--cream);
+      opacity: 0.2;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator-wrapper">
+    <div class="calculator">
+
+      <!-- Step Indicator -->
+      <div class="step-indicator" id="stepIndicator">
+        <span class="si-step active" data-step="0">1</span>
+        <span class="si-line"></span>
+        <span class="si-step" data-step="1">2</span>
+        <span class="si-line"></span>
+        <span class="si-step" data-step="2">3</span>
+      </div>
+
+      <!-- Steps Container -->
+      <div class="steps-viewport">
+        <div class="steps-track" id="stepsTrack">
+
+          <!-- Step 1: About Your Female -->
+          <div class="step" id="step1">
+            <h2 class="step-title">About Your Female</h2>
+            <div class="step-content">
+              <div class="field">
+                <label class="field-label" for="dmStatus">DM Status</label>
+                <select class="field-input" id="dmStatus">
+                  <option value="" disabled selected>Select</option>
+                  <option value="N/N">N/N</option>
+                  <option value="N/DM">N/DM</option>
+                  <option value="DM/DM">DM/DM</option>
+                </select>
+              </div>
+              <div class="field">
+                <label class="field-label" for="coatLength">Coat Length</label>
+                <select class="field-input" id="coatLength">
+                  <option value="" disabled selected>Select</option>
+                  <option value="LL">Short / Non-Carrier</option>
+                  <option value="Ll">Short / Carries Long</option>
+                  <option value="ll">Long Coat</option>
+                </select>
+              </div>
+              <div class="field">
+                <label class="field-label" for="baseColor">Base Color</label>
+                <select class="field-input" id="baseColor">
+                  <option value="" disabled selected>Select</option>
+                  <option value="sable">Sable</option>
+                  <option value="black_tan">Black &amp; Tan</option>
+                  <option value="black_red">Black &amp; Red</option>
+                  <option value="bicolor">Bicolor</option>
+                  <option value="solid_black">Solid Black</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2: Heat Cycle -->
+          <div class="step" id="step2">
+            <h2 class="step-title">Heat Cycle</h2>
+            <div class="step-content">
+              <div class="field">
+                <label class="field-label" for="heatDate">First Day of Visible Heat</label>
+                <input type="date" class="field-input" id="heatDate">
+              </div>
+              <div class="field">
+                <label class="field-label" for="progesterone">Progesterone (ng/mL) <span class="optional-tag">Optional</span></label>
+                <input type="number" class="field-input" id="progesterone" placeholder="e.g. 5.0" step="0.1" min="0">
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3: Results -->
+          <div class="step" id="step3">
+            <h2 class="step-title">Results</h2>
+            <div class="step-content">
+              <div id="geneticsResults"></div>
+              <div id="breedingWindow"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <div class="nav-buttons">
+        <button class="btn btn-back" id="btnBack">Back</button>
+        <button class="btn btn-next" id="btnNext">Next</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // JavaScript will be added in subsequent tasks
+  </script>
+</body>
+</html>
