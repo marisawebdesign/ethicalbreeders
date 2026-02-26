@@ -509,7 +509,75 @@
   </div>
 
   <script>
-    // JavaScript will be added in subsequent tasks
+    (function() {
+      'use strict';
+
+      const TOTAL_STEPS = 3;
+      let currentStep = 0;
+
+      const track = document.getElementById('stepsTrack');
+      const btnBack = document.getElementById('btnBack');
+      const btnNext = document.getElementById('btnNext');
+      const siSteps = document.querySelectorAll('.si-step');
+
+      function goToStep(step) {
+        if (step < 0 || step >= TOTAL_STEPS) return;
+        currentStep = step;
+        track.style.transform = 'translateX(-' + (currentStep * 100) + '%)';
+        updateIndicator();
+        updateButtons();
+        if (currentStep === 2) {
+          renderResults();
+        }
+      }
+
+      function updateIndicator() {
+        siSteps.forEach(function(el) {
+          var s = parseInt(el.dataset.step, 10);
+          el.classList.remove('active', 'completed');
+          if (s === currentStep) el.classList.add('active');
+          else if (s < currentStep) el.classList.add('completed');
+        });
+      }
+
+      function updateButtons() {
+        btnBack.disabled = currentStep === 0;
+        if (currentStep === TOTAL_STEPS - 1) {
+          btnNext.style.display = 'none';
+        } else {
+          btnNext.style.display = '';
+          btnNext.textContent = 'Next';
+        }
+      }
+
+      function validateStep(step) {
+        if (step === 0) {
+          return document.getElementById('dmStatus').value &&
+                 document.getElementById('coatLength').value &&
+                 document.getElementById('baseColor').value;
+        }
+        if (step === 1) {
+          return document.getElementById('heatDate').value;
+        }
+        return true;
+      }
+
+      btnNext.addEventListener('click', function() {
+        if (!validateStep(currentStep)) return;
+        goToStep(currentStep + 1);
+      });
+
+      btnBack.addEventListener('click', function() {
+        goToStep(currentStep - 1);
+      });
+
+      function renderResults() {
+        // Will be wired in subsequent tasks
+      }
+
+      // Initialize
+      updateButtons();
+    })();
   </script>
 </body>
 </html>
