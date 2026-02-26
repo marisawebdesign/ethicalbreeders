@@ -617,6 +617,54 @@
         'Long':                 '#8B7355'
       };
 
+      // === Breeding Window Calculation ===
+      function calcBreedingWindow(heatDateStr, progesterone) {
+        var heatDate = new Date(heatDateStr + 'T00:00:00');
+        var baseOffset = 11; // Day 11-12 from first visible heat is typical peak
+        var note = '';
+
+        if (progesterone && progesterone > 0) {
+          // Progesterone-based refinement
+          // < 2 ng/mL: pre-ovulation, breeding in ~4-6 days
+          // 2-5 ng/mL: near ovulation, breeding in ~2-3 days
+          // 5-8 ng/mL: ovulation occurring, breed within 1-2 days
+          // > 8 ng/mL: post-ovulation, breed immediately or within 1 day
+          if (progesterone < 2) {
+            baseOffset = 14;
+            note = 'Window adjusted for pre-ovulatory progesterone reading.';
+          } else if (progesterone <= 5) {
+            baseOffset = 12;
+            note = 'Window refined based on near-ovulation progesterone level.';
+          } else if (progesterone <= 8) {
+            baseOffset = 10;
+            note = 'Window adjusted for active ovulation progesterone level.';
+          } else {
+            baseOffset = 9;
+            note = 'Window adjusted for post-ovulatory progesterone reading.';
+          }
+        }
+
+        // Build 5-day window centered on peak
+        var days = [];
+        var DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        for (var i = -2; i <= 2; i++) {
+          var d = new Date(heatDate);
+          d.setDate(d.getDate() + baseOffset + i);
+          var intensity;
+          if (i === 0) intensity = 'peak';
+          else if (Math.abs(i) === 1) intensity = 'near';
+          else intensity = 'far';
+          days.push({
+            date: d,
+            dayNum: d.getDate(),
+            dayName: DAY_NAMES[d.getDay()],
+            intensity: intensity
+          });
+        }
+
+        return { days: days, note: note };
+      }
+
       function goToStep(step) {
         if (step < 0 || step >= TOTAL_STEPS) return;
         currentStep = step;
