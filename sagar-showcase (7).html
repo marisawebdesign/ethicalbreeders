@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sagar Faustus Moravia — WoodWolf Kennels</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg-deep:#070707;--bg-card:#111;--bg-elevated:#181818;--bg-hover:#1e1e1e;
+  --text-primary:#f5f5f5;--text-secondary:#999;--text-muted:#555;
+  --border-subtle:rgba(255,255,255,.06);--border-hover:rgba(255,255,255,.12);
+  --gold:#c9a96e;--gold-dim:rgba(201,169,110,.15);
+  --serif:'Cormorant Garamond',Georgia,serif;--sans:'Outfit',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;
+  --ease:cubic-bezier(.4,0,.2,1);--ease-out:cubic-bezier(0,.55,.45,1);
+}
+html{font-size:16px;scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{background:var(--bg-deep);color:var(--text-primary);font-family:var(--sans);line-height:1.6;overflow-x:hidden}
+::selection{background:var(--gold);color:var(--bg-deep)}
+
+/* ===== HERO ===== */
+.hero{position:relative;height:100vh;min-height:600px;display:flex;align-items:flex-end;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,7,7,0) 0%,rgba(7,7,7,.3) 40%,rgba(7,7,7,.92) 85%,var(--bg-deep) 100%),
+  url('https://static.wixstatic.com/media/e2b819_8d01e7615ddb46e7b9a20e402687568d~mv2.jpg/v1/fill/w_1920,h_1080,al_c,q_90/DSC_0211.jpg') center 20%/cover no-repeat;
+  filter:grayscale(40%) brightness(.85) contrast(1.05);animation:heroZoom 25s ease-in-out infinite alternate}
+@keyframes heroZoom{from{transform:scale(1)}to{transform:scale(1.06)}}
+.hero-content{position:relative;z-index:2;padding:0 clamp(1.5rem,5vw,6rem) clamp(3rem,8vh,6rem);max-width:1400px;width:100%}
+.hero-name{font-family:var(--serif);font-size:clamp(2.8rem,7vw,6rem);font-weight:300;line-height:1.05;letter-spacing:-.02em;margin-bottom:1.25rem;opacity:0;animation:fadeUp .8s var(--ease) .3s forwards}
+.hero-name em{font-style:italic;color:var(--gold)}
+.hero-titles{font-family:var(--sans);font-size:clamp(.85rem,1.5vw,1.05rem);font-weight:600;color:#fff;letter-spacing:.06em;margin-bottom:1.25rem;opacity:0;animation:fadeUp .8s var(--ease) .45s forwards}
+.hero-desc{font-size:clamp(.9rem,1.6vw,1.1rem);font-weight:300;color:var(--text-secondary);line-height:1.75;max-width:720px;opacity:0;animation:fadeUp .8s var(--ease) .6s forwards}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* ===== CATEGORY NAV ===== */
+.category-nav{position:sticky;top:0;z-index:100;background:rgba(7,7,7,.88);backdrop-filter:blur(24px);border-bottom:1px solid var(--border-subtle);padding:0 clamp(1rem,3vw,4rem);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.category-nav::-webkit-scrollbar{display:none}
+.nav-inner{display:flex;gap:0;max-width:1200px;margin:0 auto}
+.nav-tab{padding:1rem 1.5rem;font-size:.72rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--text-muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .3s var(--ease);white-space:nowrap;position:relative}
+.nav-tab:hover{color:var(--text-secondary)}
+.nav-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+@media(max-width:768px){.nav-tab{padding:.85rem 1rem;font-size:.65rem;letter-spacing:.14em}}
+
+/* ===== SECTIONS ===== */
+.section{display:none;padding:clamp(3rem,6vw,6rem) clamp(1.5rem,5vw,6rem);max-width:1200px;margin:0 auto;min-height:60vh}
+.section.active{display:block;animation:sectionIn .5s var(--ease)}
+@keyframes sectionIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.section#pedigree{max-width:1600px}
+.section-header{margin-bottom:3rem}
+.section-title{font-family:var(--serif);font-size:clamp(2rem,4vw,3.2rem);font-weight:300;letter-spacing:-.01em;margin-bottom:.75rem}
+.section-desc{font-size:.95rem;font-weight:300;color:var(--text-secondary);max-width:680px;line-height:1.7}
+
+/* ===== TEMPERAMENT SECTION ===== */
+.temperament-prose{margin-bottom:2.5rem}
+.temp-lead{font-family:var(--serif);font-size:clamp(1.15rem,2.2vw,1.5rem);font-weight:400;line-height:1.65;color:var(--text-primary);margin-bottom:1.5rem}
+.temp-body{font-size:clamp(.9rem,1.4vw,1.05rem);font-weight:300;color:var(--text-secondary);line-height:1.75;margin-bottom:1.25rem}
+.temp-body:last-child{margin-bottom:0}
+.temp-certifications{margin-bottom:3rem;padding:1.5rem 0;border-top:1px solid var(--border-subtle)}
+.temp-cert-label{font-size:.6rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1.25rem}
+.temp-cert-row{display:flex;flex-direction:column;gap:1rem}
+.temp-cert{display:flex;gap:1rem;align-items:baseline}
+.temp-cert-abbr{font-family:var(--mono);font-size:.82rem;font-weight:400;color:var(--text-primary);min-width:140px;flex-shrink:0}
+.temp-cert-desc{font-size:.82rem;color:var(--text-secondary);font-weight:300;line-height:1.6}
+@media(max-width:600px){
+  .temp-cert{flex-direction:column;gap:.25rem}
+  .temp-cert-abbr{min-width:auto}
+}
+.video-placeholder{margin-top:3rem;aspect-ratio:16/9;background:var(--bg-card);border:1px solid var(--border-subtle);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;overflow:hidden;transition:all .4s var(--ease)}
+.video-placeholder:hover{border-color:var(--border-hover)}
+.video-placeholder .play-icon{width:64px;height:64px;border:2px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .3s var(--ease)}
+.video-placeholder:hover .play-icon{background:var(--gold);transform:scale(1.05)}
+.video-placeholder .play-icon::after{content:'';border:8px solid transparent;border-left:14px solid var(--gold);margin-left:4px;transition:border-color .3s}
+.video-placeholder:hover .play-icon::after{border-left-color:var(--bg-deep)}
+
+/* ===== HEALTH SECTION ===== */
+.health-intro{font-size:clamp(.9rem,1.4vw,1.05rem);font-weight:300;color:var(--text-secondary);line-height:1.75;margin-bottom:2.5rem;max-width:720px}
+.health-table-wrap{margin-bottom:3rem}
+.health-table{width:100%;border-collapse:collapse}
+.health-table thead th{font-size:.6rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);padding:.75rem 1rem;text-align:left;border-bottom:2px solid var(--border-subtle)}
+.health-table thead th:first-child{padding-left:0}
+.health-table tbody td{padding:1rem;border-bottom:1px solid var(--border-subtle);vertical-align:top;font-size:.88rem;font-weight:300;color:var(--text-secondary)}
+.health-table tbody td:first-child{padding-left:0;font-weight:500;color:var(--text-primary)}
+.health-table .ht-result{font-weight:600;color:#4ade80}
+.health-table .ht-result.gold{color:var(--gold)}
+.health-table .ht-registry{font-size:.72rem;color:var(--text-muted)}
+.ht-row{cursor:pointer;transition:background .2s ease}
+.ht-row:hover{background:rgba(255,255,255,.02)}
+.ht-expand{display:none;margin-top:.6rem;font-size:.8rem;color:var(--text-secondary);line-height:1.7;font-weight:300;padding-top:.6rem;border-top:1px solid var(--border-subtle)}
+.ht-row.ht-expanded .ht-expand{display:block;animation:sectionIn .25s var(--ease)}
+.ht-tap-hint{font-size:.7rem;color:var(--text-muted);margin-top:.75rem;opacity:.5}
+@media(max-width:640px){
+  .health-table thead{display:none}
+  .health-table tbody tr{display:block;padding:1rem 0;border-bottom:1px solid var(--border-subtle)}
+  .health-table tbody td{display:block;padding:.15rem 0;border:none;font-size:.82rem}
+  .health-table tbody td:first-child{font-size:.9rem;margin-bottom:.25rem}
+}
+
+/* Ethical standards section */
+.ethical-section{margin-top:3rem;padding-top:2.5rem;border-top:1px solid var(--border-subtle)}
+.ethical-header{font-family:var(--serif);font-size:clamp(1.2rem,2.5vw,1.6rem);font-weight:400;margin-bottom:.5rem}
+.ethical-desc{font-size:.88rem;font-weight:300;color:var(--text-secondary);line-height:1.7;margin-bottom:2rem;max-width:680px}
+.ethical-table{width:100%;border-collapse:collapse;margin-bottom:2rem}
+.ethical-table thead th{font-size:.55rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);padding:.6rem .75rem;text-align:left;border-bottom:2px solid var(--border-subtle)}
+.ethical-table thead th:first-child{padding-left:0}
+.ethical-table tbody td{padding:.75rem;border-bottom:1px solid var(--border-subtle);font-size:.82rem;font-weight:300;color:var(--text-secondary);vertical-align:top}
+.ethical-table tbody td:first-child{padding-left:0;font-weight:500;color:var(--text-primary)}
+.ethical-table .et-required{font-size:.65rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.ethical-table .et-required.yes{color:#4ade80}
+.ethical-table .et-required.rec{color:var(--gold)}
+.ethical-table .et-sagi{font-weight:600;color:#4ade80}
+@media(max-width:640px){
+  .ethical-table thead{display:none}
+  .ethical-table tbody tr{display:block;padding:.75rem 0;border-bottom:1px solid var(--border-subtle)}
+  .ethical-table tbody td{display:block;padding:.1rem 0;border:none}
+  .ethical-table tbody td:first-child{font-size:.85rem;margin-bottom:.2rem}
+}
+.ethical-resources{display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1.5rem}
+.ethical-resources .action-btn{font-size:.65rem}
+
+/* ===== PEDIGREE: DESKTOP HORIZONTAL TREE ===== */
+.ped-desktop{display:block}
+.ped-mobile{display:none}
+@media(max-width:900px){
+  .ped-desktop{display:none}
+  .ped-mobile{display:block}
+}
+
+.ped-htree{position:relative;display:flex;gap:0;align-items:stretch;width:100%;padding:0 0 2rem}
+.ped-gen{display:flex;flex-direction:column;justify-content:space-around;gap:6px;position:relative;z-index:1;flex:1;min-width:0;padding:0 10px}
+.ped-gen-0{flex:1.1;padding-left:0;padding-right:16px}
+.ped-gen-1{flex:1}
+.ped-gen-2{flex:1}
+.ped-gen-3{flex:1;padding-right:0}
+.ped-gen-headers{display:flex;gap:0;width:100%;margin-bottom:.5rem}
+.ped-gen-hdr{flex:1;min-width:0;padding:0 10px;font-size:.55rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#484848;text-align:center}
+.ped-gen-hdr:first-child{flex:1.1;padding-left:0;text-align:left}
+.ped-gen-hdr:last-child{padding-right:0}
+
+.ped-hnode{background:#ffffff;border:1px solid #e0e0e0;padding:12px 14px;cursor:pointer;transition:all .25s var(--ease);position:relative;color:#1a1a1a;overflow:hidden}
+.ped-hnode:hover{border-color:var(--gold);box-shadow:0 2px 12px rgba(201,169,110,.15)}
+.ped-hnode.ped-male{border-left:3px solid var(--ped-blue,#4a7fb5)}
+.ped-hnode.ped-female{border-left:3px solid var(--ped-pink,#b54a7f)}
+.ped-hnode.ped-hroot{border:2px solid #c9a96e;padding:16px 16px}
+.ped-hnode-rel{font-size:.52rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;margin-bottom:3px}
+.ped-hnode-name{font-family:var(--serif);font-size:.92rem;font-weight:500;line-height:1.25;color:#1a1a1a;margin-bottom:3px}
+.ped-hroot .ped-hnode-name{font-size:1.05rem}
+.ped-hnode-meta{font-size:.62rem;color:#777;font-weight:300;margin-bottom:6px}
+.ped-hnode-chips{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:5px}
+.ped-hnode-tags{display:flex;flex-wrap:wrap;gap:3px}
+
+/* Shared chip/tag styles (used by both desktop and mobile) */
+.ped-title-chip{font-family:var(--mono);font-size:.56rem;font-weight:400;color:#555;background:#f4f4f4;border:1px solid #e2e2e2;padding:2px 6px;letter-spacing:.02em;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent}
+.ped-title-chip.ped-active-tip{background:#e8e8e8;border-color:#bbb}
+.ped-htag{font-size:.52rem;font-weight:500;letter-spacing:.03em;padding:2px 7px;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent}
+.ped-htag-green{background:#e8f5ee;border:1px solid #c3e6d1;color:#2d8a56}
+.ped-htag-gold{background:#f5f0e3;border:1px solid #e0d4b5;color:#8a7230}
+.ped-htag.ped-active-tip{filter:brightness(.92)}
+
+/* SVG connector lines */
+.ped-lines{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.ped-lines line{stroke-width:2}
+
+/* Pedigree Tooltip */
+.ped-tip-popup{position:fixed;background:#161616;color:#fff;font-family:var(--sans);font-size:.72rem;line-height:1.5;padding:11px 14px 12px;width:260px;z-index:9999;display:none;box-shadow:0 6px 24px rgba(0,0,0,.55);border:1px solid #2a2a2a;pointer-events:none}
+.ped-tip-popup.ped-tip-show{display:block}
+.ped-tip-abbr{font-family:var(--mono);font-size:.62rem;color:#c9a96e;letter-spacing:.06em;margin-bottom:4px;display:block}
+.ped-tip-full{font-size:.64rem;color:#888;font-style:italic;margin-bottom:5px;display:block;line-height:1.4}
+.ped-tip-body{font-size:.72rem;color:#e0e0e0;display:block}
+.ped-tip-popup::after{content:'';position:absolute;border:6px solid transparent}
+.ped-tip-popup.ped-arrow-below::after{bottom:100%;left:var(--ped-tip-arrow,50%);transform:translateX(-50%);border-bottom-color:#161616}
+.ped-tip-popup.ped-arrow-above::after{top:100%;left:var(--ped-tip-arrow,50%);transform:translateX(-50%);border-top-color:#161616}
+
+/* ===== PEDIGREE: MOBILE VERTICAL LAYOUT ===== */
+.ped-mobile{--ped-card:#ffffff;--ped-card-border:#e0e0e0;--ped-text:#1a1a1a;--ped-text2:#555;--ped-blue:#4a7fb5;--ped-pink:#b54a7f;--ped-green:#2d8a56;--ped-gold:#c9a96e;max-width:520px;margin:0 auto}
+.ped-gen-label{text-align:center;font-size:.52rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#484848;padding:.7rem 0 .45rem}
+.ped-card-container{padding:0}
+.ped-dog-card{background:var(--ped-card);border:1px solid var(--ped-card-border,#e0e0e0);cursor:pointer;transition:box-shadow .2s ease;position:relative;color:var(--ped-text,#1a1a1a);overflow:hidden}
+.ped-dog-card:active{opacity:.92}
+.ped-card-photo{width:100%;aspect-ratio:16/9;background:#d8d8d8;overflow:hidden;display:block;position:relative;flex-shrink:0}
+.ped-card-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.ped-card-photo.ped-empty{background:#dcdcdc}
+.ped-card-photo::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--ped-card-accent,transparent);z-index:1}
+.ped-card-info{padding:11px 13px 13px}
+.ped-card-relation{font-size:.54rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;margin-bottom:3px}
+.ped-card-name{font-family:var(--serif);font-size:1.05rem;font-weight:500;line-height:1.2;color:var(--ped-text,#1a1a1a);margin-bottom:3px}
+.ped-card-meta{font-size:.68rem;color:var(--ped-text2,#555);line-height:1.5;font-weight:300;margin-bottom:6px}
+.ped-card-titles{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:6px}
+.ped-mobile .ped-title-chip{font-size:.58rem;padding:2px 6px}
+.ped-card-tags{display:flex;flex-wrap:wrap;gap:4px}
+.ped-mobile .ped-htag{font-size:.54rem;padding:2px 7px}
+.ped-dog-card.ped-root{border:2px solid var(--ped-gold,#c9a96e)}
+.ped-dog-card.ped-root .ped-card-name{font-size:1.15rem}
+.ped-dog-card.ped-root .ped-card-photo{aspect-ratio:16/7}
+.ped-pair-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ped-pair-row .ped-card-photo{aspect-ratio:4/3}
+.ped-pair-row .ped-card-info{padding:8px 9px 10px}
+.ped-pair-row .ped-card-name{font-size:.82rem}
+.ped-pair-row .ped-card-meta{font-size:.62rem;margin-bottom:4px}
+.ped-pair-row .ped-card-relation{font-size:.5rem}
+.ped-pair-row .ped-title-chip{font-size:.5rem;padding:1px 4px}
+.ped-pair-row .ped-htag{font-size:.49rem;padding:2px 5px}
+.ped-pair-row .ped-card-titles{gap:2px;margin-bottom:5px}
+.ped-pair-row .ped-card-tags{gap:3px}
+
+/* Mobile forks */
+.ped-fork{position:relative;height:32px}
+.ped-fork-inner{position:relative;height:100%}
+.ped-fork-stem{position:absolute;left:50%;top:0;width:2px;height:50%;transform:translateX(-50%)}
+.ped-fork-bar{position:absolute;top:50%;height:2px;left:25%;width:50%}
+.ped-fork-left{position:absolute;top:50%;left:25%;width:2px;height:50%}
+.ped-fork-right{position:absolute;top:50%;right:25%;width:2px;height:50%}
+.ped-c-gold{background:#c9a96e!important}
+.ped-c-blue{background:#4a7fb5!important}
+.ped-c-pink{background:#b54a7f!important}
+
+/* Mobile side switcher */
+.ped-switcher-wrap{margin-top:4px}
+.ped-side-switcher{display:flex;border-bottom:2px solid #1e1e1e}
+.ped-side-btn{flex:1;padding:.75rem 0 .65rem;text-align:center;font-family:var(--sans);font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;border:none;background:transparent;color:#444;border-bottom:3px solid transparent;margin-bottom:-2px;transition:color .2s ease,border-color .2s ease,background .2s ease}
+.ped-side-btn:not(.active):hover{color:#777;background:rgba(255,255,255,.02)}
+.ped-sire-btn.active{color:#4a7fb5;border-bottom-color:#4a7fb5;background:rgba(74,127,181,.06)}
+.ped-dam-btn.active{color:#b54a7f;border-bottom-color:#b54a7f;background:rgba(181,74,127,.06)}
+.ped-tab-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px;vertical-align:middle;margin-top:-1px}
+.ped-sire-btn .ped-tab-dot{background:#4a7fb5;opacity:.5}
+.ped-dam-btn .ped-tab-dot{background:#b54a7f;opacity:.5}
+.ped-sire-btn.active .ped-tab-dot,.ped-dam-btn.active .ped-tab-dot{opacity:1}
+.ped-side-panel{display:none}
+.ped-side-panel.active{display:block;animation:sectionIn .25s var(--ease)}
+.ped-spacer{height:14px}
+
+/* ===== PEDIGREE SECTION CONTROLS ===== */
+.pedigree-controls{display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:2rem;align-items:center;justify-content:space-between}
+.pedigree-mode-toggle{display:flex;background:var(--bg-card);border:1px solid var(--border-subtle);overflow:hidden}
+.mode-btn{padding:.6rem 1.2rem;font-size:.7rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);cursor:pointer;border:none;background:transparent;transition:all .3s var(--ease);font-family:var(--sans)}
+.mode-btn.active{background:var(--gold);color:var(--bg-deep)}
+.pedigree-actions{display:flex;gap:.75rem}
+.action-btn{padding:.6rem 1.2rem;font-size:.7rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--text-secondary);cursor:pointer;border:1px solid var(--border-subtle);background:transparent;transition:all .3s var(--ease);font-family:var(--sans);display:flex;align-items:center;gap:.5rem}
+.action-btn:hover{border-color:var(--gold);color:var(--gold)}
+.action-btn svg{width:14px;height:14px}
+
+/* Pedigree Tree */
+.pedigree-tree{position:relative;overflow-x:auto;overflow-y:visible;-webkit-overflow-scrolling:touch;padding:2rem 0}
+.tree-container{display:flex;align-items:stretch;gap:0;min-width:fit-content;position:relative}
+.tree-generation{display:flex;flex-direction:column;justify-content:space-around;gap:8px;position:relative;min-width:200px}
+.tree-generation.gen-0{min-width:240px}
+@media(max-width:768px){.tree-generation{min-width:160px}.tree-generation.gen-0{min-width:200px}}
+
+/* Tree Nodes */
+.tree-node{background:var(--bg-card);border:1px solid var(--border-subtle);padding:12px 14px;cursor:pointer;transition:all .35s var(--ease);position:relative;display:flex;align-items:center;gap:10px;min-height:64px}
+.tree-node:hover{border-color:var(--gold);background:var(--bg-elevated);transform:translateX(3px)}
+.tree-node.male{border-left:3px solid #4a90d9}
+.tree-node.female{border-left:3px solid #d94a8c}
+.tree-node.root{border:1px solid var(--gold);background:linear-gradient(135deg,rgba(201,169,110,.08),rgba(201,169,110,.02))}
+.tree-node.root .node-name{color:var(--gold)}
+.node-photo{width:40px;height:40px;border-radius:50%;object-fit:cover;border:1.5px solid var(--border-subtle);flex-shrink:0;background:var(--bg-elevated)}
+.node-info{flex:1;min-width:0}
+.node-name{font-family:var(--serif);font-size:.9rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.node-titles{font-size:.6rem;color:var(--text-muted);letter-spacing:.08em;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.node-health{display:flex;gap:4px;margin-top:4px}
+.node-health-pip{width:6px;height:6px;border-radius:50%;background:#4ade80}
+.node-health-pip.unknown{background:var(--text-muted)}
+.node-expand-icon{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--text-muted);transition:color .3s}
+.tree-node:hover .node-expand-icon{color:var(--gold)}
+
+/* Simple mode */
+.pedigree-tree.simple .node-health,.pedigree-tree.simple .node-titles{display:none}
+.pedigree-tree.simple .tree-node{min-height:52px;padding:8px 12px}
+.pedigree-tree.simple .node-name{font-size:.82rem}
+
+/* Tree connector lines */
+.tree-connectors{position:absolute;inset:0;pointer-events:none;z-index:0}
+
+/* ===== NODE MODAL (Pedigree Detail Popup) ===== */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);z-index:1000;display:none;align-items:center;justify-content:center;padding:1rem;animation:modalBgIn .3s var(--ease)}
+.modal-overlay.active{display:flex}
+@keyframes modalBgIn{from{opacity:0}to{opacity:1}}
+.modal{background:var(--bg-card);border:1px solid var(--border-subtle);max-width:560px;width:100%;max-height:90vh;overflow-y:auto;animation:modalIn .4s var(--ease-out);position:relative}
+@keyframes modalIn{from{opacity:0;transform:translateY(24px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.modal-close{position:absolute;top:16px;right:16px;width:36px;height:36px;border:1px solid var(--border-subtle);background:rgba(0,0,0,.5);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;color:var(--text-secondary);font-size:1.1rem;transition:all .3s var(--ease)}
+.modal-close:hover{border-color:var(--gold);color:var(--gold)}
+.modal-hero{height:220px;background-size:cover;background-position:center;position:relative}
+.modal-hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:50%;background:linear-gradient(to top,var(--bg-card),transparent)}
+.modal-hero-placeholder{height:220px;background:linear-gradient(135deg,var(--bg-elevated),var(--bg-card));display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:3rem;position:relative}
+.modal-hero-placeholder::after{content:'';position:absolute;bottom:0;left:0;right:0;height:50%;background:linear-gradient(to top,var(--bg-card),transparent)}
+.modal-body{padding:2rem}
+.modal-name{font-family:var(--serif);font-size:1.6rem;font-weight:400;margin-bottom:.25rem}
+.modal-meta{font-size:.75rem;color:var(--text-muted);letter-spacing:.05em;margin-bottom:1.5rem}
+.modal-section{margin-bottom:1.5rem}
+.modal-section-title{font-size:.6rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem}
+.modal-badges{display:flex;flex-wrap:wrap;gap:6px}
+.modal-badge{padding:4px 10px;background:var(--bg-elevated);border:1px solid var(--border-subtle);font-size:.7rem;color:var(--text-secondary);font-weight:400}
+.modal-badge.gold{border-color:rgba(201,169,110,.3);color:var(--gold);background:var(--gold-dim)}
+.modal-health-row{display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--border-subtle);font-size:.82rem}
+.modal-health-row:last-child{border-bottom:none}
+.modal-health-label{color:var(--text-secondary);font-weight:300}
+.modal-health-value{font-weight:500;color:#4ade80}
+.modal-health-value.na{color:var(--text-muted)}
+.modal-desc{font-size:.88rem;color:var(--text-secondary);line-height:1.7;font-weight:300}
+.modal-media{margin-top:1.5rem}
+.modal-media-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.modal-media-thumb{aspect-ratio:1;background:var(--bg-elevated);border:1px solid var(--border-subtle);cursor:pointer;overflow:hidden;transition:all .3s var(--ease)}
+.modal-media-thumb:hover{border-color:var(--gold)}
+.modal-media-thumb img{width:100%;height:100%;object-fit:cover;filter:grayscale(60%);transition:filter .4s}
+.modal-media-thumb:hover img{filter:grayscale(0)}
+.modal-video-btn{display:flex;align-items:center;gap:.5rem;padding:.65rem 1.2rem;background:transparent;border:1px solid var(--border-subtle);color:var(--text-secondary);font-family:var(--sans);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .3s var(--ease);margin-top:.75rem;width:100%}
+.modal-video-btn:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ===== TITLES SECTION ===== */
+.titles-category{margin-bottom:3rem}
+.titles-cat-header{font-size:.65rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:1px solid var(--border-subtle)}
+.title-row{display:flex;justify-content:space-between;align-items:flex-start;padding:1rem 0;border-bottom:1px solid var(--border-subtle);cursor:pointer;transition:all .3s var(--ease);gap:1rem}
+.title-row:hover{padding-left:.5rem}
+.title-row:last-child{border-bottom:none}
+.title-abbr{font-family:var(--mono);font-size:.9rem;font-weight:400;min-width:60px;color:var(--text-primary)}
+.title-full{font-size:.85rem;color:var(--text-secondary);font-weight:300;flex:1}
+.title-explain{font-size:.78rem;color:var(--text-muted);font-weight:300;text-align:right;max-width:200px}
+.title-expand{display:none;padding:.75rem 0 0;font-size:.82rem;color:var(--text-secondary);line-height:1.7;font-weight:300;grid-column:1/-1}
+.title-row.expanded .title-expand{display:block;animation:sectionIn .3s var(--ease)}
+.title-row.expanded{flex-wrap:wrap}
+
+/* ===== OFFSPRING SECTION ===== */
+.litter-card{background:var(--bg-card);border:1px solid var(--border-subtle);margin-bottom:1.5rem;overflow:hidden;transition:all .3s var(--ease)}
+.litter-card:hover{border-color:var(--border-hover)}
+.litter-header{display:flex;justify-content:space-between;align-items:center;padding:1.5rem;cursor:pointer;transition:background .3s var(--ease)}
+.litter-header:hover{background:var(--bg-elevated)}
+.litter-info h3{font-family:var(--serif);font-size:1.1rem;font-weight:400;margin-bottom:.25rem}
+.litter-info p{font-size:.78rem;color:var(--text-muted);font-weight:300}
+.litter-dam-preview{display:flex;align-items:center;gap:.75rem;padding:.5rem .75rem;background:var(--bg-elevated);border:1px solid var(--border-subtle);transition:all .3s var(--ease)}
+.litter-dam-preview:hover{border-color:var(--gold)}
+.litter-dam-photo{width:36px;height:36px;border-radius:50%;background:var(--bg-card);border:1px solid var(--border-subtle)}
+.litter-dam-text{font-size:.75rem;color:var(--text-secondary)}
+.litter-dam-text span{display:block;font-size:.6rem;color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase}
+.litter-toggle{width:28px;height:28px;display:flex;align-items:center;justify-content:center;color:var(--text-muted);transition:all .3s var(--ease)}
+.litter-card.expanded .litter-toggle{transform:rotate(180deg);color:var(--gold)}
+.litter-body{display:none;padding:0 1.5rem 1.5rem;border-top:1px solid var(--border-subtle)}
+.litter-card.expanded .litter-body{display:block;animation:sectionIn .3s var(--ease)}
+.litter-dam-detail{padding:1rem;background:var(--bg-elevated);border:1px solid var(--border-subtle);margin-bottom:1.25rem;margin-top:1rem}
+.litter-dam-detail h4{font-family:var(--serif);font-size:1rem;margin-bottom:.5rem;color:var(--gold)}
+.litter-dam-detail p{font-size:.82rem;color:var(--text-secondary);line-height:1.6;font-weight:300}
+.puppy-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.75rem}
+.puppy-card{background:var(--bg-elevated);border:1px solid var(--border-subtle);padding:1rem;transition:all .3s var(--ease);cursor:pointer;position:relative}
+.puppy-card:hover{border-color:var(--gold);transform:translateY(-2px)}
+.puppy-name{font-family:var(--serif);font-size:.95rem;margin-bottom:.25rem}
+.puppy-meta{font-size:.72rem;color:var(--text-muted);margin-bottom:.5rem}
+.puppy-status{display:inline-block;padding:2px 8px;font-size:.6rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+.puppy-status.kept{background:rgba(201,169,110,.15);color:var(--gold);border:1px solid rgba(201,169,110,.3)}
+.puppy-status.placed{background:rgba(74,222,128,.1);color:#4ade80;border:1px solid rgba(74,222,128,.2)}
+.puppy-status.available{background:rgba(96,165,250,.1);color:#60a5fa;border:1px solid rgba(96,165,250,.2)}
+
+/* Dam Tooltip on hover */
+.dam-tooltip{position:absolute;bottom:100%;left:50%;transform:translateX(-50%) translateY(-8px);background:var(--bg-card);border:1px solid var(--gold);padding:1rem;width:280px;z-index:50;display:none;pointer-events:none;box-shadow:0 8px 32px rgba(0,0,0,.5)}
+.litter-dam-preview:hover .dam-tooltip{display:block;animation:sectionIn .2s var(--ease)}
+.dam-tooltip h5{font-family:var(--serif);font-size:.9rem;color:var(--gold);margin-bottom:.5rem}
+.dam-tooltip p{font-size:.75rem;color:var(--text-secondary);line-height:1.5;font-weight:300}
+
+/* ===== STUD SERVICE BAR ===== */
+.stud-bar{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(7,7,7,.92);backdrop-filter:blur(24px);border-top:1px solid var(--border-subtle);padding:.85rem clamp(1rem,3vw,4rem);display:flex;align-items:center;justify-content:space-between;transform:translateY(100%);transition:transform .4s var(--ease)}
+.stud-bar.visible{transform:translateY(0)}
+.stud-bar-info{display:flex;align-items:center;gap:1.5rem}
+.stud-bar-name{font-family:var(--serif);font-size:1rem}
+.stud-bar-price{font-size:.75rem;color:var(--text-muted)}.stud-bar-price strong{color:var(--gold)}
+.stud-bar-cta{padding:.7rem 2rem;background:var(--gold);color:var(--bg-deep);font-family:var(--sans);font-size:.72rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;border:none;cursor:pointer;transition:all .3s var(--ease)}
+.stud-bar-cta:hover{background:#dbb97a;transform:translateY(-1px)}
+@media(max-width:600px){
+  .stud-bar-name{display:none}
+  .stud-bar{justify-content:center;gap:1rem}
+}
+
+/* ===== PDF EXPORT OVERLAY ===== */
+.pdf-generating{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:2000;display:none;align-items:center;justify-content:center;flex-direction:column;gap:1rem}
+.pdf-generating.active{display:flex}
+.pdf-spinner{width:32px;height:32px;border:2px solid var(--border-subtle);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.pdf-text{font-size:.85rem;color:var(--text-secondary)}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--text-muted);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--text-secondary)}
+
+/* ===== MOBILE PEDIGREE ===== */
+@media(max-width:768px){
+  .pedigree-controls{flex-direction:column;align-items:stretch}
+  .pedigree-actions{justify-content:stretch}
+  .action-btn{flex:1;justify-content:center}
+  .tree-node{padding:8px 10px;min-height:52px}
+  .node-photo{width:32px;height:32px}
+  .node-name{font-size:.78rem}
+  .tree-generation{min-width:140px;gap:4px}
+  .tree-generation.gen-0{min-width:170px}
+}
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media(max-width:480px){
+  .modal{max-height:95vh;margin:0}
+  .modal-body{padding:1.25rem}
+  .hero-badges{gap:.35rem}
+  .badge{padding:.25rem .6rem;font-size:.6rem}
+  .puppy-grid{grid-template-columns:1fr}
+  .health-grid{grid-template-columns:1fr}
+}
+
+/* Pedigree scroll hint for mobile */
+.scroll-hint{display:none;text-align:center;padding:.75rem;font-size:.72rem;color:var(--text-muted);letter-spacing:.08em}
+.scroll-hint span{display:inline-block;animation:scrollHint 2s ease infinite}
+@keyframes scrollHint{0%,100%{transform:translateX(0)}50%{transform:translateX(8px)}}
+@media(max-width:768px){.scroll-hint{display:block}}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <h1 class="hero-name">Sagar Faustus Moravia <em>"Sagi"</em></h1>
+    <div class="hero-titles">FO, BH/VT, AD, IGP1, IGP2, IGP3, KKL, Ang*</div>
+    <p class="hero-desc">Sagi displays high handler engagement and is a breeze to work as he is always so eager and willing. He has high ball drive, lives with other dogs in the home and enjoys doing anything that is asked of by the handler. He displays hard grips in protection along with strong courage. We are so thankful to add this exceptional, powerful, and fun loving male to our program. Sagi is owned by WoodWolf Kennels.</p>
+  </div>
+</section>
+
+<!-- CATEGORY NAVIGATION -->
+<nav class="category-nav" id="categoryNav">
+  <div class="nav-inner">
+    <div class="nav-tab active" data-section="temperament">Temperament</div>
+    <div class="nav-tab" data-section="titles">Titles & Working</div>
+    <div class="nav-tab" data-section="health">Health</div>
+    <div class="nav-tab" data-section="pedigree">Pedigree</div>
+    <div class="nav-tab" data-section="offspring">Offspring</div>
+  </div>
+</nav>
+
+<!-- TEMPERAMENT -->
+<section class="section active" id="temperament">
+  <div class="section-header">
+    <h2 class="section-title">Temperament</h2>
+  </div>
+
+  <div class="temperament-prose">
+    <p class="temp-lead">Sagi is a neutral, well-rounded male. He is completely comfortable around children, other dogs, and animals in the home. His temperament is stable and predictable, making him as trustworthy in a family environment as he is on the field.</p>
+    <p class="temp-body">He is social without being overbearing, calm in the house, and settles easily. He transitions between high-energy work and relaxed home life with no behavioral issues. He is the kind of dog you can trust around your family and take anywhere.</p>
+    <p class="temp-body">We are so thankful to add this exceptional, powerful, and fun loving male to our program. Sagi is owned by WoodWolf Kennels.</p>
+  </div>
+
+  <div class="video-placeholder" onclick="this.innerHTML='<div style=\'color:var(--text-muted);font-size:.85rem\'>Video embed placeholder</div>'">
+    <div class="play-icon"></div>
+  </div>
+</section>
+
+<!-- HEALTH -->
+<section class="section" id="health">
+  <div class="section-header">
+    <h2 class="section-title">Health Clearances</h2>
+  </div>
+
+  <p class="health-intro">Sagi is dual-certified across the Czech (ČMKU) and German (SV) registries, both at the highest possible marks. Every result listed below is independently verifiable through the issuing organization.</p>
+
+  <!-- Results Table -->
+  <div class="health-table-wrap">
+    <table class="health-table">
+      <thead>
+        <tr>
+          <th>Test</th>
+          <th>Result</th>
+          <th>Registry</th>
+          <th>Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="ht-row" onclick="this.classList.toggle('ht-expanded')">
+          <td>Hips</td>
+          <td><span class="ht-result gold">HD: A (CZ) / A1 (SV)</span></td>
+          <td><div class="ht-registry">Czech ČMKU + German SV</div></td>
+          <td>
+            Excellent
+            <div class="ht-expand">"A" is the highest Czech hip rating. A1 is the highest SV rating, evaluated independently by German-certified radiologists. Dual confirmation at top marks across both systems.</div>
+          </td>
+        </tr>
+        <tr class="ht-row" onclick="this.classList.toggle('ht-expanded')">
+          <td>Elbows</td>
+          <td><span class="ht-result gold">ED: 0 (CZ) / A1 (SV)</span></td>
+          <td><div class="ht-registry">Czech ČMKU + German SV</div></td>
+          <td>
+            Clear
+            <div class="ht-expand">ED 0 indicates no evidence of elbow dysplasia under the Czech system. A1 is the highest SV elbow grade. Clean elbows in a large working breed are essential for long-term soundness.</div>
+          </td>
+        </tr>
+        <tr class="ht-row" onclick="this.classList.toggle('ht-expanded')">
+          <td>Spine</td>
+          <td><span class="ht-result">Spondylosis: 0</span></td>
+          <td><div class="ht-registry">Czech ČMKU</div></td>
+          <td>
+            Free
+            <div class="ht-expand">Spondylosis 0 means the spine shows no degenerative changes or bridging between vertebrae. Important for a working dog's long-term mobility and comfort.</div>
+          </td>
+        </tr>
+        <tr class="ht-row" onclick="this.classList.toggle('ht-expanded')">
+          <td>DM (Degenerative Myelopathy)</td>
+          <td><span class="ht-result">N/N</span></td>
+          <td><div class="ht-registry">DNA Tested</div></td>
+          <td>
+            Genetically Clear
+            <div class="ht-expand">N/N means Sagi carries zero copies of the DM gene mutation. He cannot develop or pass on this progressive neurological disease. WoodWolf maintains a strict DM-clear policy for all breeding stock.</div>
+          </td>
+        </tr>
+        <tr class="ht-row" onclick="this.classList.toggle('ht-expanded')">
+          <td>Embark Genetic Panel</td>
+          <td><span class="ht-result">Clear</span></td>
+          <td><div class="ht-registry">Embark Veterinary</div></td>
+          <td>
+            Full Panel Clear
+            <div class="ht-expand">Embark tests for 230+ genetic health conditions and traits. Sagi's full panel returned clear, confirming he is free of all tested genetic diseases including MDR1, vWD, and breed-relevant conditions.</div>
+          </td>
+        </tr>
+        <tr class="ht-row" onclick="this.classList.toggle('ht-expanded')">
+          <td>DNA Profile</td>
+          <td><span class="ht-result gold">SV + AKC</span></td>
+          <td><div class="ht-registry">German SV &amp; AKC</div></td>
+          <td>
+            Dual Registry
+            <div class="ht-expand">DNA profiles are on file with both the German SV and the American Kennel Club, ensuring verified parentage and identity for all breeding records and offspring registration.</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="ht-tap-hint">Tap any row to read more about the rating.</p>
+  </div>
+
+  <!-- Ethical Breeding Standards -->
+  <div class="ethical-section">
+    <h3 class="ethical-header">Minimum Health Testing for Ethically Bred German Shepherds</h3>
+    <p class="ethical-desc">The following tests represent the minimum standard recommended by the GSDCA, OFA/CHIC, and the SV for any German Shepherd used in a breeding program. Sagi exceeds these requirements across the board.</p>
+
+    <table class="ethical-table">
+      <thead>
+        <tr>
+          <th>Test</th>
+          <th>Standard</th>
+          <th>Requirement Level</th>
+          <th>Sagi's Result</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Hip Evaluation</td>
+          <td>OFA, PennHIP, SV, or equivalent radiographic evaluation by a certified veterinarian</td>
+          <td><span class="et-required yes">Required</span></td>
+          <td><span class="et-sagi">HD A (CZ) / A1 (SV)</span></td>
+        </tr>
+        <tr>
+          <td>Elbow Evaluation</td>
+          <td>OFA, SV, or equivalent radiographic evaluation</td>
+          <td><span class="et-required yes">Required</span></td>
+          <td><span class="et-sagi">ED 0 (CZ) / A1 (SV)</span></td>
+        </tr>
+        <tr>
+          <td>DM DNA Test</td>
+          <td>SOD1 gene test (OFA or Embark) to determine clear, carrier, or at-risk status</td>
+          <td><span class="et-required yes">Required</span></td>
+          <td><span class="et-sagi">N/N Clear</span></td>
+        </tr>
+        <tr>
+          <td>Cardiac Evaluation</td>
+          <td>Basic cardiac exam by a licensed veterinarian (OFA)</td>
+          <td><span class="et-required rec">Recommended</span></td>
+          <td><span class="et-sagi">Included in Embark</span></td>
+        </tr>
+        <tr>
+          <td>Thyroid Panel</td>
+          <td>OFA thyroid evaluation from an approved laboratory</td>
+          <td><span class="et-required rec">Recommended</span></td>
+          <td><span class="et-sagi">Included in Embark</span></td>
+        </tr>
+        <tr>
+          <td>Temperament Test</td>
+          <td>GSDCA temperament test, BH/VT, or equivalent behavioral evaluation</td>
+          <td><span class="et-required yes">Required</span></td>
+          <td><span class="et-sagi">BH/VT + TSB Pronounced</span></td>
+        </tr>
+        <tr>
+          <td>DNA Profile</td>
+          <td>DNA on file with registry for parentage verification</td>
+          <td><span class="et-required yes">Required</span></td>
+          <td><span class="et-sagi">SV + AKC</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="ethical-resources">
+      <button class="action-btn" onclick="window.open('https://www.ofa.org/recommended-tests?breed=GS','_blank')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+        OFA Recommended Tests
+      </button>
+      <button class="action-btn" onclick="window.open('https://www.gsdca.org/health-genetics-committee/','_blank')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+        GSDCA Health &amp; Genetics
+      </button>
+      <button class="action-btn" onclick="window.open('https://www.caninehealthinfo.org/search.html','_blank')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+        CHIC Database
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- PEDIGREE -->
+<section class="section" id="pedigree">
+  <div class="section-header">
+    <h2 class="section-title">Pedigree</h2>
+    <p class="section-desc">Three generations of proven Czech working lines. Tap any title or health badge to learn what it means.</p>
+  </div>
+  <div class="pedigree-actions" style="margin-bottom:1.5rem;display:flex;gap:.75rem;flex-wrap:wrap">
+    <button class="action-btn" onclick="window.open('https://www.working-dog.com/dogs-details/6770891/Sagar-Faustus-Moravia','_blank')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+      Working-Dog
+    </button>
+    <button class="action-btn" onclick="window.open('https://www.pedigreedatabase.com/german_shepherd_dog/dog.html?id=3254584-sagar-faustus-moravia?_v=20240418013741','_blank')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+      Pedigree Database
+    </button>
+    <button class="action-btn" onclick="downloadPedigreePDF()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+      Download PDF
+    </button>
+  </div>
+
+  <!-- Tooltip (shared) -->
+  <div id="ped-tip-popup" class="ped-tip-popup" role="tooltip">
+    <span class="ped-tip-abbr" id="ped-tip-abbr"></span>
+    <span class="ped-tip-full" id="ped-tip-full"></span>
+    <span class="ped-tip-body" id="ped-tip-body"></span>
+  </div>
+
+  <!-- ========== DESKTOP HORIZONTAL TREE ========== -->
+  <div class="ped-desktop" id="pedDesktop">
+    <div class="ped-gen-headers">
+      <div class="ped-gen-hdr">Subject</div>
+      <div class="ped-gen-hdr">Parents</div>
+      <div class="ped-gen-hdr">Grandparents</div>
+      <div class="ped-gen-hdr">Great-Grandparents</div>
+    </div>
+    <div class="ped-htree">
+      <!-- Gen 0: Subject -->
+      <div class="ped-gen ped-gen-0">
+        <div class="ped-hnode ped-hroot">
+          <div class="ped-hnode-name">Sagar Faustus Moravia "Sagi"</div>
+          <div class="ped-hnode-meta">Jul 7, 2019 · Dark Sable, Long Coat</div>
+          <div class="ped-hnode-chips">
+            <span class="ped-title-chip" data-abbr="IGP3" data-full="Internationale Gebrauchshund Prüfung, Level 3" data-body="The highest level international working dog title. Tests tracking, obedience, and protection to elite standard.">IGP3</span>
+            <span class="ped-title-chip" data-abbr="KKL" data-full="Körklasse" data-body="Breed survey classification. Evaluated for conformation, character, and working ability and approved for breeding.">KKL</span>
+            <span class="ped-title-chip" data-abbr="Ang*" data-full="Angekört (Lifetime)" data-body="Approved and recommended for breeding. Lifetime designation.">Ang*</span>
+            <span class="ped-title-chip" data-abbr="FO" data-full="Fährtenhund" data-body="Tracking dog title. Tests ability to follow an aged scent trail and indicate dropped articles.">FO</span>
+            <span class="ped-title-chip" data-abbr="BH/VT" data-full="Begleithundprüfung / Verkehrssicherheitstest" data-body="Companion dog and traffic safety test. Confirms stable, social temperament.">BH/VT</span>
+            <span class="ped-title-chip" data-abbr="AD" data-full="Ausdauerprüfung" data-body="Endurance test: 20 km run alongside a bicycle. Confirms physical fitness.">AD</span>
+          </div>
+          <div class="ped-hnode-tags">
+            <span class="ped-htag ped-htag-gold" data-abbr="TSB Pronounced" data-full="Triebveranlagung · Selbstsicherheit · Belastbarkeit" data-body="Drive, self-assurance, stress capacity. 'Pronounced' is the highest possible rating.">TSB Pron.</span>
+            <span class="ped-htag ped-htag-green" data-abbr="DM N/N" data-full="Degenerative Myelopathy, DNA test clear" data-body="Carries zero copies of DM mutation. Cannot develop or pass on the disease.">DM N/N</span>
+            <span class="ped-htag ped-htag-green" data-abbr="HD A1" data-full="Hüftgelenksdysplasie, German SV grade A1" data-body="Top German SV hip grade: excellent hip joint formation.">HD A1</span>
+            <span class="ped-htag ped-htag-green" data-abbr="ED A1" data-full="Ellbogendysplasie, German SV grade A1" data-body="Best possible elbow result: both elbows completely clear.">ED A1</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gen 1: Parents -->
+      <div class="ped-gen ped-gen-1">
+        <div class="ped-hnode ped-male">
+          <div class="ped-hnode-rel" style="color:var(--ped-blue)">Sire</div>
+          <div class="ped-hnode-name">Lucipher Galan Nalag</div>
+          <div class="ped-hnode-meta">Dec 5, 2010</div>
+          <div class="ped-hnode-chips">
+            <span class="ped-title-chip" data-abbr="IPO3" data-full="Internationale Prüfungs-Ordnung, Level 3" data-body="Highest level international working dog title under the former IPO rules.">IPO3</span>
+          </div>
+          <div class="ped-hnode-tags">
+            <span class="ped-htag ped-htag-green" data-abbr="HD 0/0" data-full="Hüftgelenksdysplasie, Czech 0/0" data-body="Both hips fully clear. Certified abroad.">HD 0/0</span>
+            <span class="ped-htag ped-htag-green" data-abbr="ED 0/0" data-full="Ellbogendysplasie, Czech 0/0" data-body="Both elbows clear. Certified abroad.">ED 0/0</span>
+          </div>
+        </div>
+        <div class="ped-hnode ped-female">
+          <div class="ped-hnode-rel" style="color:var(--ped-pink)">Dam</div>
+          <div class="ped-hnode-name">Umbrossia Grey Wolf-Moravia</div>
+          <div class="ped-hnode-meta">Jun 10, 2015</div>
+          <div class="ped-hnode-chips">
+            <span class="ped-title-chip" data-abbr="IPO3" data-full="Internationale Prüfungs-Ordnung, Level 3" data-body="Highest level international working dog title under the former IPO rules.">IPO3</span>
+          </div>
+          <div class="ped-hnode-tags">
+            <span class="ped-htag ped-htag-green" data-abbr="HDa (0/0)" data-full="Hüftgelenksdysplasie, Czech 0/0" data-body="Both hips clear under Czech certification.">HDa 0/0</span>
+            <span class="ped-htag ped-htag-green" data-abbr="ED (0/0)" data-full="Ellbogendysplasie, Czech 0/0" data-body="Both elbows clear.">ED 0/0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gen 2: Grandparents -->
+      <div class="ped-gen ped-gen-2">
+        <div class="ped-hnode ped-male">
+          <div class="ped-hnode-rel" style="color:var(--ped-blue)">GS</div>
+          <div class="ped-hnode-name">Lord di Dranel</div>
+          <div class="ped-hnode-meta">Nov 17, 2006</div>
+          <div class="ped-hnode-chips">
+            <span class="ped-title-chip" data-abbr="IPO3" data-full="Internationale Prüfungs-Ordnung, Level 3" data-body="Highest level international working dog title.">IPO3</span>
+            <span class="ped-title-chip" data-abbr="SchH3" data-full="Schutzhund, Level 3" data-body="German protection dog title, level 3. Predecessor to IPO/IGP.">SchH3</span>
+          </div>
+          <div class="ped-hnode-tags">
+            <span class="ped-htag ped-htag-green" data-abbr="HD C" data-full="Hüftgelenksdysplasie, SV grade C" data-body="Middle grade in SV hip system. Mild dysplasia, breedable with suitable partner.">HD C</span>
+            <span class="ped-htag ped-htag-green" data-abbr="ED A" data-full="Ellbogendysplasie, SV grade A" data-body="Top elbow grade. Both elbows clear.">ED A</span>
+          </div>
+        </div>
+        <div class="ped-hnode ped-female">
+          <div class="ped-hnode-rel" style="color:var(--ped-pink)">GD</div>
+          <div class="ped-hnode-name">Sorbona Favory Cross</div>
+          <div class="ped-hnode-meta">May 19, 2008</div>
+          <div class="ped-hnode-chips">
+            <span class="ped-title-chip" data-abbr="IPO3" data-full="Internationale Prüfungs-Ordnung, Level 3" data-body="Highest level international working dog title.">IPO3</span>
+          </div>
+          <div class="ped-hnode-tags">
+            <span class="ped-htag ped-htag-green" data-abbr="HD/ED Norm" data-full="Hips and Elbows Normal (Ausland)" data-body="Both hips and elbows certified clear abroad.">HD/ED Norm</span>
+          </div>
+        </div>
+        <div class="ped-hnode ped-male">
+          <div class="ped-hnode-rel" style="color:var(--ped-blue)">GS</div>
+          <div class="ped-hnode-name">Torr Opavia Hof</div>
+          <div class="ped-hnode-meta">Nov 16, 2009</div>
+          <div class="ped-hnode-chips">
+            <span class="ped-title-chip" data-abbr="IPO3" data-full="Internationale Prüfungs-Ordnung, Level 3" data-body="Highest level international working dog title.">IPO3</span>
+            <span class="ped-title-chip" data-abbr="SchH1" data-full="Schutzhund, Level 1" data-body="Entry-level German protection dog title.">SchH1</span>
+          </div>
+          <div class="ped-hnode-tags">
+            <span class="ped-htag ped-htag-green" data-abbr="HD/ED Norm" data-full="Hips and Elbows Normal (CZ)" data-body="Both hips and elbows certified clear under Czech evaluation.">HD/ED Norm</span>
+          </div>
+        </div>
+        <div class="ped-hnode ped-female">
+          <div class="ped-hnode-rel" style="color:var(--ped-pink)">GD</div>
+          <div class="ped-hnode-name">Cinderella Grey Wolf Moravia</div>
+          <div class="ped-hnode-meta">Oct 28, 2008</div>
+          <div class="ped-hnode-chips">
+            <span class="ped-title-chip" data-abbr="IPO1" data-full="Internationale Prüfungs-Ordnung, Level 1" data-body="Entry-level international working dog title.">IPO1</span>
+          </div>
+          <div class="ped-hnode-tags">
+            <span class="ped-htag ped-htag-green" data-abbr="HD/ED Norm" data-full="Hips and Elbows Normal (Ausland)" data-body="Both hips and elbows certified clear abroad.">HD/ED Norm</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gen 3: Great-Grandparents -->
+      <div class="ped-gen ped-gen-3">
+        <div class="ped-hnode ped-male"><div class="ped-hnode-name">Jorick di Dranel</div><div class="ped-hnode-meta">Oct 12, 2000</div><div class="ped-hnode-chips"><span class="ped-title-chip" data-abbr="IPO3" data-full="Internationale Prüfungs-Ordnung, Level 3" data-body="Highest level international working dog title.">IPO3</span><span class="ped-title-chip" data-abbr="SchH3" data-full="Schutzhund, Level 3" data-body="German protection dog title, level 3.">SchH3</span></div></div>
+        <div class="ped-hnode ped-female"><div class="ped-hnode-name">Brigitte Di Dranel</div><div class="ped-hnode-meta">Oct 29, 2003</div></div>
+        <div class="ped-hnode ped-male"><div class="ped-hnode-name">Charik Galan Nalag</div><div class="ped-hnode-meta">Nov 11, 2005</div><div class="ped-hnode-chips"><span class="ped-title-chip" data-abbr="IPO3" data-full="Internationale Prüfungs-Ordnung, Level 3" data-body="Highest level international working dog title.">IPO3</span><span class="ped-title-chip" data-abbr="SchH1" data-full="Schutzhund, Level 1" data-body="Entry-level German protection dog title.">SchH1</span><span class="ped-title-chip" data-abbr="ZVV1" data-full="Základy výcviku a všestrannosti, Level 1" data-body="Czech working dog versatility test, level 1.">ZVV1</span></div></div>
+        <div class="ped-hnode ped-female"><div class="ped-hnode-name">Kessy Eqldius</div><div class="ped-hnode-meta">Sep 19, 2004</div><div class="ped-hnode-chips"><span class="ped-title-chip" data-abbr="IPO2" data-full="Internationale Prüfungs-Ordnung, Level 2" data-body="Mid-level international working dog title.">IPO2</span><span class="ped-title-chip" data-abbr="SchH3" data-full="Schutzhund, Level 3" data-body="Highest level German protection dog title.">SchH3</span></div></div>
+        <div class="ped-hnode ped-male"><div class="ped-hnode-name">Zar von der Schiffslache</div><div class="ped-hnode-meta">Aug 15, 2005</div><div class="ped-hnode-chips"><span class="ped-title-chip" data-abbr="IPO2" data-full="Internationale Prüfungs-Ordnung, Level 2" data-body="Mid-level international working dog title.">IPO2</span></div></div>
+        <div class="ped-hnode ped-female"><div class="ped-hnode-name">Farina Opavia Hof</div><div class="ped-hnode-meta">Nov 30, 2006</div><div class="ped-hnode-chips"><span class="ped-title-chip" data-abbr="ZVV1" data-full="Základy výcviku a všestrannosti, Level 1" data-body="Czech working dog versatility test, level 1.">ZVV1</span></div></div>
+        <div class="ped-hnode ped-male"><div class="ped-hnode-name">Cato Katargo</div><div class="ped-hnode-meta">Jun 23, 2003</div><div class="ped-hnode-chips"><span class="ped-title-chip" data-abbr="IPO3" data-full="Internationale Prüfungs-Ordnung, Level 3" data-body="Highest level international working dog title.">IPO3</span><span class="ped-title-chip" data-abbr="SchH3" data-full="Schutzhund, Level 3" data-body="Highest level German protection dog title.">SchH3</span></div></div>
+        <div class="ped-hnode ped-female"><div class="ped-hnode-name">Alexa Moravia Campanella</div><div class="ped-hnode-meta">Jul 12, 2005</div><div class="ped-hnode-chips"><span class="ped-title-chip" data-abbr="ZPS1" data-full="Zkouška pomocného strážce, Level 1" data-body="Czech auxiliary guard dog test, level 1.">ZPS1</span><span class="ped-title-chip" data-abbr="IPO1" data-full="Internationale Prüfungs-Ordnung, Level 1" data-body="Entry-level international working dog title.">IPO1</span><span class="ped-title-chip" data-abbr="FH2" data-full="Fährtenhund, Level 2" data-body="Advanced tracking title.">FH2</span><span class="ped-title-chip" data-abbr="FPr3" data-full="Fährtenhundprüfung, Level 3" data-body="Highest level tracking trial.">FPr3</span><span class="ped-title-chip" data-abbr="ZVV1" data-full="Základy výcviku a všestrannosti, Level 1" data-body="Czech working dog versatility test, level 1.">ZVV1</span></div></div>
+      </div>
+
+      <!-- SVG Connectors drawn by JS -->
+      <svg class="ped-lines" id="pedLines"></svg>
+    </div>
+  </div>
+
+  <!-- ========== MOBILE VERTICAL TREE ========== -->
+  <div class="ped-mobile" id="pedMobile">
+    <!-- Subject Card -->
+    <div class="ped-card-container">
+      <div class="ped-dog-card ped-root">
+        <div class="ped-card-photo">
+          <img src="https://static.wixstatic.com/media/e2b819_8d01e7615ddb46e7b9a20e402687568d~mv2.jpg/v1/fill/w_600,h_400,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/DSC_0211.jpg" alt="Sagar Faustus Moravia">
+        </div>
+        <div class="ped-card-info">
+          <div class="ped-card-name">Sagar Faustus Moravia "Sagi"</div>
+          <div class="ped-card-meta">Born July 7, 2019 · Dark / Black Sable, Long Coat</div>
+          <div class="ped-card-titles">
+            <span class="ped-title-chip" data-abbr="IGP3" data-full="Internationale Gebrauchshund Prüfung, Level 3" data-body="The highest level international working dog title. Tests tracking, obedience, and protection to elite standard.">IGP3</span>
+            <span class="ped-title-chip" data-abbr="KKL" data-full="Körklasse" data-body="Breed survey classification. Evaluated for conformation, character, and working ability.">KKL</span>
+            <span class="ped-title-chip" data-abbr="Ang*" data-full="Angekört (Lifetime)" data-body="Approved and recommended for breeding. Lifetime designation.">Ang*</span>
+            <span class="ped-title-chip" data-abbr="FO" data-full="Fährtenhund" data-body="Tracking dog title.">FO</span>
+            <span class="ped-title-chip" data-abbr="BH/VT" data-full="Begleithundprüfung / Verkehrssicherheitstest" data-body="Companion dog and traffic safety test.">BH/VT</span>
+            <span class="ped-title-chip" data-abbr="AD" data-full="Ausdauerprüfung" data-body="Endurance test: 20 km run alongside a bicycle.">AD</span>
+          </div>
+          <div class="ped-card-tags">
+            <span class="ped-htag ped-htag-gold" data-abbr="TSB Pronounced" data-full="Triebveranlagung · Selbstsicherheit · Belastbarkeit" data-body="'Pronounced' is the highest possible rating for drive, self-assurance, and stress capacity.">TSB Pronounced</span>
+            <span class="ped-htag ped-htag-green" data-abbr="DM N/N" data-full="Degenerative Myelopathy, DNA test clear" data-body="Carries zero copies of the DM mutation.">DM N/N</span>
+            <span class="ped-htag ped-htag-green" data-abbr="HD A1" data-full="Hüftgelenksdysplasie, German SV grade A1" data-body="Top German SV hip grade.">HD A1</span>
+            <span class="ped-htag ped-htag-green" data-abbr="ED A1" data-full="Ellbogendysplasie, German SV grade A1" data-body="Best possible elbow result.">ED A1</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ped-fork"><div class="ped-fork-inner"><div class="ped-fork-stem ped-c-gold"></div><div class="ped-fork-bar ped-c-gold"></div><div class="ped-fork-left ped-c-blue"></div><div class="ped-fork-right ped-c-pink"></div></div></div>
+    <div class="ped-gen-label">Parents</div>
+    <div class="ped-pair-row">
+      <div class="ped-dog-card" style="--ped-card-accent:var(--ped-blue)"><div class="ped-card-photo ped-empty"></div><div class="ped-card-info"><div class="ped-card-relation" style="color:var(--ped-blue)">Father</div><div class="ped-card-name">Lucipher Galan Nalag</div><div class="ped-card-meta">Dec 5, 2010</div><div class="ped-card-titles"><span class="ped-title-chip" data-abbr="IPO3" data-full="Internationale Prüfungs-Ordnung, Level 3" data-body="Highest level international working dog title.">IPO3</span></div><div class="ped-card-tags"><span class="ped-htag ped-htag-green" data-abbr="HD 0/0" data-full="Czech grade 0/0" data-body="Both hips fully clear.">HD 0/0</span><span class="ped-htag ped-htag-green" data-abbr="ED 0/0" data-full="Czech grade 0/0" data-body="Both elbows clear.">ED 0/0</span></div></div></div>
+      <div class="ped-dog-card" style="--ped-card-accent:var(--ped-pink)"><div class="ped-card-photo ped-empty"></div><div class="ped-card-info"><div class="ped-card-relation" style="color:var(--ped-pink)">Mother</div><div class="ped-card-name">Umbrossia Grey Wolf-Moravia</div><div class="ped-card-meta">Jun 10, 2015</div><div class="ped-card-titles"><span class="ped-title-chip" data-abbr="IPO3" data-full="Internationale Prüfungs-Ordnung, Level 3" data-body="Highest level international working dog title.">IPO3</span></div><div class="ped-card-tags"><span class="ped-htag ped-htag-green" data-abbr="HDa (0/0)" data-full="Czech grade 0/0" data-body="Both hips clear.">HDa 0/0</span><span class="ped-htag ped-htag-green" data-abbr="ED (0/0)" data-full="Czech grade 0/0" data-body="Both elbows clear.">ED 0/0</span></div></div></div>
+    </div>
+    <div class="ped-spacer"></div>
+    <div class="ped-switcher-wrap"><div class="ped-side-switcher"><button class="ped-side-btn ped-sire-btn active" onclick="pedSwitchSide('sire',this)"><span class="ped-tab-dot"></span>Father's Line</button><button class="ped-side-btn ped-dam-btn" onclick="pedSwitchSide('dam',this)"><span class="ped-tab-dot"></span>Mother's Line</button></div></div>
+    <!-- Sire Side -->
+    <div class="ped-side-panel active" id="ped-sire-panel">
+      <div class="ped-fork"><div class="ped-fork-inner"><div class="ped-fork-stem ped-c-blue"></div><div class="ped-fork-bar ped-c-blue"></div><div class="ped-fork-left ped-c-blue"></div><div class="ped-fork-right ped-c-blue"></div></div></div>
+      <div class="ped-gen-label">Paternal Grandparents</div>
+      <div class="ped-pair-row">
+        <div class="ped-dog-card" style="--ped-card-accent:var(--ped-blue)"><div class="ped-card-photo ped-empty"></div><div class="ped-card-info"><div class="ped-card-relation" style="color:var(--ped-blue)">Grandfather</div><div class="ped-card-name">Lord di Dranel</div><div class="ped-card-meta">Nov 17, 2006</div><div class="ped-card-titles"><span class="ped-title-chip" data-abbr="IPO3" data-full="Internationale Prüfungs-Ordnung, Level 3" data-body="Highest level international working dog title.">IPO3</span><span class="ped-title-chip" data-abbr="SchH3" data-full="Schutzhund, Level 3" data-body="German protection dog title, level 3.">SchH3</span></div><div class="ped-card-tags"><span class="ped-htag ped-htag-green" data-abbr="HD C" data-full="SV grade C" data-body="Middle grade, mild dysplasia.">HD C</span><span class="ped-htag ped-htag-green" data-abbr="ED A" data-full="SV grade A" data-body="Top elbow grade.">ED A</span></div></div></div>
+        <div class="ped-dog-card" style="--ped-card-accent:var(--ped-blue)"><div class="ped-card-photo ped-empty"></div><div class="ped-card-info"><div class="ped-card-relation" style="color:var(--ped-pink)">Grandmother</div><div class="ped-card-name">Sorbona Favory Cross</div><div class="ped-card-meta">May 19, 2008</div><div class="ped-card-titles"><span class="ped-title-chip" data-abbr="IPO3" data-full="Internationale Prüfungs-Ordnung, Level 3" data-body="Highest level international working dog title.">IPO3</span></div><div class="ped-card-tags"><span class="ped-htag ped-htag-green" data-abbr="HD/ED Norm" data-full="Normal (Ausland)" data-body="Hips and elbows clear.">HD/ED Norm</span></div></div></div>
+      </div>
+      <div class="ped-fork"><div class="ped-fork-inner"><div class="ped-fork-stem ped-c-blue"></div><div class="ped-fork-bar ped-c-blue"></div><div class="ped-fork-left ped-c-blue"></div><div class="ped-fork-right ped-c-blue"></div></div></div>
+      <div class="ped-gen-label">Pat. Great-Grandparents (Lord di Dranel)</div>
+      <div class="ped-pair-row">
+        <div class="ped-dog-card" style="--ped-card-accent:var(--ped-blue)"><div class="ped-card-photo ped-empty"></div><div class="ped-card-info"><div class="ped-card-relation" style="color:var(--ped-blue)">Great-Grandfather</div><div class="ped-card-name">Jorick di Dranel</div><div class="ped-card-meta">Oct 12, 2000</div><div class="ped-card-titles"><span class="ped-title-chip" data-abbr="IPO3" data-full="Internationale Prüfungs-Ordnung, Level 3" data-body="Highest level.">IPO3</span><span class="ped-title-chip" data-abbr="SchH3" data-full="Schutzhund, Level 3" data-body="German protection, level 3.">SchH3</span></div></div></div>
+        <div class="ped-dog-card" style="--ped-card-accent:var(--ped-blue)"><div class="ped-card-photo ped-empty"></div><div class="ped-card-info"><div class="ped-card-relation" style="color:var(--ped-pink)">Great-Grandmother</div><div class="ped-card-name">Brigitte Di Dranel</div><div class="ped-card-meta">Oct 29, 2003</div></div></div>
+      </div>
+      <div class="ped-spacer"></div>
+      <div class="ped-fork"><div class="ped-fork-inner"><div class="ped-fork-stem ped-c-blue"></div><div class="ped-fork-bar ped-c-blue"></div><div class="ped-fork-left ped-c-blue"></div><div class="ped-fork-right ped-c-blue"></div></div></div>
+      <div class="ped-gen-label">Pat. Great-Grandparents (Sorbona Favory Cross)</div>
+      <div class="ped-pair-row">
+        <div class="ped-dog-card" style="--ped-card-accent:var(--ped-blue)"><div class="ped-card-photo ped-empty"></div><div class="ped-card-info"><div class="ped-card-relation" style="color:var(--ped-blue)">Great-Grandfather</div><div class="ped-card-name">Charik Galan Nalag</div><div class="ped-card-meta">Nov 11, 2005</div><div class="ped-card-titles"><span class="ped-title-chip" data-abbr="IPO3" data-full="Internationale Prüfungs-Ordnung, Level 3" data-body="Highest level.">IPO3</span><span class="ped-title-chip" data-abbr="SchH1" data-full="Schutzhund, Level 1" data-body="Entry-level German protection.">SchH1</span><span class="ped-title-chip" data-abbr="ZVV1" data-full="Základy výcviku a všestrannosti, Level 1" data-body="Czech versatility test.">ZVV1</span></div></div></div>
+        <div class="ped-dog-card" style="--ped-card-accent:var(--ped-blue)"><div class="ped-card-photo ped-empty"></div><div class="ped-card-info"><div class="ped-card-relation" style="color:var(--ped-pink)">Great-Grandmother</div><div class="ped-card-name">Kessy Eqldius</div><div class="ped-card-meta">Sep 19, 2004</div><div class="ped-card-titles"><span class="ped-title-chip" data-abbr="IPO2" data-full="Internationale Prüfungs-Ordnung, Level 2" data-body="Mid-level.">IPO2</span><span class="ped-title-chip" data-abbr="SchH3" data-full="Schutzhund, Level 3" data-body="Highest level German protection.">SchH3</span></div></div></div>
+      </div>
+    </div>
+    <!-- Dam Side -->
+    <div class="ped-side-panel" id="ped-dam-panel">
+      <div class="ped-fork"><div class="ped-fork-inner"><div class="ped-fork-stem ped-c-pink"></div><div class="ped-fork-bar ped-c-pink"></div><div class="ped-fork-left ped-c-pink"></div><div class="ped-fork-right ped-c-pink"></div></div></div>
+      <div class="ped-gen-label">Maternal Grandparents</div>
+      <div class="ped-pair-row">
+        <div class="ped-dog-card" style="--ped-card-accent:var(--ped-pink)"><div class="ped-card-photo ped-empty"></div><div class="ped-card-info"><div class="ped-card-relation" style="color:var(--ped-blue)">Grandfather</div><div class="ped-card-name">Torr Opavia Hof</div><div class="ped-card-meta">Nov 16, 2009</div><div class="ped-card-titles"><span class="ped-title-chip" data-abbr="IPO3" data-full="Internationale Prüfungs-Ordnung, Level 3" data-body="Highest level.">IPO3</span><span class="ped-title-chip" data-abbr="SchH1" data-full="Schutzhund, Level 1" data-body="Entry-level German protection.">SchH1</span></div><div class="ped-card-tags"><span class="ped-htag ped-htag-green" data-abbr="HD/ED Norm" data-full="Czech Normal" data-body="Both clear.">HD/ED Norm</span></div></div></div>
+        <div class="ped-dog-card" style="--ped-card-accent:var(--ped-pink)"><div class="ped-card-photo ped-empty"></div><div class="ped-card-info"><div class="ped-card-relation" style="color:var(--ped-pink)">Grandmother</div><div class="ped-card-name">Cinderella Grey Wolf Moravia</div><div class="ped-card-meta">Oct 28, 2008</div><div class="ped-card-titles"><span class="ped-title-chip" data-abbr="IPO1" data-full="Internationale Prüfungs-Ordnung, Level 1" data-body="Entry-level.">IPO1</span></div><div class="ped-card-tags"><span class="ped-htag ped-htag-green" data-abbr="HD/ED Norm" data-full="Normal (Ausland)" data-body="Hips and elbows clear.">HD/ED Norm</span></div></div></div>
+      </div>
+      <div class="ped-fork"><div class="ped-fork-inner"><div class="ped-fork-stem ped-c-pink"></div><div class="ped-fork-bar ped-c-pink"></div><div class="ped-fork-left ped-c-pink"></div><div class="ped-fork-right ped-c-pink"></div></div></div>
+      <div class="ped-gen-label">Mat. Great-Grandparents (Torr Opavia Hof)</div>
+      <div class="ped-pair-row">
+        <div class="ped-dog-card" style="--ped-card-accent:var(--ped-pink)"><div class="ped-card-photo ped-empty"></div><div class="ped-card-info"><div class="ped-card-relation" style="color:var(--ped-blue)">Great-Grandfather</div><div class="ped-card-name">Zar von der Schiffslache</div><div class="ped-card-meta">Aug 15, 2005</div><div class="ped-card-titles"><span class="ped-title-chip" data-abbr="IPO2" data-full="Internationale Prüfungs-Ordnung, Level 2" data-body="Mid-level.">IPO2</span></div></div></div>
+        <div class="ped-dog-card" style="--ped-card-accent:var(--ped-pink)"><div class="ped-card-photo ped-empty"></div><div class="ped-card-info"><div class="ped-card-relation" style="color:var(--ped-pink)">Great-Grandmother</div><div class="ped-card-name">Farina Opavia Hof</div><div class="ped-card-meta">Nov 30, 2006</div><div class="ped-card-titles"><span class="ped-title-chip" data-abbr="ZVV1" data-full="Základy výcviku a všestrannosti, Level 1" data-body="Czech versatility test.">ZVV1</span></div></div></div>
+      </div>
+      <div class="ped-spacer"></div>
+      <div class="ped-fork"><div class="ped-fork-inner"><div class="ped-fork-stem ped-c-pink"></div><div class="ped-fork-bar ped-c-pink"></div><div class="ped-fork-left ped-c-pink"></div><div class="ped-fork-right ped-c-pink"></div></div></div>
+      <div class="ped-gen-label">Mat. Great-Grandparents (Cinderella Grey Wolf Moravia)</div>
+      <div class="ped-pair-row">
+        <div class="ped-dog-card" style="--ped-card-accent:var(--ped-pink)"><div class="ped-card-photo ped-empty"></div><div class="ped-card-info"><div class="ped-card-relation" style="color:var(--ped-blue)">Great-Grandfather</div><div class="ped-card-name">Cato Katargo</div><div class="ped-card-meta">Jun 23, 2003</div><div class="ped-card-titles"><span class="ped-title-chip" data-abbr="IPO3" data-full="Internationale Prüfungs-Ordnung, Level 3" data-body="Highest level.">IPO3</span><span class="ped-title-chip" data-abbr="SchH3" data-full="Schutzhund, Level 3" data-body="German protection, level 3.">SchH3</span></div></div></div>
+        <div class="ped-dog-card" style="--ped-card-accent:var(--ped-pink)"><div class="ped-card-photo ped-empty"></div><div class="ped-card-info"><div class="ped-card-relation" style="color:var(--ped-pink)">Great-Grandmother</div><div class="ped-card-name">Alexa Moravia Campanella</div><div class="ped-card-meta">Jul 12, 2005</div><div class="ped-card-titles"><span class="ped-title-chip" data-abbr="ZPS1" data-full="Zkouška pomocného strážce, Level 1" data-body="Czech guard dog test.">ZPS1</span><span class="ped-title-chip" data-abbr="IPO1" data-full="Internationale Prüfungs-Ordnung, Level 1" data-body="Entry-level.">IPO1</span><span class="ped-title-chip" data-abbr="FH2" data-full="Fährtenhund, Level 2" data-body="Advanced tracking.">FH2</span><span class="ped-title-chip" data-abbr="FPr3" data-full="Fährtenhundprüfung, Level 3" data-body="Highest tracking trial.">FPr3</span><span class="ped-title-chip" data-abbr="ZVV1" data-full="Základy výcviku a všestrannosti, Level 1" data-body="Czech versatility test.">ZVV1</span></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TITLES & WORKING -->
+<section class="section" id="titles">
+  <div class="section-header">
+    <h2 class="section-title">Titles & Working Ability</h2>
+    <p class="section-desc">Every abbreviation explained. Click any title for a plain-language breakdown of what it means and why it matters.</p>
+  </div>
+
+  <div class="temperament-prose" style="margin-bottom:2.5rem">
+    <p class="temp-lead">In work, Sagi brings high drive and total handler engagement. He is eager to please and responds quickly to direction, whether in obedience, tracking, or protection.</p>
+    <p class="temp-body">His willingness to work is matched by his focus. He reads his handler well and stays locked in through every phase of training. He has high ball drive and enjoys doing anything that is asked of by the handler.</p>
+    <p class="temp-body">In protection, Sagi shows hard, committed grips and genuine courage under pressure. He does not hesitate and does not quit. His drive, self-assurance, and stress capacity have been formally evaluated and rated at the highest possible level (TSB Pronounced).</p>
+  </div>
+
+  <div class="titles-category">
+    <div class="titles-cat-header">Working Titles</div>
+    <div class="title-row" onclick="this.classList.toggle('expanded')">
+      <span class="title-abbr">IGP3</span>
+      <span class="title-full">Internationale Gebrauchshund Prüfung 3</span>
+      <span class="title-explain">Highest level</span>
+      <div class="title-expand">IGP3 is the pinnacle of working dog sport — testing tracking, obedience, and protection at the most demanding level. The dog must demonstrate exceptional nose work across long aged tracks, precise off-leash obedience in distracting environments, and confident protection work including searching, holding, and escorting. Very few dogs achieve this title.</div>
+    </div>
+    <div class="title-row" onclick="this.classList.toggle('expanded')">
+      <span class="title-abbr">IGP2</span>
+      <span class="title-full">Internationale Gebrauchshund Prüfung 2</span>
+      <span class="title-explain">Advanced level</span>
+      <div class="title-expand">IGP2 tests intermediate-advanced tracking, obedience, and protection skills. It requires longer tracks, more complex obedience patterns, and more demanding protection scenarios than IGP1.</div>
+    </div>
+    <div class="title-row" onclick="this.classList.toggle('expanded')">
+      <span class="title-abbr">IGP1</span>
+      <span class="title-full">Internationale Gebrauchshund Prüfung 1</span>
+      <span class="title-explain">Foundation level</span>
+      <div class="title-expand">IGP1 is the entry-level working dog title in the international system, testing basic tracking, obedience, and protection. Even this foundation level requires significant training and natural ability.</div>
+    </div>
+    <div class="title-row" onclick="this.classList.toggle('expanded')">
+      <span class="title-abbr">FO</span>
+      <span class="title-full">Fährtenhund Prüfung (Tracking)</span>
+      <span class="title-explain">Tracking specialist</span>
+      <div class="title-expand">FO is a dedicated tracking title demonstrating the dog's ability to follow scent trails over varying terrain and conditions. It showcases strong nose work independent of the obedience/protection phases.</div>
+    </div>
+    <div class="title-row" onclick="this.classList.toggle('expanded')">
+      <span class="title-abbr">BH/VT</span>
+      <span class="title-full">Begleithundprüfung / Verkehrstest</span>
+      <span class="title-explain">Temperament prerequisite</span>
+      <div class="title-expand">The BH/VT is the mandatory temperament and traffic-safety test required before any IGP title. The dog must demonstrate stable behavior in public, around crowds, traffic, and other dogs. It's the gateway test that proves a dog is safe and manageable in society.</div>
+    </div>
+    <div class="title-row" onclick="this.classList.toggle('expanded')">
+      <span class="title-abbr">AD</span>
+      <span class="title-full">Ausdauerprüfung (Endurance Test)</span>
+      <span class="title-explain">Physical fitness</span>
+      <div class="title-expand">The AD requires the dog to trot alongside a bicycle for 20 kilometers (12.4 miles) at a steady pace, followed by a simple obedience check. It proves the dog has the physical fitness, structure, and endurance expected of the breed.</div>
+    </div>
+  </div>
+  <div class="titles-category">
+    <div class="titles-cat-header">Breed Survey & Conformation</div>
+    <div class="title-row" onclick="this.classList.toggle('expanded')">
+      <span class="title-abbr">KKL</span>
+      <span class="title-full">Körklasse — Lifetime Breed Survey</span>
+      <span class="title-explain" style="color:var(--gold)">Elite distinction</span>
+      <div class="title-expand">A Lifetime Breed Survey (KKL) is an extensive evaluation of the dog's structure, temperament, and working ability conducted by a certified breed surveyor. Sagi's lifetime survey was conducted by USCA and carries a TSB rating of "Pronounced" — the highest possible drive and self-assurance assessment. This is a rare honor that certifies him as an exemplary representative of the breed for life.</div>
+    </div>
+    <div class="title-row" onclick="this.classList.toggle('expanded')">
+      <span class="title-abbr">TSB: P</span>
+      <span class="title-full">Triebveranlagung, Selbstsicherheit, Belastbarkeit — Pronounced</span>
+      <span class="title-explain" style="color:var(--gold)">Highest rating</span>
+      <div class="title-expand">TSB evaluates three critical traits: drive (Triebveranlagung), self-assurance (Selbstsicherheit), and stress capacity (Belastbarkeit). "Pronounced" is the highest possible rating, indicating exceptional natural drives, rock-solid confidence, and the ability to recover quickly from stress. This is the most important behavioral assessment in the German Shepherd breed evaluation system.</div>
+    </div>
+    <div class="title-row" onclick="this.classList.toggle('expanded')">
+      <span class="title-abbr">Ang*</span>
+      <span class="title-full">Angekört — Surveyed / Approved for Breeding</span>
+      <span class="title-explain">Breed approved</span>
+      <div class="title-expand">The Angekört designation means the dog has passed a breed survey evaluating structure, temperament, and working ability, and has been officially approved for breeding. The asterisk (*) indicates recommended for breeding.</div>
+    </div>
+    <div class="title-row" onclick="this.classList.toggle('expanded')">
+      <span class="title-abbr">VD</span>
+      <span class="title-full">Vorzüglich (Czech Show Rating)</span>
+      <span class="title-explain">Very Good</span>
+      <div class="title-expand">VD ("Very Good") in the Czech conformation system evaluates the dog's physical structure against the breed standard. It assesses movement, angulation, proportions, and overall breed type.</div>
+    </div>
+    <div class="title-row" onclick="this.classList.toggle('expanded')">
+      <span class="title-abbr">G1</span>
+      <span class="title-full">Good (USCA Show Rating)</span>
+      <span class="title-explain">USCA Conformation</span>
+      <div class="title-expand">The USCA conformation rating evaluates the dog's physical structure in the American branch of the SV system. Working-line dogs are often rated differently than show-line dogs in conformation events.</div>
+    </div>
+  </div>
+</section>
+
+<!-- OFFSPRING -->
+<section class="section" id="offspring">
+  <div class="section-header">
+    <h2 class="section-title">Offspring</h2>
+    <p class="section-desc">Sagi's producing record. Each litter is listed with the dam's information and individual puppy achievements. Hover or tap the dam's name for her credentials.</p>
+  </div>
+
+  <div class="litter-card" onclick="this.classList.toggle('expanded')">
+    <div class="litter-header">
+      <div style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap">
+        <div class="litter-info">
+          <h3>A-Litter Vom WoodWolf</h3>
+          <p>Born March 2024 · 8 puppies (5M / 3F)</p>
+        </div>
+        <div class="litter-dam-preview" onclick="event.stopPropagation()" style="position:relative">
+          <div class="litter-dam-photo"></div>
+          <div class="litter-dam-text">
+            <span>Dam</span>
+            Cora Calimera Moravia
+          </div>
+          <div class="dam-tooltip">
+            <h5>Cora Calimera Moravia</h5>
+            <p>Czech Import · IPO1 · HD A · ED 0 · DM N/N<br>Dark sable, excellent temperament and work ethic. Strong maternal instincts with proven track record of healthy, well-structured offspring.</p>
+          </div>
+        </div>
+      </div>
+      <div class="litter-toggle">▼</div>
+    </div>
+    <div class="litter-body">
+      <div class="litter-dam-detail">
+        <h4>Dam: Cora Calimera Moravia</h4>
+        <p>Czech Import · IPO1 · HD A · ED 0 · DM N/N · Embark Clear<br>Dark sable female imported from Czech Republic. Calm, confident temperament with strong drives. Excellent maternal instincts with hands-on, attentive care of puppies from day one.</p>
+      </div>
+      <div class="puppy-grid">
+        <div class="puppy-card">
+          <div class="puppy-name">Aggro Vom WoodWolf</div>
+          <div class="puppy-meta">Male · Dark Sable · Long Coat</div>
+          <div class="puppy-status kept">Kept — Kennel Prospect</div>
+        </div>
+        <div class="puppy-card">
+          <div class="puppy-name">Athena Vom WoodWolf</div>
+          <div class="puppy-meta">Female · Black Sable</div>
+          <div class="puppy-status placed">Placed — Working Home</div>
+        </div>
+        <div class="puppy-card">
+          <div class="puppy-name">Apollo Vom WoodWolf</div>
+          <div class="puppy-meta">Male · Dark Sable</div>
+          <div class="puppy-status placed">Placed — Family Home</div>
+        </div>
+        <div class="puppy-card">
+          <div class="puppy-name">Aria Vom WoodWolf</div>
+          <div class="puppy-meta">Female · Black Sable · Long Coat</div>
+          <div class="puppy-status placed">Placed — Sport Home</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="litter-card" onclick="this.classList.toggle('expanded')">
+    <div class="litter-header">
+      <div style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap">
+        <div class="litter-info">
+          <h3>B-Litter Vom WoodWolf</h3>
+          <p>Born August 2024 · 6 puppies (3M / 3F)</p>
+        </div>
+        <div class="litter-dam-preview" onclick="event.stopPropagation()" style="position:relative">
+          <div class="litter-dam-photo"></div>
+          <div class="litter-dam-text">
+            <span>Dam</span>
+            Shye-Ann European K9
+          </div>
+          <div class="dam-tooltip">
+            <h5>Shye-Ann European K9 Training Base</h5>
+            <p>BH · HD A · ED Normal · DM N/N<br>Confident, high-drive female with excellent structure. Strong nerves and natural working ability.</p>
+          </div>
+        </div>
+      </div>
+      <div class="litter-toggle">▼</div>
+    </div>
+    <div class="litter-body">
+      <div class="litter-dam-detail">
+        <h4>Dam: Shye-Ann European K9 Training Base</h4>
+        <p>BH · HD A · ED Normal · DM N/N · Embark Clear<br>Athletic, confident female with excellent nerve strength and a natural working temperament. Produces puppies with strong drives and stable character.</p>
+      </div>
+      <div class="puppy-grid">
+        <div class="puppy-card">
+          <div class="puppy-name">Brutus Vom WoodWolf</div>
+          <div class="puppy-meta">Male · Dark Sable</div>
+          <div class="puppy-status available">Available</div>
+        </div>
+        <div class="puppy-card">
+          <div class="puppy-name">Bella Vom WoodWolf</div>
+          <div class="puppy-meta">Female · Bi-Color</div>
+          <div class="puppy-status placed">Placed — K9 Unit</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STUD SERVICE BAR REMOVED -->
+
+
+
+<script>
+// ===== PEDIGREE PDF DOWNLOAD =====
+function downloadPedigreePDF() {
+  // Build a simple text-based pedigree PDF using a hidden canvas
+  var w = window.open('', '_blank');
+  if (!w) { alert('Please allow popups to download the PDF.'); return; }
+  w.document.write('<!DOCTYPE html><html><head><title>Sagar Faustus Moravia - Pedigree</title>');
+  w.document.write('<style>@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Outfit:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap");');
+  w.document.write('*{margin:0;padding:0;box-sizing:border-box}body{font-family:"Outfit",sans-serif;background:#fff;color:#1a1a1a;padding:40px 48px}');
+  w.document.write('.hdr{border-bottom:2px solid #c9a96e;padding-bottom:16px;margin-bottom:24px}');
+  w.document.write('.hdr h1{font-family:"Cormorant Garamond",serif;font-size:28px;font-weight:500;margin-bottom:4px}');
+  w.document.write('.hdr p{font-size:12px;color:#777}');
+  w.document.write('.hdr .titles{font-size:13px;font-weight:500;margin-top:4px;color:#333}');
+  w.document.write('table{width:100%;border-collapse:collapse;margin-top:16px;font-size:12px}');
+  w.document.write('th{text-align:left;font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:#888;padding:8px 10px;border-bottom:2px solid #e0e0e0}');
+  w.document.write('td{padding:10px;border-bottom:1px solid #eee;vertical-align:top}');
+  w.document.write('.name{font-family:"Cormorant Garamond",serif;font-size:14px;font-weight:500}');
+  w.document.write('.meta{font-size:10px;color:#777;margin-top:2px}');
+  w.document.write('.chips{font-family:"JetBrains Mono",monospace;font-size:10px;color:#555;margin-top:3px}');
+  w.document.write('.tags{font-size:10px;color:#2d8a56;margin-top:2px}');
+  w.document.write('.rel{font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-bottom:2px}');
+  w.document.write('.sire{color:#4a7fb5}.dam{color:#b54a7f}');
+  w.document.write('.footer{margin-top:24px;padding-top:12px;border-top:1px solid #ddd;font-size:10px;color:#999;display:flex;justify-content:space-between}');
+  w.document.write('@media print{body{padding:24px 32px}}</style></head><body>');
+  w.document.write('<div class="hdr"><h1>Sagar Faustus Moravia "Sagi"</h1>');
+  w.document.write('<p>Born July 7, 2019 · Dark / Black Sable, Long Coat · Czech Import</p>');
+  w.document.write('<div class="titles">FO, BH/VT, AD, IGP1, IGP2, IGP3, KKL, Ang*</div>');
+  w.document.write('<p style="margin-top:4px">TSB Pronounced · HD A1 (SV) · ED A1 (SV) · DM N/N · Spondylosis 0 · Embark Clear</p></div>');
+  w.document.write('<table><tr><th>Generation</th><th>Sire Line</th><th>Dam Line</th></tr>');
+  w.document.write('<tr><td><strong>Parents</strong></td>');
+  w.document.write('<td><div class="rel sire">Sire</div><div class="name">Lucipher Galan Nalag</div><div class="meta">Dec 5, 2010</div><div class="chips">IPO3</div><div class="tags">HD 0/0 · ED 0/0 · DNA</div></td>');
+  w.document.write('<td><div class="rel dam">Dam</div><div class="name">Umbrossia Grey Wolf-Moravia</div><div class="meta">Jun 10, 2015</div><div class="chips">IPO3</div><div class="tags">HDa 0/0 · ED 0/0 · DNA</div></td></tr>');
+  w.document.write('<tr><td><strong>Grandparents</strong></td>');
+  w.document.write('<td><div class="name">Lord di Dranel</div><div class="meta">Nov 17, 2006</div><div class="chips">IPO3, SchH3</div><div class="tags">HD C · ED A</div><br><div class="name">Sorbona Favory Cross</div><div class="meta">May 19, 2008</div><div class="chips">IPO3</div><div class="tags">HD/ED Norm</div></td>');
+  w.document.write('<td><div class="name">Torr Opavia Hof</div><div class="meta">Nov 16, 2009</div><div class="chips">IPO3, SchH1</div><div class="tags">HD/ED Norm · DNA</div><br><div class="name">Cinderella Grey Wolf Moravia</div><div class="meta">Oct 28, 2008</div><div class="chips">IPO1</div><div class="tags">HD/ED Norm</div></td></tr>');
+  w.document.write('<tr><td><strong>Great-<br>Grandparents</strong></td>');
+  w.document.write('<td><div class="name">Jorick di Dranel</div><div class="chips">IPO3, SchH3</div><div class="name" style="margin-top:6px">Brigitte Di Dranel</div><br><div class="name">Charik Galan Nalag</div><div class="chips">IPO3, SchH1, ZVV1</div><div class="name" style="margin-top:6px">Kessy Eqldius</div><div class="chips">IPO2, SchH3</div></td>');
+  w.document.write('<td><div class="name">Zar von der Schiffslache</div><div class="chips">IPO2</div><div class="name" style="margin-top:6px">Farina Opavia Hof</div><div class="chips">ZVV1</div><br><div class="name">Cato Katargo</div><div class="chips">IPO3, SchH3</div><div class="name" style="margin-top:6px">Alexa Moravia Campanella</div><div class="chips">ZPS1, IPO1, FH2, FPr3, ZVV1</div></td></tr>');
+  w.document.write('</table>');
+  w.document.write('<div class="footer"><span>woodwolfkennels.com · woodwolfkennels@gmail.com · 706-993-5897</span><span>Generated ' + new Date().toLocaleDateString() + '</span></div>');
+  w.document.write('</body></html>');
+  w.document.close();
+  setTimeout(function() { w.print(); }, 600);
+}
+
+// ===== PEDIGREE: TOOLTIP + LINES =====
+(function() {
+  const popup  = document.getElementById('ped-tip-popup');
+  const elAbbr = document.getElementById('ped-tip-abbr');
+  const elFull = document.getElementById('ped-tip-full');
+  const elBody = document.getElementById('ped-tip-body');
+  let activeTip = null;
+
+  function openTip(chip) {
+    if (activeTip === chip) { closeTip(); return; }
+    if (activeTip) { activeTip.classList.remove('ped-active-tip'); activeTip = null; }
+    elAbbr.textContent = chip.dataset.abbr || '';
+    elFull.textContent = chip.dataset.full || '';
+    elBody.textContent = chip.dataset.body || '';
+    elFull.style.display = chip.dataset.full ? 'block' : 'none';
+    popup.style.visibility = 'hidden';
+    popup.classList.add('ped-tip-show');
+    popup.classList.remove('ped-arrow-above', 'ped-arrow-below');
+    const cRect = chip.getBoundingClientRect();
+    const pW = popup.offsetWidth, pH = popup.offsetHeight, gap = 10, margin = 8;
+    let top, arrowClass;
+    if (cRect.top - pH - gap - margin > 0) { top = cRect.top - pH - gap + window.scrollY; arrowClass = 'ped-arrow-above'; }
+    else { top = cRect.bottom + gap + window.scrollY; arrowClass = 'ped-arrow-below'; }
+    let left = cRect.left + cRect.width / 2 - pW / 2;
+    left = Math.max(margin, Math.min(left, window.innerWidth - pW - margin));
+    const arrowX = (cRect.left + cRect.width / 2) - left;
+    popup.style.top = top + 'px'; popup.style.left = left + 'px';
+    popup.style.setProperty('--ped-tip-arrow', Math.max(10, Math.min(arrowX, pW - 10)) + 'px');
+    popup.classList.add(arrowClass);
+    popup.style.visibility = '';
+    chip.classList.add('ped-active-tip');
+    activeTip = chip;
+  }
+  function closeTip() {
+    if (activeTip) { activeTip.classList.remove('ped-active-tip'); activeTip = null; }
+    popup.classList.remove('ped-tip-show', 'ped-arrow-above', 'ped-arrow-below');
+  }
+  document.addEventListener('touchstart', function(e) {
+    const chip = e.target.closest('[data-abbr]');
+    if (chip) { e.stopPropagation(); openTip(chip); return; }
+    if (activeTip && !popup.contains(e.target)) closeTip();
+  }, true);
+  document.addEventListener('click', function(e) {
+    const chip = e.target.closest('[data-abbr]');
+    if (chip) { e.stopPropagation(); openTip(chip); return; }
+    if (activeTip && !popup.contains(e.target)) closeTip();
+  });
+  window.addEventListener('scroll', closeTip, { passive: true });
+
+  // Mobile side switcher
+  window.pedSwitchSide = function(side, btn) {
+    document.querySelectorAll('.ped-side-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.ped-side-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('ped-' + side + '-panel').classList.add('active');
+    closeTip();
+  };
+
+  // Desktop horizontal tree: draw SVG connector lines
+  function drawLines() {
+    const svg = document.getElementById('pedLines');
+    const tree = document.querySelector('.ped-htree');
+    if (!svg || !tree || tree.offsetParent === null) return;
+    const tRect = tree.getBoundingClientRect();
+    svg.setAttribute('width', tree.scrollWidth);
+    svg.setAttribute('height', tree.scrollHeight);
+    svg.innerHTML = '';
+
+    const gens = tree.querySelectorAll('.ped-gen');
+    if (gens.length < 4) return;
+
+    function nodeCenter(node, side) {
+      const r = node.getBoundingClientRect();
+      const y = r.top + r.height / 2 - tRect.top;
+      const x = side === 'right' ? r.right - tRect.left : r.left - tRect.left;
+      return { x, y };
+    }
+
+    function line(x1, y1, x2, y2, color) {
+      const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      l.setAttribute('x1', x1); l.setAttribute('y1', y1);
+      l.setAttribute('x2', x2); l.setAttribute('y2', y2);
+      l.setAttribute('stroke', color);
+      svg.appendChild(l);
+    }
+
+    function connect(parent, children, colorParent, colorChildren) {
+      const p = nodeCenter(parent, 'right');
+      const midX = p.x + 12;
+      // Horizontal from parent
+      line(p.x, p.y, midX, p.y, colorParent);
+      if (children.length === 2) {
+        const c0 = nodeCenter(children[0], 'left');
+        const c1 = nodeCenter(children[1], 'left');
+        // Vertical bar
+        line(midX, c0.y, midX, c1.y, colorParent);
+        // Horizontal to each child
+        line(midX, c0.y, c0.x, c0.y, colorChildren[0] || colorParent);
+        line(midX, c1.y, c1.x, c1.y, colorChildren[1] || colorParent);
+      }
+    }
+
+    const gold = '#c9a96e', blue = '#4a7fb5', pink = '#b54a7f';
+    const g0 = gens[0].querySelectorAll('.ped-hnode');
+    const g1 = gens[1].querySelectorAll('.ped-hnode');
+    const g2 = gens[2].querySelectorAll('.ped-hnode');
+    const g3 = gens[3].querySelectorAll('.ped-hnode');
+
+    // Subject -> Parents
+    if (g0[0] && g1.length >= 2) connect(g0[0], [g1[0], g1[1]], gold, [blue, pink]);
+    // Sire -> Paternal grandparents
+    if (g1[0] && g2.length >= 2) connect(g1[0], [g2[0], g2[1]], blue, [blue, blue]);
+    // Dam -> Maternal grandparents
+    if (g1[1] && g2.length >= 4) connect(g1[1], [g2[2], g2[3]], pink, [pink, pink]);
+    // Paternal grandfather -> GGPs
+    if (g2[0] && g3.length >= 2) connect(g2[0], [g3[0], g3[1]], blue, [blue, blue]);
+    // Paternal grandmother -> GGPs
+    if (g2[1] && g3.length >= 4) connect(g2[1], [g3[2], g3[3]], blue, [blue, blue]);
+    // Maternal grandfather -> GGPs
+    if (g2[2] && g3.length >= 6) connect(g2[2], [g3[4], g3[5]], pink, [pink, pink]);
+    // Maternal grandmother -> GGPs
+    if (g2[3] && g3.length >= 8) connect(g2[3], [g3[6], g3[7]], pink, [pink, pink]);
+  }
+
+  // Draw lines on load and resize
+  function schedDraw() { requestAnimationFrame(drawLines); }
+  window.addEventListener('resize', schedDraw);
+  // Also draw when pedigree tab becomes visible
+  const origTabClick = document.querySelectorAll('.nav-tab');
+  origTabClick.forEach(function(tab) {
+    tab.addEventListener('click', function() { setTimeout(schedDraw, 100); });
+  });
+  // Initial
+  setTimeout(schedDraw, 200);
+})();
+
+// ===== SECTION NAVIGATION =====
+document.querySelectorAll('.nav-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.section).classList.add('active');
+  });
+});
+
+// ===== INIT =====
+</script>
+
+</body>
+</html>
