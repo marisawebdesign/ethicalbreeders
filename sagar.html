@@ -21,25 +21,23 @@ body{background:var(--bg-deep);color:var(--text-primary);font-family:var(--sans)
 
 /* ===== HERO ===== */
 .hero{position:relative;min-height:100vh;display:grid;grid-template-columns:1fr 1fr;
-  align-items:center;background:var(--bg-deep);overflow:hidden}
+  align-items:stretch;background:var(--bg-deep);overflow:hidden}
 
 /* LEFT: text on solid black */
-.hero-content{position:relative;z-index:2;padding:clamp(3rem,6vw,6rem) clamp(2rem,5vw,5rem);
+.hero-content{position:relative;z-index:2;padding:clamp(3rem,6vw,6rem) clamp(2rem,4vw,4rem);
   display:flex;flex-direction:column;justify-content:center}
-.hero-name{font-family:var(--serif);font-size:clamp(2.4rem,5vw,4.8rem);font-weight:300;line-height:1.08;letter-spacing:-.02em;margin-bottom:1.25rem;opacity:0;animation:fadeUp .8s var(--ease) .3s forwards}
+.hero-name{font-family:var(--serif);font-size:clamp(2rem,3.2vw,3.6rem);font-weight:300;line-height:1.08;letter-spacing:-.02em;margin-bottom:1.25rem;white-space:nowrap;opacity:0;animation:fadeUp .8s var(--ease) .3s forwards}
 .hero-name em{font-style:italic;color:var(--gold)}
 .hero-titles{font-family:var(--sans);font-size:clamp(.78rem,1.2vw,1rem);font-weight:600;color:#fff;letter-spacing:.06em;margin-bottom:1.25rem;opacity:0;animation:fadeUp .8s var(--ease) .45s forwards}
 .hero-desc{font-size:clamp(.88rem,1.3vw,1.05rem);font-weight:300;color:var(--text-secondary);line-height:1.75;max-width:580px;opacity:0;animation:fadeUp .8s var(--ease) .6s forwards}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
-/* RIGHT: single reel viewport */
-.hero-reel-wrap{display:flex;align-items:center;justify-content:center;
-  padding:clamp(2rem,4vh,4rem) clamp(1rem,3vw,3rem);height:100%;position:relative}
+/* RIGHT: full-bleed reel panel */
+.hero-reel-wrap{position:relative;height:100%;overflow:hidden;
+  border-left:1px solid rgba(201,169,110,.2)}
 
-/* single 9:16 portrait container */
-.hero-reel{position:relative;width:clamp(200px,18vw,280px);aspect-ratio:9/16;border-radius:14px;
-  overflow:hidden;border:1px solid rgba(201,169,110,.2);
-  box-shadow:0 8px 40px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.04)}
+/* reel container fills the panel */
+.hero-reel{position:relative;width:100%;height:100%}
 
 /* both videos stacked absolutely, crossfade via opacity */
 .hero-reel video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
@@ -48,21 +46,20 @@ body{background:var(--bg-deep);color:var(--text-primary);font-family:var(--sans)
 
 /* static poster image — shown between cycles */
 .hero-reel-poster{position:absolute;inset:0;background-size:cover;background-position:center;
-  opacity:0;transition:opacity .7s ease;z-index:2;pointer-events:none;border-radius:inherit}
+  opacity:0;transition:opacity .7s ease;z-index:2;pointer-events:none}
 .hero-reel.show-poster .hero-reel-poster{opacity:1}
-
-/* subtle gold glow behind the reel */
-.hero-reel-wrap::before{content:'';position:absolute;width:60%;height:50%;top:50%;left:50%;
-  transform:translate(-50%,-50%);background:radial-gradient(ellipse,rgba(201,169,110,.06) 0%,transparent 70%);
-  pointer-events:none}
 
 /* ===== HERO MOBILE ===== */
 @media(max-width:768px){
   .hero{grid-template-columns:1fr;min-height:auto;padding-bottom:0}
-  .hero-content{order:1;padding:clamp(2rem,5vw,3rem) clamp(1.5rem,5vw,2.5rem) clamp(1.5rem,3vw,2rem);text-align:center}
+  .hero-content{order:1;padding:clamp(1.5rem,4vw,2.5rem) clamp(1.5rem,5vw,2.5rem) clamp(1rem,2vw,1.5rem);text-align:center}
   .hero-content .hero-desc{margin-left:auto;margin-right:auto}
-  .hero-reel-wrap{order:0;padding:clamp(1.5rem,4vw,2.5rem) 1rem;height:auto;min-height:0}
-  .hero-reel{width:clamp(180px,50vw,240px)}
+  .hero-name{white-space:normal;font-size:clamp(2rem,7vw,3rem)}
+  .hero-reel-wrap{order:0;height:auto;border-left:none;display:flex;align-items:center;justify-content:center;
+    padding:clamp(1.5rem,4vw,2.5rem) 1rem clamp(.5rem,2vw,1rem)}
+  .hero-reel{width:clamp(180px,50vw,240px);height:auto;aspect-ratio:9/16;border-radius:14px;
+    border:1px solid rgba(201,169,110,.2);box-shadow:0 8px 40px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.04)}
+  .hero-reel-poster{border-radius:inherit}
 }
 @media(max-width:420px){
   .hero-reel{width:clamp(160px,55vw,220px);border-radius:10px}
@@ -75,7 +72,10 @@ body{background:var(--bg-deep);color:var(--text-primary);font-family:var(--sans)
 .nav-tab{padding:1rem 1.5rem;font-size:.72rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--text-muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .3s var(--ease);white-space:nowrap;position:relative}
 .nav-tab:hover{color:var(--text-secondary)}
 .nav-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
-@media(max-width:768px){.nav-tab{padding:.85rem 1rem;font-size:.65rem;letter-spacing:.14em}}
+@media(max-width:768px){
+  .category-nav{overflow-x:hidden}
+  .nav-tab{padding:.7rem .35rem;font-size:.56rem;letter-spacing:.06em;flex:1;text-align:center;min-width:0;white-space:normal;line-height:1.3}
+}
 
 /* ===== SECTIONS ===== */
 .section{display:none;padding:clamp(3rem,6vw,6rem) clamp(1.5rem,5vw,6rem);max-width:1200px;margin:0 auto;min-height:60vh}
@@ -694,7 +694,7 @@ body{background:var(--bg-deep);color:var(--text-primary);font-family:var(--sans)
             <span class="ped-title-chip" data-abbr="IGP3" data-full="Internationale Gebrauchshund Prüfung, Level 3" data-body="The highest level international working dog title. Tests tracking, obedience, and protection to elite standard.">IGP3</span>
             <span class="ped-title-chip" data-abbr="KKL" data-full="Körklasse" data-body="Breed survey classification. Evaluated for conformation, character, and working ability and approved for breeding.">KKL</span>
             <span class="ped-title-chip" data-abbr="Ang*" data-full="Angekört (Lifetime)" data-body="Approved and recommended for breeding. Lifetime designation.">Ang*</span>
-            <span class="ped-title-chip" data-abbr="FO" data-full="Fährtenhund" data-body="Tracking dog title. Tests ability to follow an aged scent trail and indicate dropped articles.">FO</span>
+            <span class="ped-title-chip" data-abbr="FO" data-full="Family Obedience" data-body="Family obedience title demonstrating the dog's ability to behave reliably in everyday family and public settings.">FO</span>
             <span class="ped-title-chip" data-abbr="BH/VT" data-full="Begleithundprüfung / Verkehrssicherheitstest" data-body="Companion dog and traffic safety test. Confirms stable, social temperament.">BH/VT</span>
             <span class="ped-title-chip" data-abbr="AD" data-full="Ausdauerprüfung" data-body="Endurance test: 20 km run alongside a bicycle. Confirms physical fitness.">AD</span>
           </div>
@@ -818,7 +818,7 @@ body{background:var(--bg-deep);color:var(--text-primary);font-family:var(--sans)
             <span class="ped-title-chip" data-abbr="IGP3" data-full="Internationale Gebrauchshund Prüfung, Level 3" data-body="The highest level international working dog title. Tests tracking, obedience, and protection to elite standard.">IGP3</span>
             <span class="ped-title-chip" data-abbr="KKL" data-full="Körklasse" data-body="Breed survey classification. Evaluated for conformation, character, and working ability.">KKL</span>
             <span class="ped-title-chip" data-abbr="Ang*" data-full="Angekört (Lifetime)" data-body="Approved and recommended for breeding. Lifetime designation.">Ang*</span>
-            <span class="ped-title-chip" data-abbr="FO" data-full="Fährtenhund" data-body="Tracking dog title.">FO</span>
+            <span class="ped-title-chip" data-abbr="FO" data-full="Family Obedience" data-body="Family obedience title demonstrating reliable behavior in everyday settings.">FO</span>
             <span class="ped-title-chip" data-abbr="BH/VT" data-full="Begleithundprüfung / Verkehrssicherheitstest" data-body="Companion dog and traffic safety test.">BH/VT</span>
             <span class="ped-title-chip" data-abbr="AD" data-full="Ausdauerprüfung" data-body="Endurance test: 20 km run alongside a bicycle.">AD</span>
           </div>
@@ -921,9 +921,9 @@ body{background:var(--bg-deep);color:var(--text-primary);font-family:var(--sans)
     </div>
     <div class="title-row" onclick="this.classList.toggle('expanded')">
       <span class="title-abbr">FO</span>
-      <span class="title-full">Fährtenhund Prüfung (Tracking)</span>
-      <span class="title-explain">Tracking specialist</span>
-      <div class="title-expand">FO is a dedicated tracking title demonstrating the dog's ability to follow scent trails over varying terrain and conditions. It showcases strong nose work independent of the obedience/protection phases.</div>
+      <span class="title-full">Family Obedience</span>
+      <span class="title-explain">Obedience title</span>
+      <div class="title-expand">FO (Family Obedience) demonstrates the dog's ability to behave reliably and calmly in everyday family and public settings. It tests obedience in real-world scenarios — around people, other dogs, and distractions — confirming the dog is well-mannered and trustworthy as a family companion.</div>
     </div>
     <div class="title-row" onclick="this.classList.toggle('expanded')">
       <span class="title-abbr">BH/VT</span>
@@ -1161,7 +1161,7 @@ function downloadPedigreePDF() {
   }
   document.addEventListener('touchstart', function(e) {
     const chip = e.target.closest('[data-abbr]');
-    if (chip) { e.stopPropagation(); openTip(chip); return; }
+    if (chip) { e.preventDefault(); e.stopPropagation(); openTip(chip); return; }
     if (activeTip && !popup.contains(e.target)) closeTip();
   }, true);
   document.addEventListener('click', function(e) {
