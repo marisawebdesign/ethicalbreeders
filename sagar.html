@@ -32,27 +32,27 @@ body{background:var(--bg-deep);color:var(--text-primary);font-family:var(--sans)
 .hero-desc{font-size:clamp(.88rem,1.3vw,1.05rem);font-weight:300;color:var(--text-secondary);line-height:1.75;max-width:580px;opacity:0;animation:fadeUp .8s var(--ease) .6s forwards}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
-/* RIGHT: reel video panel */
-.hero-reels{display:flex;gap:clamp(.75rem,1.5vw,1.25rem);align-items:center;justify-content:center;
+/* RIGHT: single reel viewport */
+.hero-reel-wrap{display:flex;align-items:center;justify-content:center;
   padding:clamp(2rem,4vh,4rem) clamp(1rem,3vw,3rem);height:100%;position:relative}
 
-/* individual reel container — 9:16 portrait */
-.hero-reel{position:relative;width:clamp(140px,14vw,210px);aspect-ratio:9/16;border-radius:14px;
+/* single 9:16 portrait container */
+.hero-reel{position:relative;width:clamp(200px,18vw,280px);aspect-ratio:9/16;border-radius:14px;
   overflow:hidden;border:1px solid rgba(201,169,110,.2);
-  box-shadow:0 8px 40px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.04);flex-shrink:0}
-.hero-reel:first-child{transform:translateY(clamp(1rem,3vh,2.5rem))}
-.hero-reel:last-child{transform:translateY(calc(-1 * clamp(1rem,3vh,2.5rem)))}
+  box-shadow:0 8px 40px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.04)}
 
-.hero-reel video{width:100%;height:100%;object-fit:cover;display:block}
+/* both videos stacked absolutely, crossfade via opacity */
+.hero-reel video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transition:opacity .6s ease;z-index:1}
+.hero-reel video.reel-active{opacity:1}
 
-/* poster overlay — fades in between loop iterations */
+/* static poster image — shown between cycles */
 .hero-reel-poster{position:absolute;inset:0;background-size:cover;background-position:center;
   opacity:0;transition:opacity .7s ease;z-index:2;pointer-events:none;border-radius:inherit}
 .hero-reel.show-poster .hero-reel-poster{opacity:1}
-.hero-reel.vid-error .hero-reel-poster{opacity:1;transition:none}
 
-/* subtle gold glow behind the reels cluster */
-.hero-reels::before{content:'';position:absolute;width:55%;height:55%;top:50%;left:50%;
+/* subtle gold glow behind the reel */
+.hero-reel-wrap::before{content:'';position:absolute;width:60%;height:50%;top:50%;left:50%;
   transform:translate(-50%,-50%);background:radial-gradient(ellipse,rgba(201,169,110,.06) 0%,transparent 70%);
   pointer-events:none}
 
@@ -61,13 +61,11 @@ body{background:var(--bg-deep);color:var(--text-primary);font-family:var(--sans)
   .hero{grid-template-columns:1fr;min-height:auto;padding-bottom:0}
   .hero-content{order:1;padding:clamp(2rem,5vw,3rem) clamp(1.5rem,5vw,2.5rem) clamp(1.5rem,3vw,2rem);text-align:center}
   .hero-content .hero-desc{margin-left:auto;margin-right:auto}
-  .hero-reels{order:0;padding:clamp(1.5rem,4vw,2.5rem) 1rem;justify-content:center;height:auto;min-height:0}
-  .hero-reel{width:clamp(120px,32vw,160px)}
-  .hero-reel:first-child{transform:translateY(.75rem)}
-  .hero-reel:last-child{transform:translateY(-.75rem)}
+  .hero-reel-wrap{order:0;padding:clamp(1.5rem,4vw,2.5rem) 1rem;height:auto;min-height:0}
+  .hero-reel{width:clamp(180px,50vw,240px)}
 }
 @media(max-width:420px){
-  .hero-reel{width:clamp(100px,38vw,140px);border-radius:10px}
+  .hero-reel{width:clamp(160px,55vw,220px);border-radius:10px}
 }
 
 /* ===== CATEGORY NAV ===== */
@@ -456,18 +454,11 @@ body{background:var(--bg-deep);color:var(--text-primary);font-family:var(--sans)
     <div class="hero-titles">FO, BH/VT, AD, IGP1, IGP2, IGP3, KKL, Ang*</div>
     <p class="hero-desc">Sagi displays high handler engagement and is a breeze to work as he is always so eager and willing. He has high ball drive, lives with other dogs in the home and enjoys doing anything that is asked of by the handler. He displays hard grips in protection along with strong courage. We are so thankful to add this exceptional, powerful, and fun loving male to our program. Sagi is owned by WoodWolf Kennels.</p>
   </div>
-  <!-- RIGHT: reel clips in portrait containers -->
-  <div class="hero-reels">
-    <div class="hero-reel">
-      <video class="hero-reel-video" src="1.mp4"
-        poster="https://static.wixstatic.com/media/e2b819_8d01e7615ddb46e7b9a20e402687568d~mv2.jpg/v1/fill/w_400,h_712,al_c,q_80/DSC_0211.jpg"
-        autoplay muted playsinline preload="auto" aria-hidden="true"></video>
-      <div class="hero-reel-poster" style="background-image:url('https://static.wixstatic.com/media/e2b819_8d01e7615ddb46e7b9a20e402687568d~mv2.jpg/v1/fill/w_400,h_712,al_c,q_80/DSC_0211.jpg')"></div>
-    </div>
-    <div class="hero-reel">
-      <video class="hero-reel-video" src="2.mp4"
-        poster="https://static.wixstatic.com/media/e2b819_8d01e7615ddb46e7b9a20e402687568d~mv2.jpg/v1/fill/w_400,h_712,al_c,q_80/DSC_0211.jpg"
-        autoplay muted playsinline preload="auto" aria-hidden="true"></video>
+  <!-- RIGHT: single reel viewport, sequential playback -->
+  <div class="hero-reel-wrap">
+    <div class="hero-reel" id="heroReel">
+      <video class="hero-reel-video reel-active" src="1.mp4" muted playsinline preload="auto" aria-hidden="true"></video>
+      <video class="hero-reel-video" src="2.mp4" muted playsinline preload="metadata" aria-hidden="true"></video>
       <div class="hero-reel-poster" style="background-image:url('https://static.wixstatic.com/media/e2b819_8d01e7615ddb46e7b9a20e402687568d~mv2.jpg/v1/fill/w_400,h_712,al_c,q_80/DSC_0211.jpg')"></div>
     </div>
   </div>
@@ -1277,22 +1268,39 @@ document.querySelectorAll('.nav-tab').forEach(tab => {
   });
 });
 
-// ===== HERO VIDEO LOOP (end on static image) =====
+// ===== HERO REEL: sequential 1 → 2 → static image → loop =====
 (function(){
-  var PAUSE=1400;
-  document.querySelectorAll('.hero-reel').forEach(function(reel){
-    var v=reel.querySelector('video');
-    if(!v) return;
-    v.addEventListener('error',function(){reel.classList.add('vid-error');});
+  var reel=document.getElementById('heroReel');
+  if(!reel) return;
+  var clips=Array.prototype.slice.call(reel.querySelectorAll('video'));
+  var HOLD=2000; // ms to hold the static image before looping
+  var idx=0;
+
+  function playClip(i){
+    idx=i;
+    // hide poster, swap active class
+    reel.classList.remove('show-poster');
+    clips.forEach(function(v,j){
+      if(j===i){v.classList.add('reel-active');v.currentTime=0;v.play().catch(function(){});}
+      else{v.classList.remove('reel-active');v.pause();}
+    });
+  }
+
+  clips.forEach(function(v,i){
     v.addEventListener('ended',function(){
-      reel.classList.add('show-poster');
-      setTimeout(function(){
-        v.currentTime=0;
-        v.play().catch(function(){reel.classList.add('vid-error');});
-        reel.classList.remove('show-poster');
-      },PAUSE);
+      if(i<clips.length-1){
+        // next clip
+        playClip(i+1);
+      } else {
+        // last clip ended → fade to static image, then loop back to clip 1
+        reel.classList.add('show-poster');
+        setTimeout(function(){playClip(0);},HOLD);
+      }
     });
   });
+
+  // kick off clip 1 on load
+  playClip(0);
 })();
 
 // ===== INIT =====
