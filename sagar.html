@@ -20,52 +20,54 @@ body{background:var(--bg-deep);color:var(--text-primary);font-family:var(--sans)
 ::selection{background:var(--gold);color:var(--bg-deep)}
 
 /* ===== HERO ===== */
-.hero{position:relative;height:100vh;min-height:600px;display:flex;align-items:flex-end;overflow:hidden}
+.hero{position:relative;min-height:100vh;display:grid;grid-template-columns:1fr 1fr;
+  align-items:center;background:var(--bg-deep);overflow:hidden}
 
-/* video collage grid */
-.hero-grid{position:absolute;inset:0;display:grid;grid-template-columns:3fr 2fr}
-.hero-clip{position:relative;overflow:hidden}
-
-/* thin gold vertical accent between panels */
-.hero-clip--secondary::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;
-  background:linear-gradient(to bottom,transparent 4%,rgba(201,169,110,.5) 22%,rgba(201,169,110,.5) 78%,transparent 96%);
-  z-index:6;pointer-events:none}
-
-/* video fills its cell */
-.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-  filter:grayscale(40%) brightness(.82) contrast(1.06);
-  animation:heroZoom 22s ease-in-out infinite alternate;will-change:transform}
-
-/* secondary panel breathes opposite — phase offset creates depth */
-.hero-clip--secondary .hero-video{animation-delay:-11s;animation-direction:alternate-reverse}
-
-@keyframes heroZoom{from{transform:scale(1)}to{transform:scale(1.06)}}
-
-/* poster overlay — fades in between loop iterations */
-.hero-clip-poster{position:absolute;inset:0;background-size:cover;background-position:center 20%;
-  opacity:0;transition:opacity .75s ease;z-index:2;pointer-events:none;
-  filter:grayscale(40%) brightness(.82) contrast(1.06)}
-.hero-clip.show-poster .hero-clip-poster{opacity:1}
-
-/* error fallback: video failed to load → show poster permanently */
-.hero-clip.vid-error .hero-clip-poster{opacity:1;transition:none}
-
-/* full-bleed gradient for text legibility */
-.hero-gradient{position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(7,7,7,0) 0%,rgba(7,7,7,.22) 38%,rgba(7,7,7,.88) 80%,var(--bg-deep) 100%);
-  z-index:3;pointer-events:none}
-
-.hero-content{position:relative;z-index:4;padding:0 clamp(1.5rem,5vw,6rem) clamp(3rem,8vh,6rem);max-width:1400px;width:100%}
-.hero-name{font-family:var(--serif);font-size:clamp(2.8rem,7vw,6rem);font-weight:300;line-height:1.05;letter-spacing:-.02em;margin-bottom:1.25rem;opacity:0;animation:fadeUp .8s var(--ease) .3s forwards}
+/* LEFT: text on solid black */
+.hero-content{position:relative;z-index:2;padding:clamp(3rem,6vw,6rem) clamp(2rem,5vw,5rem);
+  display:flex;flex-direction:column;justify-content:center}
+.hero-name{font-family:var(--serif);font-size:clamp(2.4rem,5vw,4.8rem);font-weight:300;line-height:1.08;letter-spacing:-.02em;margin-bottom:1.25rem;opacity:0;animation:fadeUp .8s var(--ease) .3s forwards}
 .hero-name em{font-style:italic;color:var(--gold)}
-.hero-titles{font-family:var(--sans);font-size:clamp(.85rem,1.5vw,1.05rem);font-weight:600;color:#fff;letter-spacing:.06em;margin-bottom:1.25rem;opacity:0;animation:fadeUp .8s var(--ease) .45s forwards}
-.hero-desc{font-size:clamp(.9rem,1.6vw,1.1rem);font-weight:300;color:var(--text-secondary);line-height:1.75;max-width:720px;opacity:0;animation:fadeUp .8s var(--ease) .6s forwards}
+.hero-titles{font-family:var(--sans);font-size:clamp(.78rem,1.2vw,1rem);font-weight:600;color:#fff;letter-spacing:.06em;margin-bottom:1.25rem;opacity:0;animation:fadeUp .8s var(--ease) .45s forwards}
+.hero-desc{font-size:clamp(.88rem,1.3vw,1.05rem);font-weight:300;color:var(--text-secondary);line-height:1.75;max-width:580px;opacity:0;animation:fadeUp .8s var(--ease) .6s forwards}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
-/* mobile: single full-width clip */
+/* RIGHT: reel video panel */
+.hero-reels{display:flex;gap:clamp(.75rem,1.5vw,1.25rem);align-items:center;justify-content:center;
+  padding:clamp(2rem,4vh,4rem) clamp(1rem,3vw,3rem);height:100%;position:relative}
+
+/* individual reel container — 9:16 portrait */
+.hero-reel{position:relative;width:clamp(140px,14vw,210px);aspect-ratio:9/16;border-radius:14px;
+  overflow:hidden;border:1px solid rgba(201,169,110,.2);
+  box-shadow:0 8px 40px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.04);flex-shrink:0}
+.hero-reel:first-child{transform:translateY(clamp(1rem,3vh,2.5rem))}
+.hero-reel:last-child{transform:translateY(calc(-1 * clamp(1rem,3vh,2.5rem)))}
+
+.hero-reel video{width:100%;height:100%;object-fit:cover;display:block}
+
+/* poster overlay — fades in between loop iterations */
+.hero-reel-poster{position:absolute;inset:0;background-size:cover;background-position:center;
+  opacity:0;transition:opacity .7s ease;z-index:2;pointer-events:none;border-radius:inherit}
+.hero-reel.show-poster .hero-reel-poster{opacity:1}
+.hero-reel.vid-error .hero-reel-poster{opacity:1;transition:none}
+
+/* subtle gold glow behind the reels cluster */
+.hero-reels::before{content:'';position:absolute;width:55%;height:55%;top:50%;left:50%;
+  transform:translate(-50%,-50%);background:radial-gradient(ellipse,rgba(201,169,110,.06) 0%,transparent 70%);
+  pointer-events:none}
+
+/* ===== HERO MOBILE ===== */
 @media(max-width:768px){
-  .hero-grid{grid-template-columns:1fr}
-  .hero-clip--secondary{display:none}
+  .hero{grid-template-columns:1fr;min-height:auto;padding-bottom:0}
+  .hero-content{order:1;padding:clamp(2rem,5vw,3rem) clamp(1.5rem,5vw,2.5rem) clamp(1.5rem,3vw,2rem);text-align:center}
+  .hero-content .hero-desc{margin-left:auto;margin-right:auto}
+  .hero-reels{order:0;padding:clamp(1.5rem,4vw,2.5rem) 1rem;justify-content:center;height:auto;min-height:0}
+  .hero-reel{width:clamp(120px,32vw,160px)}
+  .hero-reel:first-child{transform:translateY(.75rem)}
+  .hero-reel:last-child{transform:translateY(-.75rem)}
+}
+@media(max-width:420px){
+  .hero-reel{width:clamp(100px,38vw,140px);border-radius:10px}
 }
 
 /* ===== CATEGORY NAV ===== */
@@ -448,28 +450,26 @@ body{background:var(--bg-deep);color:var(--text-primary);font-family:var(--sans)
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-grid" id="heroGrid">
-    <!-- Primary clip: left panel (60%) -->
-    <div class="hero-clip hero-clip--primary">
-      <video class="hero-video" src="1.mp4"
-        poster="https://static.wixstatic.com/media/e2b819_8d01e7615ddb46e7b9a20e402687568d~mv2.jpg/v1/fill/w_1920,h_1080,al_c,q_90/DSC_0211.jpg"
-        autoplay muted playsinline preload="auto" aria-hidden="true"></video>
-      <div class="hero-clip-poster" style="background-image:url('https://static.wixstatic.com/media/e2b819_8d01e7615ddb46e7b9a20e402687568d~mv2.jpg/v1/fill/w_1920,h_1080,al_c,q_90/DSC_0211.jpg')"></div>
-    </div>
-    <!-- Secondary clip: right panel (40%) -->
-    <div class="hero-clip hero-clip--secondary">
-      <video class="hero-video" src="2.mp4"
-        poster="https://static.wixstatic.com/media/e2b819_8d01e7615ddb46e7b9a20e402687568d~mv2.jpg/v1/fill/w_800,h_1080,al_c,q_80/DSC_0211.jpg"
-        autoplay muted playsinline preload="auto" aria-hidden="true"></video>
-      <div class="hero-clip-poster" style="background-image:url('https://static.wixstatic.com/media/e2b819_8d01e7615ddb46e7b9a20e402687568d~mv2.jpg/v1/fill/w_800,h_1080,al_c,q_80/DSC_0211.jpg')"></div>
-    </div>
-  </div>
-  <!-- Full-bleed gradient for text readability -->
-  <div class="hero-gradient"></div>
+  <!-- LEFT: text on black -->
   <div class="hero-content">
     <h1 class="hero-name">Sagar Faustus Moravia <em>"Sagi"</em></h1>
     <div class="hero-titles">FO, BH/VT, AD, IGP1, IGP2, IGP3, KKL, Ang*</div>
     <p class="hero-desc">Sagi displays high handler engagement and is a breeze to work as he is always so eager and willing. He has high ball drive, lives with other dogs in the home and enjoys doing anything that is asked of by the handler. He displays hard grips in protection along with strong courage. We are so thankful to add this exceptional, powerful, and fun loving male to our program. Sagi is owned by WoodWolf Kennels.</p>
+  </div>
+  <!-- RIGHT: reel clips in portrait containers -->
+  <div class="hero-reels">
+    <div class="hero-reel">
+      <video class="hero-reel-video" src="1.mp4"
+        poster="https://static.wixstatic.com/media/e2b819_8d01e7615ddb46e7b9a20e402687568d~mv2.jpg/v1/fill/w_400,h_712,al_c,q_80/DSC_0211.jpg"
+        autoplay muted playsinline preload="auto" aria-hidden="true"></video>
+      <div class="hero-reel-poster" style="background-image:url('https://static.wixstatic.com/media/e2b819_8d01e7615ddb46e7b9a20e402687568d~mv2.jpg/v1/fill/w_400,h_712,al_c,q_80/DSC_0211.jpg')"></div>
+    </div>
+    <div class="hero-reel">
+      <video class="hero-reel-video" src="2.mp4"
+        poster="https://static.wixstatic.com/media/e2b819_8d01e7615ddb46e7b9a20e402687568d~mv2.jpg/v1/fill/w_400,h_712,al_c,q_80/DSC_0211.jpg"
+        autoplay muted playsinline preload="auto" aria-hidden="true"></video>
+      <div class="hero-reel-poster" style="background-image:url('https://static.wixstatic.com/media/e2b819_8d01e7615ddb46e7b9a20e402687568d~mv2.jpg/v1/fill/w_400,h_712,al_c,q_80/DSC_0211.jpg')"></div>
+    </div>
   </div>
 </section>
 
@@ -1277,22 +1277,20 @@ document.querySelectorAll('.nav-tab').forEach(tab => {
   });
 });
 
-// ===== HERO VIDEO LOOP (ends on static image) =====
+// ===== HERO VIDEO LOOP (end on static image) =====
 (function(){
-  var POSTER='https://static.wixstatic.com/media/e2b819_8d01e7615ddb46e7b9a20e402687568d~mv2.jpg/v1/fill/w_1920,h_1080,al_c,q_90/DSC_0211.jpg';
-  var PAUSE_MS=1400; // ms to hold the static image between loop iterations
-  document.querySelectorAll('.hero-video').forEach(function(v){
-    var clip=v.closest('.hero-clip');
-    // If video fails to load, reveal poster permanently
-    v.addEventListener('error',function(){clip.classList.add('vid-error');});
-    // On each natural end: flash static image then restart
+  var PAUSE=1400;
+  document.querySelectorAll('.hero-reel').forEach(function(reel){
+    var v=reel.querySelector('video');
+    if(!v) return;
+    v.addEventListener('error',function(){reel.classList.add('vid-error');});
     v.addEventListener('ended',function(){
-      clip.classList.add('show-poster');
+      reel.classList.add('show-poster');
       setTimeout(function(){
         v.currentTime=0;
-        v.play().catch(function(){clip.classList.add('vid-error');});
-        clip.classList.remove('show-poster');
-      },PAUSE_MS);
+        v.play().catch(function(){reel.classList.add('vid-error');});
+        reel.classList.remove('show-poster');
+      },PAUSE);
     });
   });
 })();
