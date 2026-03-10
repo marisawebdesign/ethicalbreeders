@@ -523,28 +523,28 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
      Bottom aligned with gait image bottom area. */
   .hero-cutout--sitting {
     display: block;
-    width: clamp(360px, 85vw, 520px);
+    width: clamp(550px, 140vw, 800px);
     height: auto;
-    left: -18%;
+    left: -45%;
     top: auto;
     bottom: 20%;
     max-height: none;
     z-index: 1;
-    opacity: .5;
+    opacity: .45;
     filter:
       drop-shadow(0 2px 6px rgba(0,0,0,.65))
       drop-shadow(0 0 1px rgba(0,0,0,.5))
-      brightness(.75)
+      brightness(.72)
       saturate(.85);
   }
 
   /* Heeling (handler + dog) — bottom-right, behind gait but in front of sitting.
-     Takes up vertical space on the right side of the composition. */
+     Full girl + dog visible, tall vertical presence on the right. */
   .hero-cutout--heeling {
     display: block;
-    width: clamp(280px, 62vw, 420px);
+    width: clamp(420px, 105vw, 620px);
     height: auto;
-    right: -5%;
+    right: -38%;
     top: auto;
     bottom: 18%;
     max-height: none;
@@ -610,14 +610,14 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   }
 
   .hero-cutout--sitting {
-    width: clamp(320px, 82vw, 460px);
-    left: -20%;
+    width: clamp(500px, 135vw, 720px);
+    left: -48%;
     bottom: 22%;
   }
 
   .hero-cutout--heeling {
-    width: clamp(250px, 58vw, 380px);
-    right: -8%;
+    width: clamp(380px, 100vw, 560px);
+    right: -40%;
     bottom: 20%;
   }
 
