@@ -29,9 +29,6 @@ body{background:var(--bg-deep);color:var(--text-primary);font-family:var(--sans)
 .hero-content::after{content:'';position:absolute;right:0;top:12%;bottom:12%;width:1px;
   background:linear-gradient(180deg,transparent,rgba(201,169,110,.35) 25%,rgba(201,169,110,.35) 75%,transparent)}
 
-/* Kennel branding — small label */
-.hero-kennel{font-family:var(--sans);font-size:.72rem;font-weight:600;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:2.5rem;opacity:0;animation:fadeUp .7s var(--ease) .2s forwards}
-
 /* Dog name — THE focal point — MUCH LARGER */
 .hero-name{font-family:var(--serif);font-size:clamp(3.5rem,7vw,6.8rem);font-weight:300;line-height:.98;letter-spacing:-.03em;margin-bottom:.6rem;opacity:0;animation:fadeUp .8s var(--ease) .35s forwards}
 .hero-name em{font-style:italic;color:var(--gold)}
@@ -63,20 +60,23 @@ body{background:var(--bg-deep);color:var(--text-primary);font-family:var(--sans)
   opacity:0;transition:opacity .5s ease}
 .hero-media video.vid-active{opacity:1}
 
-/* Play button — large round golden circle, centered */
-.hero-play-btn{position:absolute;z-index:4;top:50%;left:50%;transform:translate(-50%,-50%);
-  width:clamp(72px,8vw,96px);height:clamp(72px,8vw,96px);border-radius:50%;
+/* Health line under titles */
+.hero-health-line{font-family:var(--mono);font-size:clamp(.7rem,1.1vw,.88rem);font-weight:400;color:var(--gold);letter-spacing:.06em;margin-bottom:2rem;opacity:0;animation:fadeUp .8s var(--ease) .55s forwards}
+
+/* Play button — golden circle, bottom-right corner */
+.hero-play-btn{position:absolute;z-index:4;bottom:20px;right:20px;
+  width:clamp(52px,5vw,64px);height:clamp(52px,5vw,64px);border-radius:50%;
   background:rgba(201,169,110,.15);backdrop-filter:blur(12px);border:2px solid var(--gold);
   cursor:pointer;transition:all .4s var(--ease);opacity:0;animation:fadeUp .7s var(--ease) 1.6s forwards;
   display:flex;align-items:center;justify-content:center}
-.hero-play-btn:hover{background:var(--gold);transform:translate(-50%,-50%) scale(1.08);
+.hero-play-btn:hover{background:var(--gold);transform:scale(1.08);
   box-shadow:0 0 40px rgba(201,169,110,.3)}
 .hero-play-btn.hidden{pointer-events:none;opacity:0!important;transition:opacity .4s ease}
 .play-btn-icon{width:0;height:0;border:none;border-radius:0;
-  border-top:clamp(12px,1.5vw,16px) solid transparent;
-  border-bottom:clamp(12px,1.5vw,16px) solid transparent;
-  border-left:clamp(20px,2.5vw,28px) solid var(--gold);
-  margin-left:clamp(4px,.5vw,6px);transition:border-color .3s}
+  border-top:clamp(8px,1vw,12px) solid transparent;
+  border-bottom:clamp(8px,1vw,12px) solid transparent;
+  border-left:clamp(14px,1.8vw,20px) solid var(--gold);
+  margin-left:clamp(3px,.4vw,5px);transition:border-color .3s}
 .hero-play-btn:hover .play-btn-icon{border-left-color:var(--bg-deep)}
 
 /* Subtle dark gradient at bottom of media panel for depth */
@@ -109,12 +109,12 @@ body{background:var(--bg-deep);color:var(--text-primary);font-family:var(--sans)
   .hero-content::after{display:none}
   .hero-desc{margin:0 auto}
   .hero-badges{justify-content:center}
-  .hero-media{order:0;height:clamp(280px,55vw,400px)}
-  .hero-play-btn{width:60px;height:60px}
-  .play-btn-icon{border-top-width:10px;border-bottom-width:10px;border-left-width:17px;margin-left:4px}
+  .hero-media{order:0;height:auto;aspect-ratio:16/9;max-height:50vh}
+  .hero-play-btn{width:44px;height:44px;bottom:12px;right:12px}
+  .play-btn-icon{border-top-width:8px;border-bottom-width:8px;border-left-width:14px;margin-left:3px}
 }
 @media(max-width:480px){
-  .hero-media{height:clamp(240px,60vw,320px)}
+  .hero-media{max-height:45vh}
 }
 
 /* ===== SECTIONS ===== */
@@ -128,8 +128,10 @@ body{background:var(--bg-deep);color:var(--text-primary);font-family:var(--sans)
 
 /* ===== TEMPERAMENT SECTION ===== */
 .temperament-prose{margin-bottom:2.5rem}
-.temp-lead{font-family:var(--serif);font-size:clamp(1.15rem,2.2vw,1.5rem);font-weight:400;line-height:1.65;color:var(--text-primary);margin-bottom:1.5rem}
-.temp-body{font-size:clamp(.9rem,1.4vw,1.05rem);font-weight:300;color:var(--text-secondary);line-height:1.75;margin-bottom:1.25rem}
+.temp-lead{font-size:clamp(1rem,1.6vw,1.15rem);font-weight:300;line-height:1.75;color:var(--text-primary);margin-bottom:1.5rem}
+.temp-body{font-size:clamp(1rem,1.6vw,1.15rem);font-weight:300;color:var(--text-primary);line-height:1.75;margin-bottom:1.25rem}
+/* Hide temperament header on desktop */
+@media(min-width:901px){#temperament .section-header{display:none}}
 .temp-body:last-child{margin-bottom:0}
 .temp-certifications{margin-bottom:3rem;padding:1.5rem 0;border-top:1px solid var(--border-subtle)}
 .temp-cert-label{font-size:.6rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1.25rem}
@@ -141,14 +143,37 @@ body{background:var(--bg-deep);color:var(--text-primary);font-family:var(--sans)
   .temp-cert{flex-direction:column;gap:.25rem}
   .temp-cert-abbr{min-width:auto}
 }
-.video-placeholder{margin-top:3rem;aspect-ratio:16/9;background:var(--bg-card);border:1px solid var(--border-subtle);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;overflow:hidden;transition:all .4s var(--ease)}
-.video-placeholder:hover{border-color:var(--border-hover)}
-.video-placeholder .play-icon{width:64px;height:64px;border:2px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .3s var(--ease)}
-.video-placeholder:hover .play-icon{background:var(--gold);transform:scale(1.05)}
-.video-placeholder .play-icon::after{content:'';border:8px solid transparent;border-left:14px solid var(--gold);margin-left:4px;transition:border-color .3s}
-.video-placeholder:hover .play-icon::after{border-left-color:var(--bg-deep)}
+/* ===== VIDEO CAROUSEL ===== */
+.video-carousel{position:relative;margin-top:2.5rem;overflow:hidden}
+.vc-track{display:flex;gap:12px;overflow-x:auto;scroll-behavior:smooth;scrollbar-width:none;padding:8px 0}
+.vc-track::-webkit-scrollbar{display:none}
+.vc-slide{flex:0 0 220px;cursor:pointer;transition:transform .3s var(--ease)}
+.vc-slide:hover{transform:translateY(-3px)}
+.vc-thumb{aspect-ratio:16/9;background:var(--bg-card);border:1px solid var(--border-subtle);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;transition:border-color .3s}
+.vc-slide:hover .vc-thumb{border-color:var(--gold)}
+.vc-thumb-play{font-size:1.8rem;color:var(--gold);width:48px;height:48px;border:2px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .3s;line-height:1}
+.vc-slide:hover .vc-thumb-play{background:var(--gold);color:var(--bg-deep)}
+.vc-thumb-label{position:absolute;bottom:8px;left:8px;font-size:.65rem;font-weight:500;letter-spacing:.06em;color:var(--text-secondary);text-transform:uppercase}
+.vc-arrow{position:absolute;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;background:rgba(7,7,7,.8);border:1px solid var(--border-subtle);color:var(--text-primary);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;transition:all .2s}
+.vc-arrow:hover{background:var(--gold);color:var(--bg-deep);border-color:var(--gold)}
+.vc-prev{left:8px}.vc-next{right:8px}
+.vc-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:9999;align-items:center;justify-content:center}
+.vc-modal.active{display:flex}
+.vc-modal-inner{position:relative;width:90%;max-width:900px;aspect-ratio:16/9;background:#000}
+.vc-modal-inner video{width:100%;height:100%;object-fit:contain}
+.vc-modal-close{position:absolute;top:-36px;right:0;background:none;border:none;color:#fff;font-size:2rem;cursor:pointer;padding:4px 8px;transition:color .2s}
+.vc-modal-close:hover{color:var(--gold)}
+@media(max-width:600px){
+  .vc-slide{flex:0 0 160px}
+  .vc-thumb-play{width:36px;height:36px;font-size:1.3rem}
+  .vc-modal-inner{width:95%}
+}
 
 /* ===== HEALTH SECTION ===== */
+/* Desktop: hide header + intro */
+@media(min-width:901px){.health-header{display:none}.health-intro{display:none}}
+/* Mobile: hide intro text */
+@media(max-width:900px){.health-intro{display:none}}
 .health-intro{font-size:clamp(.9rem,1.4vw,1.05rem);font-weight:300;color:var(--text-secondary);line-height:1.75;margin-bottom:2.5rem;max-width:720px}
 .health-table-wrap{margin-bottom:3rem}
 .health-table{width:100%;border-collapse:collapse}
@@ -192,6 +217,10 @@ body{background:var(--bg-deep);color:var(--text-primary);font-family:var(--sans)
 .ethical-resources .action-btn{font-size:.65rem}
 
 /* ===== PEDIGREE ===== */
+/* Pedigree photo placeholders - desktop */
+.ped-hnode-photo{width:100%;aspect-ratio:16/9;background:#d8d8d8;margin-bottom:8px;display:block;overflow:hidden}
+.ped-hnode-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.ped-hroot .ped-hnode-photo{aspect-ratio:16/7}
 .ped-desktop{display:block}
 .ped-mobile{display:none}
 @media(max-width:900px){.ped-desktop{display:none}.ped-mobile{display:block}}
@@ -288,6 +317,12 @@ body{background:var(--bg-deep);color:var(--text-primary);font-family:var(--sans)
 .action-btn svg{width:14px;height:14px}
 
 /* ===== TITLES SECTION ===== */
+/* Desktop: hide entire titles header */
+@media(min-width:901px){.titles-header{display:none}}
+/* Mobile: hide the desc paragraph */
+@media(max-width:900px){.titles-desc-mobile{display:none}}
+/* Uniform body text in titles section */
+#titles .temp-lead,#titles .temp-body{font-size:clamp(1rem,1.6vw,1.15rem);font-weight:300;color:var(--text-primary);line-height:1.75}
 .titles-category{margin-bottom:3rem}
 .titles-cat-header{font-size:.65rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:1px solid var(--border-subtle)}
 .title-row{display:flex;justify-content:space-between;align-items:flex-start;padding:1rem 0;border-bottom:1px solid var(--border-subtle);cursor:pointer;transition:all .3s var(--ease);gap:1rem}
@@ -333,6 +368,21 @@ body{background:var(--bg-deep);color:var(--text-primary);font-family:var(--sans)
 .dam-tooltip h5{font-family:var(--serif);font-size:.9rem;color:var(--gold);margin-bottom:.5rem}
 .dam-tooltip p{font-size:.75rem;color:var(--text-secondary);line-height:1.5;font-weight:300}
 
+/* ===== OFFSPRING CAROUSEL ===== */
+.offspring-carousel{margin:1rem 0 1.25rem;overflow:hidden}
+.oc-track{display:flex;gap:10px;overflow-x:auto;scroll-behavior:smooth;scrollbar-width:none;padding:4px 0}
+.oc-track::-webkit-scrollbar{display:none}
+.oc-slide{flex:0 0 120px;text-align:center;cursor:pointer;transition:transform .2s}
+.oc-slide:hover{transform:translateY(-2px)}
+.oc-thumb-square{width:120px;height:120px;background:var(--bg-elevated);border:1px solid var(--border-subtle);transition:border-color .3s}
+.oc-slide:hover .oc-thumb-square{border-color:var(--gold)}
+.oc-label{font-size:.65rem;color:var(--text-muted);margin-top:6px;font-weight:400}
+@media(max-width:600px){
+  .oc-slide{flex:0 0 90px}
+  .oc-thumb-square{width:90px;height:90px}
+  .oc-label{font-size:.58rem}
+}
+
 /* ===== SCROLLBAR ===== */
 ::-webkit-scrollbar{width:6px;height:6px}
 ::-webkit-scrollbar-track{background:transparent}
@@ -350,9 +400,9 @@ body{background:var(--bg-deep);color:var(--text-primary);font-family:var(--sans)
 <section class="hero">
   <!-- Left: Content -->
   <div class="hero-content">
-    <div class="hero-kennel">WoodWolf Kennels</div>
     <h1 class="hero-name">Sagar Faustus<br>Moravia <em>"Sagi"</em></h1>
-    <div class="hero-titles">FO · BH/VT · AD · IGP1 · IGP2 · IGP3 · KKL · Ang*</div>
+    <div class="hero-titles">FO · BH/VT · AD · IGP3 · KKL · Ang*</div>
+    <div class="hero-health-line">TSB Pronounced · HD A1 · ED A1 · DM N/N · Embark Clear</div>
     <p class="hero-desc">Sagi displays high handler engagement and is a breeze to work as he is always so eager and willing. He has high ball drive, lives with other dogs in the home and enjoys doing anything that is asked of by the handler. He displays hard grips in protection along with strong courage. We are so thankful to add this exceptional, powerful, and fun loving male to our program. Sagi is owned by WoodWolf Kennels.</p>
     <div class="hero-badges">
       <span class="hero-badge">TSB Pronounced</span>
@@ -402,14 +452,37 @@ body{background:var(--bg-deep);color:var(--text-primary);font-family:var(--sans)
     <p class="temp-body">He is social without being overbearing, calm in the house, and settles easily. He transitions between high-energy work and relaxed home life with no behavioral issues. He is the kind of dog you can trust around your family and take anywhere.</p>
     <p class="temp-body">We are so thankful to add this exceptional, powerful, and fun loving male to our program. Sagi is owned by WoodWolf Kennels.</p>
   </div>
-  <div class="video-placeholder" onclick="this.innerHTML='<div style=\'color:var(--text-muted);font-size:.85rem\'>Video embed placeholder</div>'">
-    <div class="play-icon"></div>
+  <!-- Video Carousel -->
+  <div class="video-carousel" id="videoCarousel">
+    <div class="vc-track" id="vcTrack">
+      <div class="vc-slide" data-video="1.mp4">
+        <div class="vc-thumb"><div class="vc-thumb-play">&#9654;</div><div class="vc-thumb-label">Training Session 1</div></div>
+      </div>
+      <div class="vc-slide" data-video="2.mp4">
+        <div class="vc-thumb"><div class="vc-thumb-play">&#9654;</div><div class="vc-thumb-label">Training Session 2</div></div>
+      </div>
+      <div class="vc-slide" data-video="3.mp4">
+        <div class="vc-thumb"><div class="vc-thumb-play">&#9654;</div><div class="vc-thumb-label">Protection Work</div></div>
+      </div>
+      <div class="vc-slide" data-video="4.mp4">
+        <div class="vc-thumb"><div class="vc-thumb-play">&#9654;</div><div class="vc-thumb-label">Temperament</div></div>
+      </div>
+    </div>
+    <button class="vc-arrow vc-prev" onclick="vcScroll(-1)">&#8249;</button>
+    <button class="vc-arrow vc-next" onclick="vcScroll(1)">&#8250;</button>
+  </div>
+  <!-- Video Modal -->
+  <div class="vc-modal" id="vcModal" onclick="vcCloseModal()">
+    <div class="vc-modal-inner" onclick="event.stopPropagation()">
+      <button class="vc-modal-close" onclick="vcCloseModal()">&times;</button>
+      <video id="vcPlayer" controls playsinline></video>
+    </div>
   </div>
 </section>
 
 <!-- HEALTH -->
 <section class="section" id="health">
-  <div class="section-header">
+  <div class="section-header health-header">
     <h2 class="section-title">Health Clearances</h2>
   </div>
   <p class="health-intro">Sagi is dual-certified across the Czech (ČMKU) and German (SV) registries, both at the highest possible marks. Every result listed below is independently verifiable through the issuing organization.</p>
@@ -429,17 +502,17 @@ body{background:var(--bg-deep);color:var(--text-primary);font-family:var(--sans)
   </div>
   <div class="ethical-section">
     <h3 class="ethical-header">Minimum Health Testing for Ethically Bred German Shepherds</h3>
-    <p class="ethical-desc">The following tests represent the minimum standard recommended by the GSDCA, OFA/CHIC, and the SV for any German Shepherd used in a breeding program. Sagi exceeds these requirements across the board.</p>
+    <p class="ethical-desc">The following tests represent the minimum standard recommended by the GSDCA, OFA/CHIC, and the SV for any German Shepherd used in a breeding program.</p>
     <table class="ethical-table">
-      <thead><tr><th>Test</th><th>Standard</th><th>Requirement Level</th><th>Sagi's Result</th></tr></thead>
+      <thead><tr><th>Test</th><th>Standard</th><th>Requirement Level</th></tr></thead>
       <tbody>
-        <tr><td>Hip Evaluation</td><td>OFA, PennHIP, SV, or equivalent radiographic evaluation by a certified veterinarian</td><td><span class="et-required yes">Required</span></td><td><span class="et-sagi">HD A (CZ) / A1 (SV)</span></td></tr>
-        <tr><td>Elbow Evaluation</td><td>OFA, SV, or equivalent radiographic evaluation</td><td><span class="et-required yes">Required</span></td><td><span class="et-sagi">ED 0 (CZ) / A1 (SV)</span></td></tr>
-        <tr><td>DM DNA Test</td><td>SOD1 gene test (OFA or Embark) to determine clear, carrier, or at-risk status</td><td><span class="et-required yes">Required</span></td><td><span class="et-sagi">N/N Clear</span></td></tr>
-        <tr><td>Cardiac Evaluation</td><td>Basic cardiac exam by a licensed veterinarian (OFA)</td><td><span class="et-required rec">Recommended</span></td><td><span class="et-sagi">Included in Embark</span></td></tr>
-        <tr><td>Thyroid Panel</td><td>OFA thyroid evaluation from an approved laboratory</td><td><span class="et-required rec">Recommended</span></td><td><span class="et-sagi">Included in Embark</span></td></tr>
-        <tr><td>Temperament Test</td><td>GSDCA temperament test, BH/VT, or equivalent behavioral evaluation</td><td><span class="et-required yes">Required</span></td><td><span class="et-sagi">BH/VT + TSB Pronounced</span></td></tr>
-        <tr><td>DNA Profile</td><td>DNA on file with registry for parentage verification</td><td><span class="et-required yes">Required</span></td><td><span class="et-sagi">SV + AKC</span></td></tr>
+        <tr><td>Hip Evaluation</td><td>OFA, PennHIP, SV, or equivalent radiographic evaluation by a certified veterinarian</td><td><span class="et-required yes">Required</span></td></tr>
+        <tr><td>Elbow Evaluation</td><td>OFA, SV, or equivalent radiographic evaluation</td><td><span class="et-required yes">Required</span></td></tr>
+        <tr><td>DM DNA Test</td><td>SOD1 gene test (OFA or Embark) to determine clear, carrier, or at-risk status</td><td><span class="et-required yes">Required</span></td></tr>
+        <tr><td>Cardiac Evaluation</td><td>Basic cardiac exam by a licensed veterinarian (OFA)</td><td><span class="et-required rec">Recommended</span></td></tr>
+        <tr><td>Thyroid Panel</td><td>OFA thyroid evaluation from an approved laboratory</td><td><span class="et-required rec">Recommended</span></td></tr>
+        <tr><td>Temperament Test</td><td>GSDCA temperament test, BH/VT, or equivalent behavioral evaluation</td><td><span class="et-required yes">Required</span></td></tr>
+        <tr><td>DNA Profile</td><td>DNA on file with registry for parentage verification</td><td><span class="et-required yes">Required</span></td></tr>
       </tbody>
     </table>
     <div class="ethical-resources">
@@ -469,6 +542,7 @@ body{background:var(--bg-deep);color:var(--text-primary);font-family:var(--sans)
     <div class="ped-htree">
       <div class="ped-gen ped-gen-0">
         <div class="ped-hnode ped-hroot">
+          <div class="ped-hnode-photo"><img src="https://static.wixstatic.com/media/e2b819_8d01e7615ddb46e7b9a20e402687568d~mv2.jpg/v1/fill/w_600,h_400,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/DSC_0211.jpg" alt="Sagar Faustus Moravia"></div>
           <div class="ped-hnode-name">Sagar Faustus Moravia "Sagi"</div>
           <div class="ped-hnode-meta">Jul 7, 2019 · Dark Sable, Long Coat</div>
           <div class="ped-hnode-chips">
@@ -488,24 +562,24 @@ body{background:var(--bg-deep);color:var(--text-primary);font-family:var(--sans)
         </div>
       </div>
       <div class="ped-gen ped-gen-1">
-        <div class="ped-hnode ped-male"><div class="ped-hnode-rel" style="color:var(--ped-blue)">Sire</div><div class="ped-hnode-name">Lucipher Galan Nalag</div><div class="ped-hnode-meta">Dec 5, 2010</div><div class="ped-hnode-chips"><span class="ped-title-chip" data-abbr="IPO3" data-full="Internationale Prüfungs-Ordnung, Level 3" data-body="Highest level international working dog title under the former IPO rules.">IPO3</span></div><div class="ped-hnode-tags"><span class="ped-htag ped-htag-green" data-abbr="HD 0/0" data-full="Hüftgelenksdysplasie, Czech 0/0" data-body="Both hips fully clear. Certified abroad.">HD 0/0</span><span class="ped-htag ped-htag-green" data-abbr="ED 0/0" data-full="Ellbogendysplasie, Czech 0/0" data-body="Both elbows clear. Certified abroad.">ED 0/0</span></div></div>
-        <div class="ped-hnode ped-female"><div class="ped-hnode-rel" style="color:var(--ped-pink)">Dam</div><div class="ped-hnode-name">Umbrossia Grey Wolf-Moravia</div><div class="ped-hnode-meta">Jun 10, 2015</div><div class="ped-hnode-chips"><span class="ped-title-chip" data-abbr="IPO3" data-full="Internationale Prüfungs-Ordnung, Level 3" data-body="Highest level international working dog title under the former IPO rules.">IPO3</span></div><div class="ped-hnode-tags"><span class="ped-htag ped-htag-green" data-abbr="HDa (0/0)" data-full="Hüftgelenksdysplasie, Czech 0/0" data-body="Both hips clear under Czech certification.">HDa 0/0</span><span class="ped-htag ped-htag-green" data-abbr="ED (0/0)" data-full="Ellbogendysplasie, Czech 0/0" data-body="Both elbows clear.">ED 0/0</span></div></div>
+        <div class="ped-hnode ped-male"><div class="ped-hnode-photo"></div><div class="ped-hnode-rel" style="color:var(--ped-blue)">Sire</div><div class="ped-hnode-name">Lucipher Galan Nalag</div><div class="ped-hnode-meta">Dec 5, 2010</div><div class="ped-hnode-chips"><span class="ped-title-chip" data-abbr="IPO3" data-full="Internationale Prüfungs-Ordnung, Level 3" data-body="Highest level international working dog title under the former IPO rules.">IPO3</span></div><div class="ped-hnode-tags"><span class="ped-htag ped-htag-green" data-abbr="HD 0/0" data-full="Hüftgelenksdysplasie, Czech 0/0" data-body="Both hips fully clear. Certified abroad.">HD 0/0</span><span class="ped-htag ped-htag-green" data-abbr="ED 0/0" data-full="Ellbogendysplasie, Czech 0/0" data-body="Both elbows clear. Certified abroad.">ED 0/0</span></div></div>
+        <div class="ped-hnode ped-female"><div class="ped-hnode-photo"></div><div class="ped-hnode-rel" style="color:var(--ped-pink)">Dam</div><div class="ped-hnode-name">Umbrossia Grey Wolf-Moravia</div><div class="ped-hnode-meta">Jun 10, 2015</div><div class="ped-hnode-chips"><span class="ped-title-chip" data-abbr="IPO3" data-full="Internationale Prüfungs-Ordnung, Level 3" data-body="Highest level international working dog title under the former IPO rules.">IPO3</span></div><div class="ped-hnode-tags"><span class="ped-htag ped-htag-green" data-abbr="HDa (0/0)" data-full="Hüftgelenksdysplasie, Czech 0/0" data-body="Both hips clear under Czech certification.">HDa 0/0</span><span class="ped-htag ped-htag-green" data-abbr="ED (0/0)" data-full="Ellbogendysplasie, Czech 0/0" data-body="Both elbows clear.">ED 0/0</span></div></div>
       </div>
       <div class="ped-gen ped-gen-2">
-        <div class="ped-hnode ped-male"><div class="ped-hnode-rel" style="color:var(--ped-blue)">GS</div><div class="ped-hnode-name">Lord di Dranel</div><div class="ped-hnode-meta">Nov 17, 2006</div><div class="ped-hnode-chips"><span class="ped-title-chip" data-abbr="IPO3" data-full="Internationale Prüfungs-Ordnung, Level 3" data-body="Highest level international working dog title.">IPO3</span><span class="ped-title-chip" data-abbr="SchH3" data-full="Schutzhund, Level 3" data-body="German protection dog title, level 3. Predecessor to IPO/IGP.">SchH3</span></div><div class="ped-hnode-tags"><span class="ped-htag ped-htag-green" data-abbr="HD C" data-full="Hüftgelenksdysplasie, SV grade C" data-body="Middle grade in SV hip system. Mild dysplasia, breedable with suitable partner.">HD C</span><span class="ped-htag ped-htag-green" data-abbr="ED A" data-full="Ellbogendysplasie, SV grade A" data-body="Top elbow grade. Both elbows clear.">ED A</span></div></div>
-        <div class="ped-hnode ped-female"><div class="ped-hnode-rel" style="color:var(--ped-pink)">GD</div><div class="ped-hnode-name">Sorbona Favory Cross</div><div class="ped-hnode-meta">May 19, 2008</div><div class="ped-hnode-chips"><span class="ped-title-chip" data-abbr="IPO3" data-full="Internationale Prüfungs-Ordnung, Level 3" data-body="Highest level international working dog title.">IPO3</span></div><div class="ped-hnode-tags"><span class="ped-htag ped-htag-green" data-abbr="HD/ED Norm" data-full="Hips and Elbows Normal (Ausland)" data-body="Both hips and elbows certified clear abroad.">HD/ED Norm</span></div></div>
-        <div class="ped-hnode ped-male"><div class="ped-hnode-rel" style="color:var(--ped-blue)">GS</div><div class="ped-hnode-name">Torr Opavia Hof</div><div class="ped-hnode-meta">Nov 16, 2009</div><div class="ped-hnode-chips"><span class="ped-title-chip" data-abbr="IPO3" data-full="Internationale Prüfungs-Ordnung, Level 3" data-body="Highest level international working dog title.">IPO3</span><span class="ped-title-chip" data-abbr="SchH1" data-full="Schutzhund, Level 1" data-body="Entry-level German protection dog title.">SchH1</span></div><div class="ped-hnode-tags"><span class="ped-htag ped-htag-green" data-abbr="HD/ED Norm" data-full="Hips and Elbows Normal (CZ)" data-body="Both hips and elbows certified clear under Czech evaluation.">HD/ED Norm</span></div></div>
-        <div class="ped-hnode ped-female"><div class="ped-hnode-rel" style="color:var(--ped-pink)">GD</div><div class="ped-hnode-name">Cinderella Grey Wolf Moravia</div><div class="ped-hnode-meta">Oct 28, 2008</div><div class="ped-hnode-chips"><span class="ped-title-chip" data-abbr="IPO1" data-full="Internationale Prüfungs-Ordnung, Level 1" data-body="Entry-level international working dog title.">IPO1</span></div><div class="ped-hnode-tags"><span class="ped-htag ped-htag-green" data-abbr="HD/ED Norm" data-full="Hips and Elbows Normal (Ausland)" data-body="Both hips and elbows certified clear abroad.">HD/ED Norm</span></div></div>
+        <div class="ped-hnode ped-male"><div class="ped-hnode-photo"></div><div class="ped-hnode-rel" style="color:var(--ped-blue)">GS</div><div class="ped-hnode-name">Lord di Dranel</div><div class="ped-hnode-meta">Nov 17, 2006</div><div class="ped-hnode-chips"><span class="ped-title-chip" data-abbr="IPO3" data-full="Internationale Prüfungs-Ordnung, Level 3" data-body="Highest level international working dog title.">IPO3</span><span class="ped-title-chip" data-abbr="SchH3" data-full="Schutzhund, Level 3" data-body="German protection dog title, level 3. Predecessor to IPO/IGP.">SchH3</span></div><div class="ped-hnode-tags"><span class="ped-htag ped-htag-green" data-abbr="HD C" data-full="Hüftgelenksdysplasie, SV grade C" data-body="Middle grade in SV hip system. Mild dysplasia, breedable with suitable partner.">HD C</span><span class="ped-htag ped-htag-green" data-abbr="ED A" data-full="Ellbogendysplasie, SV grade A" data-body="Top elbow grade. Both elbows clear.">ED A</span></div></div>
+        <div class="ped-hnode ped-female"><div class="ped-hnode-photo"></div><div class="ped-hnode-rel" style="color:var(--ped-pink)">GD</div><div class="ped-hnode-name">Sorbona Favory Cross</div><div class="ped-hnode-meta">May 19, 2008</div><div class="ped-hnode-chips"><span class="ped-title-chip" data-abbr="IPO3" data-full="Internationale Prüfungs-Ordnung, Level 3" data-body="Highest level international working dog title.">IPO3</span></div><div class="ped-hnode-tags"><span class="ped-htag ped-htag-green" data-abbr="HD/ED Norm" data-full="Hips and Elbows Normal (Ausland)" data-body="Both hips and elbows certified clear abroad.">HD/ED Norm</span></div></div>
+        <div class="ped-hnode ped-male"><div class="ped-hnode-photo"></div><div class="ped-hnode-rel" style="color:var(--ped-blue)">GS</div><div class="ped-hnode-name">Torr Opavia Hof</div><div class="ped-hnode-meta">Nov 16, 2009</div><div class="ped-hnode-chips"><span class="ped-title-chip" data-abbr="IPO3" data-full="Internationale Prüfungs-Ordnung, Level 3" data-body="Highest level international working dog title.">IPO3</span><span class="ped-title-chip" data-abbr="SchH1" data-full="Schutzhund, Level 1" data-body="Entry-level German protection dog title.">SchH1</span></div><div class="ped-hnode-tags"><span class="ped-htag ped-htag-green" data-abbr="HD/ED Norm" data-full="Hips and Elbows Normal (CZ)" data-body="Both hips and elbows certified clear under Czech evaluation.">HD/ED Norm</span></div></div>
+        <div class="ped-hnode ped-female"><div class="ped-hnode-photo"></div><div class="ped-hnode-rel" style="color:var(--ped-pink)">GD</div><div class="ped-hnode-name">Cinderella Grey Wolf Moravia</div><div class="ped-hnode-meta">Oct 28, 2008</div><div class="ped-hnode-chips"><span class="ped-title-chip" data-abbr="IPO1" data-full="Internationale Prüfungs-Ordnung, Level 1" data-body="Entry-level international working dog title.">IPO1</span></div><div class="ped-hnode-tags"><span class="ped-htag ped-htag-green" data-abbr="HD/ED Norm" data-full="Hips and Elbows Normal (Ausland)" data-body="Both hips and elbows certified clear abroad.">HD/ED Norm</span></div></div>
       </div>
       <div class="ped-gen ped-gen-3">
-        <div class="ped-hnode ped-male"><div class="ped-hnode-name">Jorick di Dranel</div><div class="ped-hnode-meta">Oct 12, 2000</div><div class="ped-hnode-chips"><span class="ped-title-chip" data-abbr="IPO3" data-full="Internationale Prüfungs-Ordnung, Level 3" data-body="Highest level international working dog title.">IPO3</span><span class="ped-title-chip" data-abbr="SchH3" data-full="Schutzhund, Level 3" data-body="German protection dog title, level 3.">SchH3</span></div></div>
-        <div class="ped-hnode ped-female"><div class="ped-hnode-name">Brigitte Di Dranel</div><div class="ped-hnode-meta">Oct 29, 2003</div></div>
-        <div class="ped-hnode ped-male"><div class="ped-hnode-name">Charik Galan Nalag</div><div class="ped-hnode-meta">Nov 11, 2005</div><div class="ped-hnode-chips"><span class="ped-title-chip" data-abbr="IPO3" data-full="Internationale Prüfungs-Ordnung, Level 3" data-body="Highest level international working dog title.">IPO3</span><span class="ped-title-chip" data-abbr="SchH1" data-full="Schutzhund, Level 1" data-body="Entry-level German protection dog title.">SchH1</span><span class="ped-title-chip" data-abbr="ZVV1" data-full="Základy výcviku a všestrannosti, Level 1" data-body="Czech working dog versatility test, level 1.">ZVV1</span></div></div>
-        <div class="ped-hnode ped-female"><div class="ped-hnode-name">Kessy Eqldius</div><div class="ped-hnode-meta">Sep 19, 2004</div><div class="ped-hnode-chips"><span class="ped-title-chip" data-abbr="IPO2" data-full="Internationale Prüfungs-Ordnung, Level 2" data-body="Mid-level international working dog title.">IPO2</span><span class="ped-title-chip" data-abbr="SchH3" data-full="Schutzhund, Level 3" data-body="Highest level German protection dog title.">SchH3</span></div></div>
-        <div class="ped-hnode ped-male"><div class="ped-hnode-name">Zar von der Schiffslache</div><div class="ped-hnode-meta">Aug 15, 2005</div><div class="ped-hnode-chips"><span class="ped-title-chip" data-abbr="IPO2" data-full="Internationale Prüfungs-Ordnung, Level 2" data-body="Mid-level international working dog title.">IPO2</span></div></div>
-        <div class="ped-hnode ped-female"><div class="ped-hnode-name">Farina Opavia Hof</div><div class="ped-hnode-meta">Nov 30, 2006</div><div class="ped-hnode-chips"><span class="ped-title-chip" data-abbr="ZVV1" data-full="Základy výcviku a všestrannosti, Level 1" data-body="Czech working dog versatility test, level 1.">ZVV1</span></div></div>
-        <div class="ped-hnode ped-male"><div class="ped-hnode-name">Cato Katargo</div><div class="ped-hnode-meta">Jun 23, 2003</div><div class="ped-hnode-chips"><span class="ped-title-chip" data-abbr="IPO3" data-full="Internationale Prüfungs-Ordnung, Level 3" data-body="Highest level international working dog title.">IPO3</span><span class="ped-title-chip" data-abbr="SchH3" data-full="Schutzhund, Level 3" data-body="Highest level German protection dog title.">SchH3</span></div></div>
-        <div class="ped-hnode ped-female"><div class="ped-hnode-name">Alexa Moravia Campanella</div><div class="ped-hnode-meta">Jul 12, 2005</div><div class="ped-hnode-chips"><span class="ped-title-chip" data-abbr="ZPS1" data-full="Zkouška pomocného strážce, Level 1" data-body="Czech auxiliary guard dog test, level 1.">ZPS1</span><span class="ped-title-chip" data-abbr="IPO1" data-full="Internationale Prüfungs-Ordnung, Level 1" data-body="Entry-level international working dog title.">IPO1</span><span class="ped-title-chip" data-abbr="FH2" data-full="Fährtenhund, Level 2" data-body="Advanced tracking title.">FH2</span><span class="ped-title-chip" data-abbr="FPr3" data-full="Fährtenhundprüfung, Level 3" data-body="Highest level tracking trial.">FPr3</span><span class="ped-title-chip" data-abbr="ZVV1" data-full="Základy výcviku a všestrannosti, Level 1" data-body="Czech working dog versatility test, level 1.">ZVV1</span></div></div>
+        <div class="ped-hnode ped-male"><div class="ped-hnode-photo"></div><div class="ped-hnode-name">Jorick di Dranel</div><div class="ped-hnode-meta">Oct 12, 2000</div><div class="ped-hnode-chips"><span class="ped-title-chip" data-abbr="IPO3" data-full="Internationale Prüfungs-Ordnung, Level 3" data-body="Highest level international working dog title.">IPO3</span><span class="ped-title-chip" data-abbr="SchH3" data-full="Schutzhund, Level 3" data-body="German protection dog title, level 3.">SchH3</span></div></div>
+        <div class="ped-hnode ped-female"><div class="ped-hnode-photo"></div><div class="ped-hnode-name">Brigitte Di Dranel</div><div class="ped-hnode-meta">Oct 29, 2003</div></div>
+        <div class="ped-hnode ped-male"><div class="ped-hnode-photo"></div><div class="ped-hnode-name">Charik Galan Nalag</div><div class="ped-hnode-meta">Nov 11, 2005</div><div class="ped-hnode-chips"><span class="ped-title-chip" data-abbr="IPO3" data-full="Internationale Prüfungs-Ordnung, Level 3" data-body="Highest level international working dog title.">IPO3</span><span class="ped-title-chip" data-abbr="SchH1" data-full="Schutzhund, Level 1" data-body="Entry-level German protection dog title.">SchH1</span><span class="ped-title-chip" data-abbr="ZVV1" data-full="Základy výcviku a všestrannosti, Level 1" data-body="Czech working dog versatility test, level 1.">ZVV1</span></div></div>
+        <div class="ped-hnode ped-female"><div class="ped-hnode-photo"></div><div class="ped-hnode-name">Kessy Eqldius</div><div class="ped-hnode-meta">Sep 19, 2004</div><div class="ped-hnode-chips"><span class="ped-title-chip" data-abbr="IPO2" data-full="Internationale Prüfungs-Ordnung, Level 2" data-body="Mid-level international working dog title.">IPO2</span><span class="ped-title-chip" data-abbr="SchH3" data-full="Schutzhund, Level 3" data-body="Highest level German protection dog title.">SchH3</span></div></div>
+        <div class="ped-hnode ped-male"><div class="ped-hnode-photo"></div><div class="ped-hnode-name">Zar von der Schiffslache</div><div class="ped-hnode-meta">Aug 15, 2005</div><div class="ped-hnode-chips"><span class="ped-title-chip" data-abbr="IPO2" data-full="Internationale Prüfungs-Ordnung, Level 2" data-body="Mid-level international working dog title.">IPO2</span></div></div>
+        <div class="ped-hnode ped-female"><div class="ped-hnode-photo"></div><div class="ped-hnode-name">Farina Opavia Hof</div><div class="ped-hnode-meta">Nov 30, 2006</div><div class="ped-hnode-chips"><span class="ped-title-chip" data-abbr="ZVV1" data-full="Základy výcviku a všestrannosti, Level 1" data-body="Czech working dog versatility test, level 1.">ZVV1</span></div></div>
+        <div class="ped-hnode ped-male"><div class="ped-hnode-photo"></div><div class="ped-hnode-name">Cato Katargo</div><div class="ped-hnode-meta">Jun 23, 2003</div><div class="ped-hnode-chips"><span class="ped-title-chip" data-abbr="IPO3" data-full="Internationale Prüfungs-Ordnung, Level 3" data-body="Highest level international working dog title.">IPO3</span><span class="ped-title-chip" data-abbr="SchH3" data-full="Schutzhund, Level 3" data-body="Highest level German protection dog title.">SchH3</span></div></div>
+        <div class="ped-hnode ped-female"><div class="ped-hnode-photo"></div><div class="ped-hnode-name">Alexa Moravia Campanella</div><div class="ped-hnode-meta">Jul 12, 2005</div><div class="ped-hnode-chips"><span class="ped-title-chip" data-abbr="ZPS1" data-full="Zkouška pomocného strážce, Level 1" data-body="Czech auxiliary guard dog test, level 1.">ZPS1</span><span class="ped-title-chip" data-abbr="IPO1" data-full="Internationale Prüfungs-Ordnung, Level 1" data-body="Entry-level international working dog title.">IPO1</span><span class="ped-title-chip" data-abbr="FH2" data-full="Fährtenhund, Level 2" data-body="Advanced tracking title.">FH2</span><span class="ped-title-chip" data-abbr="FPr3" data-full="Fährtenhundprüfung, Level 3" data-body="Highest level tracking trial.">FPr3</span><span class="ped-title-chip" data-abbr="ZVV1" data-full="Základy výcviku a všestrannosti, Level 1" data-body="Czech working dog versatility test, level 1.">ZVV1</span></div></div>
       </div>
       <svg class="ped-lines" id="pedLines"></svg>
     </div>
@@ -591,9 +665,9 @@ body{background:var(--bg-deep);color:var(--text-primary);font-family:var(--sans)
 
 <!-- TITLES & WORKING -->
 <section class="section" id="titles">
-  <div class="section-header">
+  <div class="section-header titles-header">
     <h2 class="section-title">Titles & Working Ability</h2>
-    <p class="section-desc">Every abbreviation explained. Click any title for a plain-language breakdown of what it means and why it matters.</p>
+    <p class="section-desc titles-desc-mobile">Every abbreviation explained. Click any title for a plain-language breakdown of what it means and why it matters.</p>
   </div>
   <div class="temperament-prose" style="margin-bottom:2.5rem">
     <p class="temp-lead">In work, Sagi brings high drive and total handler engagement. He is eager to please and responds quickly to direction, whether in obedience, tracking, or protection.</p>
@@ -628,13 +702,26 @@ body{background:var(--bg-deep);color:var(--text-primary);font-family:var(--sans)
   <div class="litter-card" onclick="this.classList.toggle('expanded')">
     <div class="litter-header">
       <div style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap">
-        <div class="litter-info"><h3>A-Litter Vom WoodWolf</h3><p>Born March 2024 · 8 puppies (5M / 3F)</p></div>
-        <div class="litter-dam-preview" onclick="event.stopPropagation()" style="position:relative"><div class="litter-dam-photo"></div><div class="litter-dam-text"><span>Dam</span>Cora Calimera Moravia</div><div class="dam-tooltip"><h5>Cora Calimera Moravia</h5><p>Czech Import · IPO1 · HD A · ED 0 · DM N/N<br>Dark sable, excellent temperament and work ethic.</p></div></div>
+        <div class="litter-info"><h3>K-Litter Vom WoodWolf</h3><p>Born March 2024 · 8 puppies (5M / 3F)</p></div>
+        <a class="litter-dam-preview" href="females.html" onclick="event.stopPropagation()" style="position:relative;text-decoration:none;color:inherit"><div class="litter-dam-photo"></div><div class="litter-dam-text"><span>Dam</span>SG Flash von der Brunnenklinge BH AD IGP1</div><div class="dam-tooltip"><h5>SG Flash von der Brunnenklinge</h5><p>BH · AD · IGP1<br>View on Females page →</p></div></a>
       </div>
       <div class="litter-toggle">▼</div>
     </div>
     <div class="litter-body">
-      <div class="litter-dam-detail"><h4>Dam: Cora Calimera Moravia</h4><p>Czech Import · IPO1 · HD A · ED 0 · DM N/N · Embark Clear<br>Dark sable female imported from Czech Republic. Calm, confident temperament with strong drives.</p></div>
+      <div class="litter-dam-detail"><h4>Dam: <a href="females.html" style="color:var(--gold);text-decoration:none">SG Flash von der Brunnenklinge</a></h4><p>BH · AD · IGP1</p></div>
+      <!-- Offspring photo carousel placeholder -->
+      <div class="offspring-carousel">
+        <div class="oc-track">
+          <div class="oc-slide"><div class="oc-thumb-square"></div><div class="oc-label">Puppy 1</div></div>
+          <div class="oc-slide"><div class="oc-thumb-square"></div><div class="oc-label">Puppy 2</div></div>
+          <div class="oc-slide"><div class="oc-thumb-square"></div><div class="oc-label">Puppy 3</div></div>
+          <div class="oc-slide"><div class="oc-thumb-square"></div><div class="oc-label">Puppy 4</div></div>
+          <div class="oc-slide"><div class="oc-thumb-square"></div><div class="oc-label">Puppy 5</div></div>
+          <div class="oc-slide"><div class="oc-thumb-square"></div><div class="oc-label">Puppy 6</div></div>
+          <div class="oc-slide"><div class="oc-thumb-square"></div><div class="oc-label">Puppy 7</div></div>
+          <div class="oc-slide"><div class="oc-thumb-square"></div><div class="oc-label">Puppy 8</div></div>
+        </div>
+      </div>
       <div class="puppy-grid">
         <div class="puppy-card"><div class="puppy-name">Aggro Vom WoodWolf</div><div class="puppy-meta">Male · Dark Sable · Long Coat</div><div class="puppy-status kept">Kept — Kennel Prospect</div></div>
         <div class="puppy-card"><div class="puppy-name">Athena Vom WoodWolf</div><div class="puppy-meta">Female · Black Sable</div><div class="puppy-status placed">Placed — Working Home</div></div>
@@ -646,13 +733,24 @@ body{background:var(--bg-deep);color:var(--text-primary);font-family:var(--sans)
   <div class="litter-card" onclick="this.classList.toggle('expanded')">
     <div class="litter-header">
       <div style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap">
-        <div class="litter-info"><h3>B-Litter Vom WoodWolf</h3><p>Born August 2024 · 6 puppies (3M / 3F)</p></div>
+        <div class="litter-info"><h3>P-Litter Vom WoodWolf</h3><p>Born August 2024 · 6 puppies (3M / 3F)</p></div>
         <div class="litter-dam-preview" onclick="event.stopPropagation()" style="position:relative"><div class="litter-dam-photo"></div><div class="litter-dam-text"><span>Dam</span>Shye-Ann European K9</div><div class="dam-tooltip"><h5>Shye-Ann European K9 Training Base</h5><p>BH · HD A · ED Normal · DM N/N<br>Confident, high-drive female with excellent structure.</p></div></div>
       </div>
       <div class="litter-toggle">▼</div>
     </div>
     <div class="litter-body">
       <div class="litter-dam-detail"><h4>Dam: Shye-Ann European K9 Training Base</h4><p>BH · HD A · ED Normal · DM N/N · Embark Clear<br>Athletic, confident female with excellent nerve strength and a natural working temperament.</p></div>
+      <!-- Offspring photo carousel placeholder -->
+      <div class="offspring-carousel">
+        <div class="oc-track">
+          <div class="oc-slide"><div class="oc-thumb-square"></div><div class="oc-label">Puppy 1</div></div>
+          <div class="oc-slide"><div class="oc-thumb-square"></div><div class="oc-label">Puppy 2</div></div>
+          <div class="oc-slide"><div class="oc-thumb-square"></div><div class="oc-label">Puppy 3</div></div>
+          <div class="oc-slide"><div class="oc-thumb-square"></div><div class="oc-label">Puppy 4</div></div>
+          <div class="oc-slide"><div class="oc-thumb-square"></div><div class="oc-label">Puppy 5</div></div>
+          <div class="oc-slide"><div class="oc-thumb-square"></div><div class="oc-label">Puppy 6</div></div>
+        </div>
+      </div>
       <div class="puppy-grid">
         <div class="puppy-card"><div class="puppy-name">Brutus Vom WoodWolf</div><div class="puppy-meta">Male · Dark Sable</div><div class="puppy-status available">Available</div></div>
         <div class="puppy-card"><div class="puppy-name">Bella Vom WoodWolf</div><div class="puppy-meta">Female · Bi-Color</div><div class="puppy-status placed">Placed — K9 Unit</div></div>
@@ -728,6 +826,31 @@ document.querySelectorAll('.nav-tab').forEach(tab=>{tab.addEventListener('click'
   if (isDesktop) {
     setTimeout(revealAndPlay, 2200);
   }
+})();
+
+// ===== VIDEO CAROUSEL =====
+(function(){
+  var track=document.getElementById('vcTrack');
+  var modal=document.getElementById('vcModal');
+  var player=document.getElementById('vcPlayer');
+  if(!track)return;
+  // Scroll arrows
+  window.vcScroll=function(dir){track.scrollBy({left:dir*240,behavior:'smooth'})};
+  // Click thumbnail -> open modal
+  track.querySelectorAll('.vc-slide').forEach(function(slide){
+    slide.addEventListener('click',function(){
+      var src=slide.dataset.video;
+      player.src=src;
+      modal.classList.add('active');
+      player.play().catch(function(){});
+    });
+  });
+  window.vcCloseModal=function(){
+    modal.classList.remove('active');
+    player.pause();
+    player.src='';
+  };
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal.classList.contains('active'))window.vcCloseModal()});
 })();
 </script>
 </body>
