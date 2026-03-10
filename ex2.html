@@ -485,12 +485,13 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   .hero-ribbon-line { width: 24px; }
   .hero-ribbon-text { font-size: .44rem; letter-spacing: .22em; }
 
-  /* Show all three images on mobile */
+  /* Show all three images on mobile — fill the hero area */
   .hero-cutout--heeling {
     display: block;
-    width: clamp(200px, 55vw, 320px);
-    right: -8%;
-    bottom: 12%;
+    width: auto;
+    height: clamp(380px, 65svh, 580px);
+    right: -5%;
+    bottom: 8%;
     z-index: 3;
     filter:
       drop-shadow(0 8px 36px rgba(0,0,0,.55))
@@ -500,9 +501,10 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 
   .hero-cutout--sitting {
     display: block;
-    width: clamp(160px, 42vw, 260px);
-    left: -6%;
-    bottom: 10%;
+    width: auto;
+    height: clamp(300px, 50svh, 460px);
+    left: -8%;
+    bottom: 6%;
     z-index: 2;
     opacity: .45;
     filter:
@@ -512,8 +514,8 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   }
 
   .hero-cutout--gait {
-    width: clamp(260px, 68vw, 400px);
-    bottom: 18%;
+    width: clamp(320px, 88vw, 480px);
+    bottom: 14%;
     z-index: 4;
   }
 
@@ -537,20 +539,20 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 /* Small phone */
 @media (max-width: 420px) {
   .hero-cutout--gait {
-    width: 75vw;
-    bottom: 22%;
+    width: clamp(300px, 90vw, 420px);
+    bottom: 16%;
   }
 
   .hero-cutout--heeling {
-    width: clamp(170px, 50vw, 260px);
-    right: -10%;
-    bottom: 14%;
+    height: clamp(340px, 60svh, 520px);
+    right: -8%;
+    bottom: 10%;
   }
 
   .hero-cutout--sitting {
-    width: clamp(140px, 38vw, 220px);
-    left: -8%;
-    bottom: 12%;
+    height: clamp(270px, 46svh, 400px);
+    left: -10%;
+    bottom: 8%;
   }
 
   .hero-name { font-size: clamp(1.7rem, 8.5vw, 2.3rem); }
