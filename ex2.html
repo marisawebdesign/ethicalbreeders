@@ -219,31 +219,35 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 .hero-cutout--gait-wrap::before {
   content: '';
   position: absolute;
-  bottom: 2%;
-  left: -4%;
-  width: 55%;
-  height: 50%;
-  background: radial-gradient(ellipse 70% 60% at 30% 70%,
-    rgba(201,169,110,.10) 0%,
-    rgba(201,169,110,.05) 40%,
-    transparent 75%);
+  bottom: 0;
+  left: -8%;
+  width: 60%;
+  height: 65%;
+  background:
+    radial-gradient(ellipse 65% 55% at 25% 65%,
+      rgba(201,169,110,.28) 0%,
+      rgba(201,169,110,.14) 30%,
+      rgba(201,169,110,.05) 55%,
+      transparent 80%);
   z-index: -1;
   pointer-events: none;
 }
 .hero-cutout--gait-wrap::after {
   content: '';
   position: absolute;
-  bottom: 5%;
-  left: -6%;
-  width: 40%;
-  height: 35%;
-  background: radial-gradient(ellipse 80% 70% at 25% 80%,
-    rgba(201,169,110,.12) 0%,
-    rgba(180,160,120,.06) 35%,
-    transparent 70%);
+  bottom: 2%;
+  left: -12%;
+  width: 50%;
+  height: 50%;
+  background:
+    radial-gradient(ellipse 75% 65% at 20% 75%,
+      rgba(220,190,130,.22) 0%,
+      rgba(201,169,110,.12) 30%,
+      rgba(180,160,120,.04) 55%,
+      transparent 75%);
   z-index: -1;
   pointer-events: none;
-  filter: blur(8px);
+  filter: blur(6px);
 }
 .hero-cutout--gait-wrap .hero-cutout--gait {
   position: relative;
@@ -255,10 +259,10 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   opacity: 1;
 }
 
-/* Sitting portrait + handler — left */
+/* Sitting portrait + handler — left, pulled closer to center */
 .hero-cutout--sitting {
   bottom: -3%;
-  left: clamp(-100px, -6vw, -40px);
+  left: clamp(60px, 8vw, 160px);
   width: clamp(280px, 32vw, 500px);
   z-index: 2;
   filter:
@@ -271,18 +275,18 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   animation: heroSlideLeft 1.2s var(--ease-out) .75s forwards;
 }
 
-/* Heeling — right */
+/* Heeling — right, ~3x larger, positioned behind/near gait cutout */
 .hero-cutout--heeling {
-  bottom: -3%;
-  right: clamp(-80px, -5vw, -30px);
-  width: clamp(255px, 28vw, 450px);
-  z-index: 2;
+  bottom: -5%;
+  right: clamp(-60px, 2vw, 80px);
+  width: clamp(600px, 62vw, 1100px);
+  z-index: 1;
   filter:
     drop-shadow(0 3px 8px rgba(0,0,0,.6))
     drop-shadow(0 1px 2px rgba(0,0,0,.5))
     drop-shadow(0 0 0.5px rgba(0,0,0,.4))
-    brightness(.82)
-    saturate(.92);
+    brightness(.75)
+    saturate(.88);
   opacity: 0;
   animation: heroSlideRight 1.2s var(--ease-out) .85s forwards;
 }
@@ -295,7 +299,7 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   margin-top: auto;
   width: 100%;
   padding: clamp(2rem, 4vw, 4.5rem) clamp(1.5rem, 5vw, 6rem);
-  padding-top: clamp(11rem, 20vh, 18rem);
+  padding-top: clamp(18rem, 38vh, 32rem);
   background: linear-gradient(0deg,
     rgba(7,7,7,.97) 0%,
     rgba(7,7,7,.92) 18%,
@@ -521,10 +525,11 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
    ==================================================== */
 
 /* Tablet */
-@media (max-width: 1024px) {
+@media (max-width: 1024px) and (min-width: 769px) {
   .hero-cutout--gait-wrap { width: clamp(420px, 62vw, 650px); bottom: -1%; }
-  .hero-cutout--sitting { width: clamp(230px, 36vw, 370px); left: -55px; }
-  .hero-cutout--heeling { width: clamp(210px, 33vw, 340px); right: -40px; }
+  .hero-cutout--sitting { width: clamp(230px, 36vw, 370px); left: clamp(20px, 4vw, 60px); }
+  .hero-cutout--heeling { width: clamp(450px, 55vw, 700px); right: clamp(-40px, 0vw, 20px); }
+  .hero-content { padding-top: clamp(14rem, 30vh, 24rem); }
 }
 
 /* Mobile */
