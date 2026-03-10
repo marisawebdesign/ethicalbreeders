@@ -458,6 +458,10 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   from { opacity: 0; transform: translateX(55px); }
   to   { opacity: 1; transform: translateX(0); }
 }
+@keyframes heroHeelingMobile {
+  from { opacity: 0; transform: translateX(-50%) translateX(30px); }
+  to   { opacity: .45; transform: translateX(-50%); }
+}
 @keyframes scrollBob {
   0%, 100% { transform: rotate(45deg) translateY(0); }
   50%      { transform: rotate(45deg) translateY(4px); }
@@ -538,23 +542,24 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
       saturate(.85);
   }
 
-  /* Heeling (handler + dog) — bottom-right, behind sitting image.
-     Blown up ~2.5x, bottom-anchored, max-height capped to hero bounds.
-     Dog visible on right, girl can be partially obscured behind sitting/gait. */
+  /* Heeling (handler + dog) — centered behind gait, farthest back layer.
+     Positioned so the girl + dog are visible behind the main gait cutout. */
   .hero-cutout--heeling {
     display: block;
-    width: clamp(1150px, 290vw, 1700px);
+    width: clamp(700px, 180vw, 1000px);
     height: auto;
-    right: -10%;
+    left: 50%;
+    right: auto;
     top: auto;
-    bottom: 18%;
-    max-height: 82%;
+    bottom: 12%;
+    max-height: 88%;
     z-index: 0;
-    opacity: .4;
+    opacity: 0;
+    animation: heroHeelingMobile 1.4s var(--ease-out) .85s forwards;
     filter:
       drop-shadow(0 2px 6px rgba(0,0,0,.65))
       drop-shadow(0 0 1px rgba(0,0,0,.5))
-      brightness(.75)
+      brightness(.72)
       saturate(.85);
   }
 
@@ -620,9 +625,8 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   }
 
   .hero-cutout--heeling {
-    width: clamp(1050px, 275vw, 1550px);
-    right: -12%;
-    bottom: 20%;
+    width: clamp(620px, 170vw, 900px);
+    bottom: 14%;
   }
 
   .hero-name { font-size: clamp(1.7rem, 8.5vw, 2.3rem); }
