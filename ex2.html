@@ -518,39 +518,42 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 
   /* ---- Collage-style mobile layout ---- */
 
-  /* Sitting portrait — top-left anchor, blown up, reduced opacity */
+  /* Sitting portrait — bottom-left, farthest back, reduced opacity.
+     Blown up big so girl is cropped off top; just the sitting dog shows.
+     Bottom aligned with gait image bottom area. */
   .hero-cutout--sitting {
     display: block;
-    width: clamp(340px, 75vw, 500px);
+    width: clamp(360px, 85vw, 520px);
     height: auto;
-    left: -8%;
-    top: 0;
-    bottom: auto;
+    left: -18%;
+    top: auto;
+    bottom: 20%;
     max-height: none;
     z-index: 1;
-    opacity: .6;
+    opacity: .5;
     filter:
       drop-shadow(0 2px 6px rgba(0,0,0,.65))
       drop-shadow(0 0 1px rgba(0,0,0,.5))
-      brightness(.82)
-      saturate(.9);
+      brightness(.75)
+      saturate(.85);
   }
 
-  /* Heeling (handler + dog) — top-right anchor, blown up */
+  /* Heeling (handler + dog) — bottom-right, behind gait but in front of sitting.
+     Takes up vertical space on the right side of the composition. */
   .hero-cutout--heeling {
     display: block;
-    width: clamp(320px, 70vw, 480px);
+    width: clamp(280px, 62vw, 420px);
     height: auto;
-    right: -8%;
-    top: 0;
-    bottom: auto;
+    right: -5%;
+    top: auto;
+    bottom: 18%;
     max-height: none;
     z-index: 3;
     filter:
       drop-shadow(0 2px 6px rgba(0,0,0,.65))
       drop-shadow(0 0 1px rgba(0,0,0,.5))
-      brightness(.85)
-      saturate(.9);
+      brightness(.8)
+      saturate(.88);
   }
 
   /* Gait wrapper — center, lower third, always in front */
@@ -607,13 +610,15 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   }
 
   .hero-cutout--sitting {
-    width: clamp(300px, 72vw, 440px);
-    left: -10%;
+    width: clamp(320px, 82vw, 460px);
+    left: -20%;
+    bottom: 22%;
   }
 
   .hero-cutout--heeling {
-    width: clamp(280px, 68vw, 420px);
-    right: -10%;
+    width: clamp(250px, 58vw, 380px);
+    right: -8%;
+    bottom: 20%;
   }
 
   .hero-name { font-size: clamp(1.7rem, 8.5vw, 2.3rem); }
