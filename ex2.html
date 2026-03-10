@@ -196,14 +196,63 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   transform: translateX(-50%);
   width: clamp(500px, 58vw, 920px);
   z-index: 4;
-  /* Multi-layer shadow: soft ambient + tight edge-refining shadow to clean up cutout artifacts */
+  /* Tight crisp shadow — minimal blur for clean cutout edges */
   filter:
-    drop-shadow(0 10px 50px rgba(0,0,0,.6))
-    drop-shadow(0 2px 6px rgba(0,0,0,.5))
-    drop-shadow(0 0 3px rgba(0,0,0,.4))
-    drop-shadow(0 0 1px rgba(0,0,0,.35));
+    drop-shadow(0 4px 12px rgba(0,0,0,.7))
+    drop-shadow(0 1px 2px rgba(0,0,0,.6))
+    drop-shadow(0 0 0.5px rgba(0,0,0,.5));
   opacity: 0;
   animation: heroGaitIn 1.1s var(--ease) .5s forwards;
+}
+
+/* Gait tail highlight — warm rim-light behind gait image to ensure tail visibility */
+.hero-cutout--gait-wrap {
+  position: absolute;
+  bottom: -2%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: clamp(500px, 58vw, 920px);
+  z-index: 4;
+  opacity: 0;
+  animation: heroGaitIn 1.1s var(--ease) .5s forwards;
+}
+.hero-cutout--gait-wrap::before {
+  content: '';
+  position: absolute;
+  bottom: 2%;
+  left: -4%;
+  width: 55%;
+  height: 50%;
+  background: radial-gradient(ellipse 70% 60% at 30% 70%,
+    rgba(201,169,110,.10) 0%,
+    rgba(201,169,110,.05) 40%,
+    transparent 75%);
+  z-index: -1;
+  pointer-events: none;
+}
+.hero-cutout--gait-wrap::after {
+  content: '';
+  position: absolute;
+  bottom: 5%;
+  left: -6%;
+  width: 40%;
+  height: 35%;
+  background: radial-gradient(ellipse 80% 70% at 25% 80%,
+    rgba(201,169,110,.12) 0%,
+    rgba(180,160,120,.06) 35%,
+    transparent 70%);
+  z-index: -1;
+  pointer-events: none;
+  filter: blur(8px);
+}
+.hero-cutout--gait-wrap .hero-cutout--gait {
+  position: relative;
+  bottom: auto;
+  left: auto;
+  transform: none;
+  width: 100%;
+  animation: none;
+  opacity: 1;
 }
 
 /* Sitting portrait + handler — left */
@@ -213,9 +262,9 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   width: clamp(280px, 32vw, 500px);
   z-index: 2;
   filter:
-    drop-shadow(0 6px 30px rgba(0,0,0,.5))
-    drop-shadow(0 1px 4px rgba(0,0,0,.45))
-    drop-shadow(0 0 2px rgba(0,0,0,.35))
+    drop-shadow(0 3px 8px rgba(0,0,0,.6))
+    drop-shadow(0 1px 2px rgba(0,0,0,.5))
+    drop-shadow(0 0 0.5px rgba(0,0,0,.4))
     brightness(.82)
     saturate(.92);
   opacity: 0;
@@ -229,9 +278,9 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   width: clamp(255px, 28vw, 450px);
   z-index: 2;
   filter:
-    drop-shadow(0 6px 30px rgba(0,0,0,.5))
-    drop-shadow(0 1px 4px rgba(0,0,0,.45))
-    drop-shadow(0 0 2px rgba(0,0,0,.35))
+    drop-shadow(0 3px 8px rgba(0,0,0,.6))
+    drop-shadow(0 1px 2px rgba(0,0,0,.5))
+    drop-shadow(0 0 0.5px rgba(0,0,0,.4))
     brightness(.82)
     saturate(.92);
   opacity: 0;
@@ -416,7 +465,7 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   to   { opacity: 1; }
 }
 @keyframes heroGaitIn {
-  from { opacity: 0; transform: translateX(-50%) translateY(40px) scale(.96); }
+  from { opacity: 0; transform: translateX(-50%) translateY(30px) scale(.97); }
   to   { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
 }
 @keyframes heroSlideLeft {
@@ -473,7 +522,7 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 
 /* Tablet */
 @media (max-width: 1024px) {
-  .hero-cutout--gait    { width: clamp(420px, 62vw, 650px); bottom: -1%; }
+  .hero-cutout--gait-wrap { width: clamp(420px, 62vw, 650px); bottom: -1%; }
   .hero-cutout--sitting { width: clamp(230px, 36vw, 370px); left: -55px; }
   .hero-cutout--heeling { width: clamp(210px, 33vw, 340px); right: -40px; }
 }
@@ -494,51 +543,69 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   .hero-ribbon-line { width: 24px; }
   .hero-ribbon-text { font-size: .44rem; letter-spacing: .22em; }
 
-  /* Heeling (walking girl) — top-right, tall, anchored to top of hero */
+  /* ---- Collage-style mobile layout ---- */
+
+  /* Sitting portrait — large, dominant, upper-left area */
+  .hero-cutout--sitting {
+    display: block;
+    width: auto;
+    height: clamp(380px, 62svh, 560px);
+    left: -8%;
+    top: 4%;
+    bottom: auto;
+    z-index: 3;
+    opacity: 1;
+    filter:
+      drop-shadow(0 2px 6px rgba(0,0,0,.65))
+      drop-shadow(0 0 1px rgba(0,0,0,.5))
+      brightness(.88)
+      saturate(.94);
+  }
+
+  /* Heeling (handler + dog) — upper-right, overlapping */
   .hero-cutout--heeling {
     display: block;
     width: auto;
-    height: clamp(420px, 72svh, 640px);
+    height: clamp(360px, 58svh, 520px);
     right: -6%;
-    top: 2%;
+    top: 3%;
     bottom: auto;
     z-index: 2;
     filter:
-      drop-shadow(0 4px 20px rgba(0,0,0,.5))
-      drop-shadow(0 0 3px rgba(0,0,0,.4))
-      drop-shadow(0 0 1px rgba(0,0,0,.3))
+      drop-shadow(0 2px 6px rgba(0,0,0,.65))
+      drop-shadow(0 0 1px rgba(0,0,0,.5))
       brightness(.85)
       saturate(.9);
   }
 
-  /* Sitting portrait — left side, big but faded back */
-  .hero-cutout--sitting {
-    display: block;
-    width: auto;
-    height: clamp(340px, 58svh, 520px);
-    left: -12%;
-    top: 6%;
-    bottom: auto;
-    z-index: 1;
-    opacity: .35;
-    filter:
-      drop-shadow(0 4px 20px rgba(0,0,0,.5))
-      drop-shadow(0 0 3px rgba(0,0,0,.4))
-      drop-shadow(0 0 1px rgba(0,0,0,.3))
-      brightness(.7)
-      saturate(.82);
+  /* Gait wrapper — bottom center, overlapping lower portion */
+  .hero-cutout--gait-wrap {
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: clamp(340px, 88vw, 480px);
+    z-index: 5;
+  }
+  .hero-cutout--gait-wrap::before {
+    bottom: 5%;
+    left: -5%;
+    width: 50%;
+    height: 55%;
+  }
+  .hero-cutout--gait-wrap::after {
+    bottom: 8%;
+    left: -8%;
+    width: 38%;
+    height: 40%;
   }
 
-  /* Gait — centered, stays dominant in lower-center area */
+  /* Gait image sharp on mobile */
   .hero-cutout--gait {
-    width: clamp(340px, 90vw, 500px);
-    bottom: 12%;
-    z-index: 4;
+    width: 100%;
     filter:
-      drop-shadow(0 8px 40px rgba(0,0,0,.6))
-      drop-shadow(0 2px 5px rgba(0,0,0,.5))
-      drop-shadow(0 0 2px rgba(0,0,0,.4))
-      drop-shadow(0 0 1px rgba(0,0,0,.3));
+      drop-shadow(0 3px 8px rgba(0,0,0,.65))
+      drop-shadow(0 1px 2px rgba(0,0,0,.55))
+      drop-shadow(0 0 0.5px rgba(0,0,0,.4));
   }
 
   /* Content */
@@ -560,22 +627,21 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 
 /* Small phone */
 @media (max-width: 420px) {
-  .hero-cutout--gait {
-    width: clamp(300px, 92vw, 440px);
-    bottom: 14%;
-  }
-
-  .hero-cutout--heeling {
-    height: clamp(360px, 65svh, 540px);
-    right: -10%;
-    top: 3%;
+  .hero-cutout--gait-wrap {
+    width: clamp(300px, 90vw, 420px);
+    bottom: 12%;
   }
 
   .hero-cutout--sitting {
-    height: clamp(280px, 50svh, 420px);
-    left: -16%;
-    top: 8%;
-    opacity: .28;
+    height: clamp(320px, 55svh, 480px);
+    left: -12%;
+    top: 5%;
+  }
+
+  .hero-cutout--heeling {
+    height: clamp(300px, 50svh, 440px);
+    right: -10%;
+    top: 4%;
   }
 
   .hero-name { font-size: clamp(1.7rem, 8.5vw, 2.3rem); }
@@ -643,10 +709,12 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
          src="cutout-heeling.png"
          alt="Handler heeling with Sagi"
          loading="eager">
-    <img class="hero-cutout hero-cutout--gait"
-         src="cutout-gait.png"
-         alt="Sagar Faustus Moravia — side gait"
-         loading="eager">
+    <div class="hero-cutout--gait-wrap">
+      <img class="hero-cutout hero-cutout--gait"
+           src="cutout-gait.png"
+           alt="Sagar Faustus Moravia — side gait"
+           loading="eager">
+    </div>
   </div>
 
   <!-- Content overlay -->
@@ -703,9 +771,9 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 
   /* --- Parallax on mouse (desktop only) --- */
   const hero    = document.getElementById('hero');
-  const gait    = document.querySelector('.hero-cutout--gait');
-  const sitting = document.querySelector('.hero-cutout--sitting');
-  const heeling = document.querySelector('.hero-cutout--heeling');
+  const gaitWrap = document.querySelector('.hero-cutout--gait-wrap');
+  const sitting  = document.querySelector('.hero-cutout--sitting');
+  const heeling  = document.querySelector('.hero-cutout--heeling');
 
   if (window.matchMedia('(min-width: 769px) and (hover: hover)').matches) {
     let ticking = false;
@@ -714,12 +782,12 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
       ticking = true;
       requestAnimationFrame(function() {
         const rect = hero.getBoundingClientRect();
-        const nx = (e.clientX - rect.left) / rect.width  - 0.5;   // -0.5 → 0.5
+        const nx = (e.clientX - rect.left) / rect.width  - 0.5;
         const ny = (e.clientY - rect.top)  / rect.height - 0.5;
 
-        if (gait)    gait.style.transform    = 'translateX(calc(-50% + ' + (nx * -10) + 'px)) translateY(' + (ny * -6) + 'px)';
-        if (sitting) sitting.style.transform = 'translateX(' + (nx * 15) + 'px) translateY(' + (ny * 10) + 'px)';
-        if (heeling) heeling.style.transform = 'translateX(' + (nx * -15) + 'px) translateY(' + (ny * 10) + 'px)';
+        if (gaitWrap) gaitWrap.style.transform = 'translateX(calc(-50% + ' + (nx * -10) + 'px)) translateY(' + (ny * -6) + 'px)';
+        if (sitting)  sitting.style.transform  = 'translateX(' + (nx * 15) + 'px) translateY(' + (ny * 10) + 'px)';
+        if (heeling)  heeling.style.transform  = 'translateX(' + (nx * -15) + 'px) translateY(' + (ny * 10) + 'px)';
 
         ticking = false;
       });
