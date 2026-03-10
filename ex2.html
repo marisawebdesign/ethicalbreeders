@@ -545,7 +545,7 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
     display: block;
     width: clamp(1150px, 290vw, 1700px);
     height: auto;
-    right: -55%;
+    right: -10%;
     top: auto;
     bottom: 18%;
     max-height: 82%;
@@ -579,14 +579,16 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
     height: 40%;
   }
 
-  /* Gait image sharp on mobile */
+  /* Gait image sharp on mobile — brightened so dog is clearly visible */
   .hero-cutout--gait {
     width: 100%;
     z-index: 9;
     filter:
-      drop-shadow(0 3px 8px rgba(0,0,0,.65))
-      drop-shadow(0 1px 2px rgba(0,0,0,.55))
-      drop-shadow(0 0 0.5px rgba(0,0,0,.4));
+      drop-shadow(0 3px 8px rgba(0,0,0,.55))
+      drop-shadow(0 1px 2px rgba(0,0,0,.4))
+      brightness(1.2)
+      saturate(1.1)
+      contrast(1.05);
   }
 
   /* Content — text below all images, near gait dog's feet */
@@ -619,7 +621,7 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 
   .hero-cutout--heeling {
     width: clamp(1050px, 275vw, 1550px);
-    right: -58%;
+    right: -12%;
     bottom: 20%;
   }
 
