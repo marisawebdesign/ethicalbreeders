@@ -87,17 +87,9 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 }
 
 
-/* ---------- Top bar: kennel + registries ---------- */
+/* ---------- Top bar: hidden ---------- */
 .hero-topbar {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  z-index: 20;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: clamp(16px, 3.5vh, 40px) clamp(20px, 4vw, 56px);
-  opacity: 0;
-  animation: fadeIn .9s var(--ease) .25s forwards;
+  display: none;
 }
 
 .hero-kennel {
@@ -129,18 +121,9 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 }
 
 
-/* ---------- "Proudly Presenting" ribbon ---------- */
+/* ---------- "Proudly Presenting" ribbon: hidden ---------- */
 .hero-ribbon {
-  position: absolute;
-  top: clamp(52px, 9.5vh, 88px);
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 20;
-  display: flex;
-  align-items: center;
-  gap: clamp(.6rem, 1.5vw, 1.2rem);
-  opacity: 0;
-  animation: fadeDown .85s var(--ease) .4s forwards;
+  display: none;
 }
 
 .hero-ribbon-line {
@@ -159,19 +142,8 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 }
 
 
-/* ---------- Corner accents ---------- */
-.hero-corner {
-  position: absolute;
-  z-index: 20;
-  width: clamp(20px, 3vw, 44px);
-  height: clamp(20px, 3vw, 44px);
-  opacity: 0;
-  animation: fadeIn 1s var(--ease) 1.3s forwards;
-}
-.hero-corner--tl { top: clamp(14px, 2.5vh, 32px); left: clamp(14px, 2.2vw, 32px); border-top: 1px solid rgba(201,169,110,.18); border-left: 1px solid rgba(201,169,110,.18); }
-.hero-corner--tr { top: clamp(14px, 2.5vh, 32px); right: clamp(14px, 2.2vw, 32px); border-top: 1px solid rgba(201,169,110,.18); border-right: 1px solid rgba(201,169,110,.18); }
-.hero-corner--bl { bottom: clamp(14px, 2.5vh, 32px); left: clamp(14px, 2.2vw, 32px); border-bottom: 1px solid rgba(201,169,110,.18); border-left: 1px solid rgba(201,169,110,.18); }
-.hero-corner--br { bottom: clamp(14px, 2.5vh, 32px); right: clamp(14px, 2.2vw, 32px); border-bottom: 1px solid rgba(201,169,110,.18); border-right: 1px solid rgba(201,169,110,.18); }
+/* ---------- Corner accents: hidden ---------- */
+.hero-corner { display: none; }
 
 
 /* ---------- Image composition ---------- */
@@ -259,11 +231,11 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   opacity: 1;
 }
 
-/* Sitting portrait + handler — left, larger and slightly left of center */
+/* Sitting portrait + handler — left, large with reduced opacity */
 .hero-cutout--sitting {
   bottom: -3%;
   left: clamp(-40px, -2vw, 0px);
-  width: clamp(380px, 42vw, 680px);
+  width: clamp(480px, 50vw, 800px);
   z-index: 2;
   filter:
     drop-shadow(0 3px 8px rgba(0,0,0,.6))
@@ -272,15 +244,15 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
     brightness(.82)
     saturate(.92);
   opacity: 0;
-  animation: heroSlideLeft 1.2s var(--ease-out) .75s forwards;
+  animation: heroSlideLeftFade 1.2s var(--ease-out) .75s forwards;
 }
 
-/* Heeling — right, large & impactful, contained in hero, near but not overlapping gait */
+/* Heeling — right, large & impactful, contained in hero */
 .hero-cutout--heeling {
   bottom: -3%;
   right: clamp(-80px, -4vw, -20px);
-  width: clamp(380px, 42vw, 680px);
-  max-height: 92vh;
+  width: clamp(480px, 50vw, 800px);
+  max-height: 95vh;
   object-fit: contain;
   z-index: 2;
   filter:
@@ -301,7 +273,7 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   margin-top: auto;
   width: 100%;
   padding: clamp(2rem, 4vw, 4.5rem) clamp(1.5rem, 5vw, 6rem);
-  padding-top: clamp(26rem, 52vh, 42rem);
+  padding-top: clamp(32rem, 62vh, 50rem);
   background: linear-gradient(0deg,
     rgba(7,7,7,.97) 0%,
     rgba(7,7,7,.92) 18%,
@@ -478,6 +450,10 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   from { opacity: 0; transform: translateX(-55px); }
   to   { opacity: 1; transform: translateX(0); }
 }
+@keyframes heroSlideLeftFade {
+  from { opacity: 0; transform: translateX(-55px); }
+  to   { opacity: .7; transform: translateX(0); }
+}
 @keyframes heroSlideRight {
   from { opacity: 0; transform: translateX(55px); }
   to   { opacity: 1; transform: translateX(0); }
@@ -529,9 +505,9 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 /* Tablet */
 @media (max-width: 1024px) and (min-width: 769px) {
   .hero-cutout--gait-wrap { width: clamp(420px, 62vw, 650px); bottom: -1%; }
-  .hero-cutout--sitting { width: clamp(300px, 40vw, 500px); left: clamp(-30px, -1vw, 0px); }
-  .hero-cutout--heeling { width: clamp(300px, 40vw, 500px); right: clamp(-50px, -2vw, 0px); }
-  .hero-content { padding-top: clamp(20rem, 42vh, 30rem); }
+  .hero-cutout--sitting { width: clamp(380px, 46vw, 600px); left: clamp(-30px, -1vw, 0px); }
+  .hero-cutout--heeling { width: clamp(380px, 46vw, 600px); right: clamp(-50px, -2vw, 0px); }
+  .hero-content { padding-top: clamp(26rem, 55vh, 38rem); }
 }
 
 /* Mobile */
@@ -540,23 +516,19 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
     min-height: 100svh;
   }
 
-  /* Hide topbar and ribbon on mobile */
-  .hero-topbar { display: none; }
-  .hero-ribbon { display: none; }
-
   /* ---- Collage-style mobile layout ---- */
 
-  /* Sitting portrait — farthest back */
+  /* Sitting portrait — farthest back, reduced opacity */
   .hero-cutout--sitting {
     display: block;
-    width: clamp(260px, 55vw, 380px);
+    width: clamp(300px, 62vw, 440px);
     height: auto;
     left: -6%;
     top: 2%;
     bottom: auto;
     max-height: none;
     z-index: 1;
-    opacity: 1;
+    opacity: .65;
     filter:
       drop-shadow(0 2px 6px rgba(0,0,0,.65))
       drop-shadow(0 0 1px rgba(0,0,0,.5))
@@ -564,10 +536,10 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
       saturate(.9);
   }
 
-  /* Heeling (handler + dog) — middle layer */
+  /* Heeling (handler + dog) — middle layer, larger */
   .hero-cutout--heeling {
     display: block;
-    width: clamp(240px, 50vw, 360px);
+    width: clamp(280px, 58vw, 420px);
     height: auto;
     right: -6%;
     top: 2%;
@@ -612,10 +584,10 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
       drop-shadow(0 0 0.5px rgba(0,0,0,.4));
   }
 
-  /* Content — text starts near dog's feet */
+  /* Content — text starts near dog's feet/legs */
   .hero-content {
     padding: 1.8rem 1.2rem;
-    padding-top: clamp(22rem, 52svh, 36rem);
+    padding-top: clamp(30rem, 68svh, 46rem);
   }
 
   .hero-name { font-size: clamp(1.9rem, 9vw, 2.8rem); }
@@ -625,8 +597,6 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   .hero-badge { font-size: .5rem; padding: 2.5px 6px; }
   .hero-desc { font-size: .8rem; line-height: 1.7; }
 
-  /* Hide corners on mobile */
-  .hero-corner { display: none; }
 }
 
 /* Small phone */
@@ -637,13 +607,13 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   }
 
   .hero-cutout--sitting {
-    width: clamp(220px, 52vw, 320px);
+    width: clamp(260px, 58vw, 380px);
     left: -8%;
     top: 3%;
   }
 
   .hero-cutout--heeling {
-    width: clamp(200px, 48vw, 300px);
+    width: clamp(240px, 54vw, 360px);
     right: -8%;
     top: 3%;
   }
@@ -652,7 +622,7 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 
   .hero-content {
     padding: 1.4rem 1rem;
-    padding-top: clamp(18rem, 46svh, 30rem);
+    padding-top: clamp(26rem, 62svh, 40rem);
   }
 
   .hero-desc { font-size: .76rem; }
@@ -681,27 +651,6 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   <div class="hero-grain"></div>
   <div class="hero-light"></div>
 
-  <!-- Corner accents -->
-  <div class="hero-corner hero-corner--tl"></div>
-  <div class="hero-corner hero-corner--tr"></div>
-  <div class="hero-corner hero-corner--bl"></div>
-  <div class="hero-corner hero-corner--br"></div>
-
-  <!-- Top bar -->
-  <div class="hero-topbar">
-    <div class="hero-kennel">WoodWolf Kennels</div>
-    <div class="hero-registries">
-      <div class="hero-reg">AKC</div>
-      <div class="hero-reg">SV</div>
-    </div>
-  </div>
-
-  <!-- Presenting ribbon -->
-  <div class="hero-ribbon">
-    <div class="hero-ribbon-line"></div>
-    <span class="hero-ribbon-text">Proudly Presenting</span>
-    <div class="hero-ribbon-line"></div>
-  </div>
 
   <!-- Image composition -->
   <div class="hero-composition">
