@@ -485,13 +485,36 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   .hero-ribbon-line { width: 24px; }
   .hero-ribbon-text { font-size: .44rem; letter-spacing: .22em; }
 
-  /* Hide flanking images — gait only */
-  .hero-cutout--sitting,
-  .hero-cutout--heeling { display: none; }
+  /* Show all three images on mobile */
+  .hero-cutout--heeling {
+    display: block;
+    width: clamp(200px, 55vw, 320px);
+    right: -8%;
+    bottom: 12%;
+    z-index: 3;
+    filter:
+      drop-shadow(0 8px 36px rgba(0,0,0,.55))
+      brightness(.88)
+      saturate(.92);
+  }
+
+  .hero-cutout--sitting {
+    display: block;
+    width: clamp(160px, 42vw, 260px);
+    left: -6%;
+    bottom: 10%;
+    z-index: 2;
+    opacity: .45;
+    filter:
+      drop-shadow(0 8px 36px rgba(0,0,0,.55))
+      brightness(.75)
+      saturate(.85);
+  }
 
   .hero-cutout--gait {
-    width: clamp(280px, 80vw, 440px);
-    bottom: 22%;
+    width: clamp(260px, 68vw, 400px);
+    bottom: 18%;
+    z-index: 4;
   }
 
   /* Content */
@@ -514,8 +537,20 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 /* Small phone */
 @media (max-width: 420px) {
   .hero-cutout--gait {
-    width: 88vw;
-    bottom: 26%;
+    width: 75vw;
+    bottom: 22%;
+  }
+
+  .hero-cutout--heeling {
+    width: clamp(170px, 50vw, 260px);
+    right: -10%;
+    bottom: 14%;
+  }
+
+  .hero-cutout--sitting {
+    width: clamp(140px, 38vw, 220px);
+    left: -8%;
+    bottom: 12%;
   }
 
   .hero-name { font-size: clamp(1.7rem, 8.5vw, 2.3rem); }
