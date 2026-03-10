@@ -459,8 +459,8 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   to   { opacity: 1; transform: translateX(0); }
 }
 @keyframes heroHeelingMobile {
-  from { opacity: 0; transform: translateX(-50%) translateX(30px); }
-  to   { opacity: .45; transform: translateX(-50%); }
+  from { opacity: 0; transform: translateX(-22%) translateX(30px); }
+  to   { opacity: .45; transform: translateX(-22%); }
 }
 @keyframes scrollBob {
   0%, 100% { transform: rotate(45deg) translateY(0); }
@@ -546,12 +546,12 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
      Positioned so the girl + dog are visible behind the main gait cutout. */
   .hero-cutout--heeling {
     display: block;
-    width: clamp(700px, 180vw, 1000px);
+    width: clamp(875px, 225vw, 1250px);
     height: auto;
     left: 50%;
     right: auto;
     top: auto;
-    bottom: 12%;
+    bottom: 10%;
     max-height: 88%;
     z-index: 0;
     opacity: 0;
@@ -625,8 +625,8 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   }
 
   .hero-cutout--heeling {
-    width: clamp(620px, 170vw, 900px);
-    bottom: 14%;
+    width: clamp(775px, 212vw, 1125px);
+    bottom: 12%;
   }
 
   .hero-name { font-size: clamp(1.7rem, 8.5vw, 2.3rem); }
