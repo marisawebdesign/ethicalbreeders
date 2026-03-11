@@ -192,34 +192,35 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   content: '';
   position: absolute;
   bottom: 0;
-  left: -8%;
-  width: 60%;
-  height: 65%;
+  right: -12%;
+  width: 65%;
+  height: 70%;
   background:
-    radial-gradient(ellipse 65% 55% at 25% 65%,
-      rgba(201,169,110,.28) 0%,
-      rgba(201,169,110,.14) 30%,
-      rgba(201,169,110,.05) 55%,
-      transparent 80%);
+    radial-gradient(ellipse 65% 55% at 75% 55%,
+      rgba(201,169,110,.45) 0%,
+      rgba(201,169,110,.25) 25%,
+      rgba(201,169,110,.10) 50%,
+      transparent 75%);
   z-index: -1;
   pointer-events: none;
+  filter: blur(3px);
 }
 .hero-cutout--gait-wrap::after {
   content: '';
   position: absolute;
-  bottom: 2%;
-  left: -12%;
-  width: 50%;
-  height: 50%;
+  bottom: 5%;
+  right: -15%;
+  width: 55%;
+  height: 55%;
   background:
-    radial-gradient(ellipse 75% 65% at 20% 75%,
-      rgba(220,190,130,.22) 0%,
-      rgba(201,169,110,.12) 30%,
-      rgba(180,160,120,.04) 55%,
+    radial-gradient(ellipse 70% 60% at 80% 65%,
+      rgba(220,190,130,.35) 0%,
+      rgba(201,169,110,.18) 30%,
+      rgba(180,160,120,.06) 55%,
       transparent 75%);
   z-index: -1;
   pointer-events: none;
-  filter: blur(6px);
+  filter: blur(8px);
 }
 .hero-cutout--gait-wrap .hero-cutout--gait {
   position: relative;
@@ -229,10 +230,11 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   width: 100%;
   animation: none;
   opacity: 1;
-  /* Tight professional highlight tracing the dog's silhouette */
+  /* Strong highlight tracing the dog's silhouette — visible rim light */
   filter:
-    drop-shadow(0 0 1.5px rgba(201,169,110,.45))
-    drop-shadow(0 0 3px rgba(201,169,110,.2))
+    drop-shadow(0 0 2px rgba(201,169,110,.6))
+    drop-shadow(0 0 5px rgba(201,169,110,.35))
+    drop-shadow(0 0 10px rgba(201,169,110,.15))
     drop-shadow(0 4px 12px rgba(0,0,0,.7))
     drop-shadow(0 1px 2px rgba(0,0,0,.6));
 }
@@ -848,7 +850,7 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   left: 0;
   width: 100%;
   pointer-events: none;
-  z-index: 1;
+  z-index: 0;
 }
 
 @media (max-width: 1024px) and (min-width: 769px) {
@@ -917,24 +919,27 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   }
   .hero-cutout--gait-wrap::before {
     bottom: 5%;
-    left: -5%;
+    right: -5%;
+    left: auto;
     width: 50%;
     height: 55%;
   }
   .hero-cutout--gait-wrap::after {
     bottom: 8%;
-    left: -8%;
+    right: -8%;
+    left: auto;
     width: 38%;
     height: 40%;
   }
 
-  /* Gait image sharp on mobile — brightened so dog is clearly visible */
+  /* Gait image sharp on mobile — brightened with strong rim highlight */
   .hero-cutout--gait {
     width: 100%;
     z-index: 9;
     filter:
-      drop-shadow(0 0 1.5px rgba(201,169,110,.45))
-      drop-shadow(0 0 3px rgba(201,169,110,.2))
+      drop-shadow(0 0 2px rgba(201,169,110,.6))
+      drop-shadow(0 0 5px rgba(201,169,110,.35))
+      drop-shadow(0 0 10px rgba(201,169,110,.15))
       drop-shadow(0 3px 8px rgba(0,0,0,.55))
       drop-shadow(0 1px 2px rgba(0,0,0,.4))
       brightness(1.4)
@@ -1009,6 +1014,9 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   <div class="hero-light"></div>
 
 
+  <!-- Smoke / haze overlay — canvas-drawn, behind all images -->
+  <canvas class="hero-smoke-canvas" id="smokeCanvas"></canvas>
+
   <!-- Image composition -->
   <div class="hero-composition">
     <img class="hero-cutout hero-cutout--sitting"
@@ -1026,9 +1034,6 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
            loading="eager">
     </div>
   </div>
-
-  <!-- Smoke / haze overlay — canvas-drawn for max mobile compatibility -->
-  <canvas class="hero-smoke-canvas" id="smokeCanvas"></canvas>
 
   <!-- Animated "Sagi" callname — centered in hero -->
   <div class="hero-sagi-wrap">
@@ -1547,7 +1552,7 @@ function downloadPedigreePDF(){var w=window.open('','_blank');if(!w){alert('Plea
 })();
 </script>
 
-<!-- Smoke / haze canvas renderer -->
+<!-- Smoke / haze canvas renderer — static, no animation -->
 <script>
 (function(){
   var canvas = document.getElementById('smokeCanvas');
@@ -1555,11 +1560,9 @@ function downloadPedigreePDF(){var w=window.open('','_blank');if(!w){alert('Plea
   var ctx = canvas.getContext('2d');
   var hero = canvas.closest('.hero');
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
-  var W, H, puffs = [];
+  var W, H;
 
-  /* Simplex-ish noise (fast 2D value noise with smoothing) */
-  var noiseGrid = {};
-  function seed(){ noiseGrid = {}; }
+  /* Fast 2D value noise */
   function hash(x,y){ var n = x*374761393 + y*668265263; n = (n^(n>>13))*1274126177; return (n^(n>>16)) / 2147483648; }
   function noise(x,y){
     var ix = Math.floor(x), iy = Math.floor(y);
@@ -1574,49 +1577,23 @@ function downloadPedigreePDF(){var w=window.open('','_blank');if(!w){alert('Plea
     return v/tot;
   }
 
-  /* Smoke puff: a cluster of soft circles placed by noise */
-  function Puff(opts){
-    this.cx = opts.cx;
-    this.cy = opts.cy;
-    this.rx = opts.rx;
-    this.ry = opts.ry;
-    this.baseAlpha = opts.alpha;
-    this.seed = opts.seed || Math.random()*999;
-    this.driftSpeed = opts.drift || .0003;
-    this.dots = [];
-    this.buildDots();
-  }
-  Puff.prototype.buildDots = function(){
-    /* Generate ~80-140 soft circles within an elliptical area, placed with noise offsets */
-    var count = 60 + Math.floor(Math.random()*80);
-    this.dots = [];
+  /* Draw a single static smoke puff (cluster of soft circles) */
+  function drawPuff(cx, cy, rx, ry, baseAlpha, seed){
+    var count = 70 + Math.floor(Math.abs(hash(seed*13,seed*7)) * 70);
     for(var i=0;i<count;i++){
-      var angle = Math.random()*Math.PI*2;
-      var dist = Math.pow(Math.random(), .6); /* more toward center */
-      var nx = Math.cos(angle)*dist;
-      var ny = Math.sin(angle)*dist;
-      /* Perturb with noise for organic clumps */
-      var ns = this.seed + i*.1;
-      nx += (fbm(ns, i*.3, 3) - .5) * .6;
-      ny += (fbm(i*.3, ns, 3) - .5) * .6;
-      var r = (.15 + Math.random()*.35) * Math.min(this.rx, this.ry);
-      var alpha = (.12 + Math.random()*.28) * this.baseAlpha;
-      /* Fade out toward edges of ellipse */
+      var angle = (hash(seed+i, i*3.7) + 1) * Math.PI;
+      var dist = Math.pow(Math.abs(hash(i*2.1, seed+i*.5)), .6);
+      var nx = Math.cos(angle) * dist;
+      var ny = Math.sin(angle) * dist;
+      nx += (fbm(seed + i*.1, i*.3, 3) - .5) * .6;
+      ny += (fbm(i*.3, seed + i*.1, 3) - .5) * .6;
+      var r = (.15 + Math.abs(hash(seed+i*7, i*11)) * .35) * Math.min(rx, ry);
+      var a = (.12 + Math.abs(hash(i*5, seed+i*3)) * .28) * baseAlpha;
       var edgeDist = Math.sqrt(nx*nx + ny*ny);
-      if(edgeDist > .3) alpha *= Math.max(0, 1 - (edgeDist - .3) / .7);
-      this.dots.push({ox:nx, oy:ny, r:r, alpha:alpha, phase: Math.random()*Math.PI*2});
-    }
-  };
-  Puff.prototype.draw = function(ctx, t){
-    /* Very slow drift — nearly still, gentle breathing motion */
-    var drift = Math.sin(t * this.driftSpeed * .08 + this.seed) * this.rx * .03;
-    var driftY = Math.cos(t * this.driftSpeed * .06 + this.seed * 1.3) * this.ry * .02;
-    for(var i=0;i<this.dots.length;i++){
-      var d = this.dots[i];
-      var x = this.cx + d.ox * this.rx + drift + Math.sin(t*.000012 + d.phase)*3;
-      var y = this.cy + d.oy * this.ry + driftY + Math.cos(t*.00001 + d.phase)*2;
-      var r = d.r * (.96 + .04*Math.sin(t*.000025 + d.phase));
-      var a = d.alpha * (.93 + .07*Math.sin(t*.00002 + d.phase));
+      if(edgeDist > .3) a *= Math.max(0, 1 - (edgeDist - .3) / .7);
+      if(a < .003) continue;
+      var x = cx + nx * rx;
+      var y = cy + ny * ry;
       var g = ctx.createRadialGradient(x, y, 0, x, y, r);
       g.addColorStop(0, 'rgba(180,172,160,' + a + ')');
       g.addColorStop(.4, 'rgba(160,152,140,' + (a*.6) + ')');
@@ -1626,9 +1603,9 @@ function downloadPedigreePDF(){var w=window.open('','_blank');if(!w){alert('Plea
       ctx.arc(x, y, r, 0, Math.PI*2);
       ctx.fill();
     }
-  };
+  }
 
-  function resize(){
+  function render(){
     var rect = hero.getBoundingClientRect();
     W = rect.width;
     H = rect.height;
@@ -1637,133 +1614,40 @@ function downloadPedigreePDF(){var w=window.open('','_blank');if(!w){alert('Plea
     canvas.style.width = W + 'px';
     canvas.style.height = H + 'px';
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    buildPuffs();
-  }
+    ctx.clearRect(0, 0, W, H);
 
-  function buildPuffs(){
-    puffs = [];
     var isMobile = W < 769;
-    var alphaBase = isMobile ? .45 : .3;
-    /* Stop smoke before text — cover top ~65% of hero */
-    var maxY = H * .65;
-    var sp = .00003; /* very slow base drift speed */
+    var a = isMobile ? .45 : .3;
 
-    /* --- Top edge band --- */
-    puffs.push(new Puff({
-      cx: W * .5, cy: H * .05,
-      rx: W * .6, ry: H * .08,
-      alpha: alphaBase * .9, seed: 1.1, drift: sp
-    }));
+    /* Draw all puffs once — completely static */
+    drawPuff(W*.5,  H*.05,  W*.6,  H*.08,  a*.9,   1.1);
+    drawPuff(W*.15, H*.10,  W*.28, H*.12,  a,      2.3);
+    drawPuff(W*.82, H*.10,  W*.26, H*.11,  a*.85,  3.7);
+    drawPuff(W*.50, H*.20,  W*.45, H*.14,  a*1.1,  4.5);
+    drawPuff(W*.12, H*.28,  W*.25, H*.14,  a*.8,   5.9);
+    drawPuff(W*.88, H*.26,  W*.22, H*.13,  a*.75,  6.2);
+    drawPuff(W*.48, H*.35,  W*.40, H*.14,  a*.9,   7.1);
+    drawPuff(W*.25, H*.44,  W*.30, H*.13,  a*.7,   8.3);
+    drawPuff(W*.75, H*.42,  W*.28, H*.12,  a*.65,  9.1);
+    drawPuff(W*.50, H*.54,  W*.50, H*.12,  a*.5,   10.4);
 
-    /* --- Upper left --- */
-    puffs.push(new Puff({
-      cx: W * .15, cy: H * .10,
-      rx: W * .28, ry: H * .12,
-      alpha: alphaBase, seed: 2.3, drift: sp * .9
-    }));
-
-    /* --- Upper right --- */
-    puffs.push(new Puff({
-      cx: W * .82, cy: H * .10,
-      rx: W * .26, ry: H * .11,
-      alpha: alphaBase * .85, seed: 3.7, drift: sp * 1.1
-    }));
-
-    /* --- Head / shoulder band (densest) --- */
-    puffs.push(new Puff({
-      cx: W * .50, cy: H * .20,
-      rx: W * .45, ry: H * .14,
-      alpha: alphaBase * 1.1, seed: 4.5, drift: sp * .8
-    }));
-
-    /* --- Left mid area --- */
-    puffs.push(new Puff({
-      cx: W * .12, cy: H * .28,
-      rx: W * .25, ry: H * .14,
-      alpha: alphaBase * .8, seed: 5.9, drift: sp * 1.2
-    }));
-
-    /* --- Right mid area --- */
-    puffs.push(new Puff({
-      cx: W * .88, cy: H * .26,
-      rx: W * .22, ry: H * .13,
-      alpha: alphaBase * .75, seed: 6.2, drift: sp
-    }));
-
-    /* --- Center torso area --- */
-    puffs.push(new Puff({
-      cx: W * .48, cy: H * .35,
-      rx: W * .40, ry: H * .14,
-      alpha: alphaBase * .9, seed: 7.1, drift: sp * .85
-    }));
-
-    /* --- Lower spread left --- */
-    puffs.push(new Puff({
-      cx: W * .25, cy: H * .44,
-      rx: W * .30, ry: H * .13,
-      alpha: alphaBase * .7, seed: 8.3, drift: sp * 1.1
-    }));
-
-    /* --- Lower spread right --- */
-    puffs.push(new Puff({
-      cx: W * .75, cy: H * .42,
-      rx: W * .28, ry: H * .12,
-      alpha: alphaBase * .65, seed: 9.1, drift: sp * .95
-    }));
-
-    /* --- Bottom fade band (at boundary before text) --- */
-    puffs.push(new Puff({
-      cx: W * .50, cy: H * .54,
-      rx: W * .50, ry: H * .12,
-      alpha: alphaBase * .5, seed: 10.4, drift: sp * .7
-    }));
-
-    /* --- Extra density for mobile --- */
     if(isMobile){
-      puffs.push(new Puff({
-        cx: W * .45, cy: H * .15,
-        rx: W * .50, ry: H * .12,
-        alpha: alphaBase * .8, seed: 11.2, drift: sp
-      }));
-      puffs.push(new Puff({
-        cx: W * .50, cy: H * .48,
-        rx: W * .45, ry: H * .12,
-        alpha: alphaBase * .6, seed: 12.5, drift: sp * .9
-      }));
+      drawPuff(W*.45, H*.15, W*.50, H*.12, a*.8, 11.2);
+      drawPuff(W*.50, H*.48, W*.45, H*.12, a*.6, 12.5);
     }
   }
 
-  var running = true;
-  function frame(t){
-    if(!running) return;
-    ctx.clearRect(0, 0, W, H);
-    for(var i=0; i<puffs.length; i++) puffs[i].draw(ctx, t);
-    requestAnimationFrame(frame);
-  }
-
-  /* Fade in the canvas */
+  /* Fade in */
   canvas.style.opacity = '0';
   canvas.style.transition = 'opacity 2.5s ease-out';
-
-  resize();
-  requestAnimationFrame(function(t){
-    frame(t);
-    setTimeout(function(){ canvas.style.opacity = '1'; }, 300);
-  });
+  render();
+  setTimeout(function(){ canvas.style.opacity = '1'; }, 300);
 
   var resizeTimer;
   window.addEventListener('resize', function(){
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(resize, 200);
+    resizeTimer = setTimeout(render, 200);
   });
-
-  /* Pause when hero not visible */
-  if(window.IntersectionObserver){
-    new IntersectionObserver(function(entries){
-      running = entries[0].isIntersecting;
-      if(running) requestAnimationFrame(frame);
-    }, {threshold:0}).observe(hero);
-  }
 })();
 </script>
 
