@@ -192,11 +192,11 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   content: '';
   position: absolute;
   bottom: 0;
-  left: -12%;
+  right: -12%;
   width: 65%;
   height: 70%;
   background:
-    radial-gradient(ellipse 65% 55% at 25% 55%,
+    radial-gradient(ellipse 65% 55% at 75% 55%,
       rgba(201,169,110,.45) 0%,
       rgba(201,169,110,.25) 25%,
       rgba(201,169,110,.10) 50%,
@@ -209,11 +209,11 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   content: '';
   position: absolute;
   bottom: 5%;
-  left: -15%;
+  right: -15%;
   width: 55%;
   height: 55%;
   background:
-    radial-gradient(ellipse 70% 60% at 20% 65%,
+    radial-gradient(ellipse 70% 60% at 80% 65%,
       rgba(220,190,130,.35) 0%,
       rgba(201,169,110,.18) 30%,
       rgba(180,160,120,.06) 55%,
@@ -919,13 +919,15 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   }
   .hero-cutout--gait-wrap::before {
     bottom: 5%;
-    left: -5%;
+    right: -5%;
+    left: auto;
     width: 50%;
     height: 55%;
   }
   .hero-cutout--gait-wrap::after {
     bottom: 8%;
-    left: -8%;
+    right: -8%;
+    left: auto;
     width: 38%;
     height: 40%;
   }
