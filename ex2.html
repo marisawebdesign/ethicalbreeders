@@ -475,19 +475,20 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   font-family: var(--mono);
   font-size: .56rem;
   letter-spacing: .05em;
-  padding: 0;
-  border: none;
+  padding: .2em .45em;
+  border: 1px solid rgba(201,169,110,.15);
+  border-radius: 3px;
   color: var(--text-muted);
-  background: none;
+  background: rgba(201,169,110,.04);
   white-space: nowrap;
   cursor: pointer;
-  transition: color .3s var(--ease);
+  transition: color .3s var(--ease), border-color .3s var(--ease), background .3s var(--ease);
   position: relative;
 }
 .hero-badge:hover {
-  color: var(--text-secondary);
-  background: none;
-  border-color: transparent;
+  color: var(--gold);
+  background: rgba(201,169,110,.08);
+  border-color: rgba(201,169,110,.35);
 }
 .hero-badge--green {
   border-color: transparent;
@@ -517,36 +518,39 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 
 /* Badge tooltip bubble */
 .badge-tip {
-  position: absolute;
-  bottom: calc(100% + 10px);
-  left: 50%;
-  transform: translateX(-50%) scale(.92);
+  position: fixed;
   background: rgba(22,22,22,.97);
-  border: 1px solid rgba(201,169,110,.2);
+  border: 1px solid rgba(201,169,110,.25);
+  border-radius: 6px;
   color: var(--text-primary);
   font-family: var(--sans);
-  font-size: .72rem;
-  line-height: 1.5;
-  padding: 10px 14px;
-  width: 240px;
+  font-size: .74rem;
+  font-weight: 300;
+  line-height: 1.55;
+  letter-spacing: .01em;
+  padding: 12px 16px;
+  width: min(280px, 88vw);
+  white-space: normal;
+  word-wrap: break-word;
   pointer-events: none;
   opacity: 0;
-  transition: opacity .25s ease, transform .25s ease;
+  transform: scale(.95);
+  transition: opacity .2s ease, transform .2s ease;
   z-index: 50;
-  box-shadow: 0 6px 24px rgba(0,0,0,.55);
+  box-shadow: 0 8px 30px rgba(0,0,0,.6);
 }
 .badge-tip::after {
   content: '';
   position: absolute;
   top: 100%;
-  left: 50%;
+  left: var(--arrow-left, 50%);
   transform: translateX(-50%);
   border: 6px solid transparent;
   border-top-color: rgba(22,22,22,.97);
 }
 .hero-badge.badge-active .badge-tip {
   opacity: 1;
-  transform: translateX(-50%) scale(1);
+  transform: scale(1);
   pointer-events: auto;
 }
 .badge-tip-abbr {
@@ -1452,18 +1456,41 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 
 })();
 
-/* --- Hero badge tooltip click --- */
+/* --- Hero badge tooltip click with viewport-safe positioning --- */
 (function() {
   var badges = document.querySelectorAll('.hero-badge[data-badge-tip]');
   function closeAll() {
     badges.forEach(function(b) { b.classList.remove('badge-active'); });
+  }
+  function positionTip(badge) {
+    var tip = badge.querySelector('.badge-tip');
+    if (!tip) return;
+    var rect = badge.getBoundingClientRect();
+    var tipW = Math.min(280, window.innerWidth * .88);
+    var pad = 8;
+    /* Center under badge, clamp to viewport edges */
+    var idealLeft = rect.left + rect.width / 2 - tipW / 2;
+    var left = Math.max(pad, Math.min(idealLeft, window.innerWidth - tipW - pad));
+    var top = rect.top - tip.offsetHeight - 10;
+    /* If no room above, show below */
+    if (top < pad) top = rect.bottom + 10;
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    /* Position the arrow to point at the badge center */
+    var badgeCenter = rect.left + rect.width / 2;
+    var arrowLeft = badgeCenter - left;
+    arrowLeft = Math.max(14, Math.min(arrowLeft, tipW - 14));
+    tip.style.setProperty('--arrow-left', arrowLeft + 'px');
   }
   badges.forEach(function(badge) {
     badge.addEventListener('click', function(e) {
       e.stopPropagation();
       var wasActive = badge.classList.contains('badge-active');
       closeAll();
-      if (!wasActive) badge.classList.add('badge-active');
+      if (!wasActive) {
+        badge.classList.add('badge-active');
+        positionTip(badge);
+      }
     });
   });
   document.addEventListener('click', closeAll);
