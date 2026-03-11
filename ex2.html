@@ -234,8 +234,8 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 /* Sitting portrait + handler — bottom-left anchor, blown up large */
 .hero-cutout--sitting {
   bottom: -3%;
-  left: clamp(-60px, -3vw, -10px);
-  width: clamp(550px, 58vw, 950px);
+  left: clamp(60px, 10vw, 150px);
+  width: clamp(430px, 48vw, 780px);
   z-index: 2;
   filter:
     drop-shadow(0 3px 8px rgba(0,0,0,.6))
@@ -509,7 +509,7 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 /* Tablet */
 @media (max-width: 1024px) and (min-width: 769px) {
   .hero-cutout--gait-wrap { width: clamp(420px, 62vw, 650px); bottom: -1%; }
-  .hero-cutout--sitting { width: clamp(380px, 46vw, 600px); left: clamp(-30px, -1vw, 0px); }
+  .hero-cutout--sitting { width: clamp(290px, 38vw, 460px); left: clamp(40px, 9vw, 100px); }
   .hero-cutout--heeling { width: clamp(342px, 41.4vw, 540px); right: clamp(-50px, -2vw, 0px); }
   .hero-content { padding-top: clamp(32rem, 68vh, 48rem); }
 }
@@ -523,13 +523,13 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   /* ---- Collage-style mobile layout ---- */
 
   /* Sitting portrait — bottom-left, farthest back, reduced opacity.
-     Blown up big so girl is cropped off top; just the sitting dog shows.
+     Dog-only cutout; sized to match previous dog visual size.
      Bottom aligned with gait image bottom area. */
   .hero-cutout--sitting {
     display: block;
-    width: clamp(550px, 140vw, 800px);
+    width: clamp(550px, 115vw, 800px);
     height: auto;
-    left: -55%;
+    left: -23%;
     top: auto;
     bottom: 20%;
     max-height: none;
@@ -619,8 +619,8 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   }
 
   .hero-cutout--sitting {
-    width: clamp(500px, 135vw, 720px);
-    left: -58%;
+    width: clamp(450px, 110vw, 660px);
+    left: -27%;
     bottom: 22%;
   }
 
@@ -666,8 +666,8 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   <!-- Image composition -->
   <div class="hero-composition">
     <img class="hero-cutout hero-cutout--sitting"
-         src="cutout-sitting.png"
-         alt="Handler with Sagi sitting portrait"
+         src="Bazaart_602EE557-6952-42FA-B95E-F4605894CE8A.png"
+         alt="Sagi sitting portrait"
          loading="eager">
     <img class="hero-cutout hero-cutout--heeling"
          src="Bazaart_925B8799-10CB-4BEB-AAB1-EA9B364E823C.png"
