@@ -838,7 +838,7 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   left: 0;
   width: 100%;
   pointer-events: none;
-  z-index: 5;
+  z-index: 1;
 }
 
 @media (max-width: 1024px) and (min-width: 769px) {
@@ -1573,14 +1573,15 @@ function downloadPedigreePDF(){var w=window.open('','_blank');if(!w){alert('Plea
     }
   };
   Puff.prototype.draw = function(ctx, t){
-    var drift = Math.sin(t * this.driftSpeed * Math.PI * 2 + this.seed) * this.rx * .08;
-    var driftY = Math.cos(t * this.driftSpeed * .7 * Math.PI * 2 + this.seed * 1.3) * this.ry * .05;
+    /* Very slow drift — nearly still, gentle breathing motion */
+    var drift = Math.sin(t * this.driftSpeed * .08 + this.seed) * this.rx * .03;
+    var driftY = Math.cos(t * this.driftSpeed * .06 + this.seed * 1.3) * this.ry * .02;
     for(var i=0;i<this.dots.length;i++){
       var d = this.dots[i];
-      var x = this.cx + d.ox * this.rx + drift + Math.sin(t*.0002 + d.phase)*8;
-      var y = this.cy + d.oy * this.ry + driftY + Math.cos(t*.00015 + d.phase)*5;
-      var r = d.r * (.9 + .1*Math.sin(t*.0004 + d.phase));
-      var a = d.alpha * (.85 + .15*Math.sin(t*.0003 + d.phase));
+      var x = this.cx + d.ox * this.rx + drift + Math.sin(t*.000012 + d.phase)*3;
+      var y = this.cy + d.oy * this.ry + driftY + Math.cos(t*.00001 + d.phase)*2;
+      var r = d.r * (.96 + .04*Math.sin(t*.000025 + d.phase));
+      var a = d.alpha * (.93 + .07*Math.sin(t*.00002 + d.phase));
       var g = ctx.createRadialGradient(x, y, 0, x, y, r);
       g.addColorStop(0, 'rgba(180,172,160,' + a + ')');
       g.addColorStop(.4, 'rgba(160,152,140,' + (a*.6) + ')');
@@ -1608,60 +1609,91 @@ function downloadPedigreePDF(){var w=window.open('','_blank');if(!w){alert('Plea
     puffs = [];
     var isMobile = W < 769;
     var alphaBase = isMobile ? .45 : .3;
+    /* Stop smoke before text — cover top ~65% of hero */
+    var maxY = H * .65;
+    var sp = .00003; /* very slow base drift speed */
 
-    /* --- Top edge haze (horizontal band across top) --- */
+    /* --- Top edge band --- */
     puffs.push(new Puff({
-      cx: W * .5, cy: H * .06,
-      rx: W * .55, ry: H * .09,
-      alpha: alphaBase * .9, seed: 1.1, drift: .0004
+      cx: W * .5, cy: H * .05,
+      rx: W * .6, ry: H * .08,
+      alpha: alphaBase * .9, seed: 1.1, drift: sp
     }));
 
-    /* --- Left shoulder / top-left --- */
+    /* --- Upper left --- */
     puffs.push(new Puff({
-      cx: W * .22, cy: H * .14,
+      cx: W * .15, cy: H * .10,
       rx: W * .28, ry: H * .12,
-      alpha: alphaBase, seed: 2.3, drift: .00035
+      alpha: alphaBase, seed: 2.3, drift: sp * .9
     }));
 
-    /* --- Right of handler's head --- */
+    /* --- Upper right --- */
     puffs.push(new Puff({
-      cx: W * .72, cy: H * .15,
+      cx: W * .82, cy: H * .10,
       rx: W * .26, ry: H * .11,
-      alpha: alphaBase * .85, seed: 3.7, drift: .00045
+      alpha: alphaBase * .85, seed: 3.7, drift: sp * 1.1
     }));
 
-    /* --- Center around shoulders (the densest cloud) --- */
+    /* --- Head / shoulder band (densest) --- */
     puffs.push(new Puff({
-      cx: W * .50, cy: H * (isMobile ? .20 : .18),
-      rx: W * .38, ry: H * .13,
-      alpha: alphaBase * 1.1, seed: 4.5, drift: .0003
+      cx: W * .50, cy: H * .20,
+      rx: W * .45, ry: H * .14,
+      alpha: alphaBase * 1.1, seed: 4.5, drift: sp * .8
     }));
 
-    /* --- Wispy tendrils left --- */
+    /* --- Left mid area --- */
     puffs.push(new Puff({
-      cx: W * .08, cy: H * .10,
-      rx: W * .20, ry: H * .08,
-      alpha: alphaBase * .7, seed: 5.9, drift: .0005
+      cx: W * .12, cy: H * .28,
+      rx: W * .25, ry: H * .14,
+      alpha: alphaBase * .8, seed: 5.9, drift: sp * 1.2
     }));
 
-    /* --- Wispy tendrils right --- */
+    /* --- Right mid area --- */
     puffs.push(new Puff({
-      cx: W * .92, cy: H * .11,
-      rx: W * .18, ry: H * .08,
-      alpha: alphaBase * .65, seed: 6.2, drift: .00055
+      cx: W * .88, cy: H * .26,
+      rx: W * .22, ry: H * .13,
+      alpha: alphaBase * .75, seed: 6.2, drift: sp
     }));
 
-    /* --- Extra shoulder band for mobile visibility --- */
+    /* --- Center torso area --- */
+    puffs.push(new Puff({
+      cx: W * .48, cy: H * .35,
+      rx: W * .40, ry: H * .14,
+      alpha: alphaBase * .9, seed: 7.1, drift: sp * .85
+    }));
+
+    /* --- Lower spread left --- */
+    puffs.push(new Puff({
+      cx: W * .25, cy: H * .44,
+      rx: W * .30, ry: H * .13,
+      alpha: alphaBase * .7, seed: 8.3, drift: sp * 1.1
+    }));
+
+    /* --- Lower spread right --- */
+    puffs.push(new Puff({
+      cx: W * .75, cy: H * .42,
+      rx: W * .28, ry: H * .12,
+      alpha: alphaBase * .65, seed: 9.1, drift: sp * .95
+    }));
+
+    /* --- Bottom fade band (at boundary before text) --- */
+    puffs.push(new Puff({
+      cx: W * .50, cy: H * .54,
+      rx: W * .50, ry: H * .12,
+      alpha: alphaBase * .5, seed: 10.4, drift: sp * .7
+    }));
+
+    /* --- Extra density for mobile --- */
     if(isMobile){
       puffs.push(new Puff({
-        cx: W * .45, cy: H * .25,
-        rx: W * .42, ry: H * .10,
-        alpha: alphaBase * .8, seed: 7.1, drift: .0004
+        cx: W * .45, cy: H * .15,
+        rx: W * .50, ry: H * .12,
+        alpha: alphaBase * .8, seed: 11.2, drift: sp
       }));
       puffs.push(new Puff({
-        cx: W * .55, cy: H * .12,
-        rx: W * .48, ry: H * .10,
-        alpha: alphaBase * .7, seed: 8.3, drift: .00035
+        cx: W * .50, cy: H * .48,
+        rx: W * .45, ry: H * .12,
+        alpha: alphaBase * .6, seed: 12.5, drift: sp * .9
       }));
     }
   }
