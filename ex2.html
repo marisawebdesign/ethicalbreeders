@@ -309,7 +309,7 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 /* Animated "Sagi" overlay — centered in hero */
 .hero-sagi-wrap {
   position: absolute;
-  top: 38%;
+  top: 44%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 8;
@@ -317,15 +317,15 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 }
 
 .hero-sagi-svg {
-  width: clamp(220px, 30vw, 400px);
+  width: clamp(300px, 42vw, 560px);
   height: auto;
   overflow: visible;
 }
 
 .hero-sagi-svg text {
-  stroke-dasharray: 600;
-  stroke-dashoffset: 600;
-  animation: sagiDraw 2.8s var(--ease) 1s forwards, sagiFill 1.2s var(--ease) 3s forwards;
+  stroke-dasharray: 1200;
+  stroke-dashoffset: 1200;
+  animation: sagiDraw 3s ease-in-out 1s forwards, sagiFill 1.2s var(--ease) 3.2s forwards;
 }
 
 @keyframes sagiDraw {
@@ -624,7 +624,7 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 
   .hero-name { font-size: clamp(1.9rem, 9vw, 2.8rem); }
   .hero-titles { font-size: clamp(.52rem, 2.2vw, .65rem); letter-spacing: .08em; }
-  .hero-sagi-wrap { top: 30%; }
+  .hero-sagi-wrap { top: 35%; }
   .hero-badges { gap: .3rem; }
   .hero-badge { font-size: .5rem; padding: 2.5px 6px; }
   .hero-desc { font-size: .8rem; line-height: 1.7; }
@@ -703,13 +703,13 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 
   <!-- Animated "Sagi" callname — centered in hero -->
   <div class="hero-sagi-wrap">
-    <svg class="hero-sagi-svg" viewBox="0 0 280 100" xmlns="http://www.w3.org/2000/svg">
-      <text x="140" y="72" text-anchor="middle"
+    <svg class="hero-sagi-svg" viewBox="0 0 400 110" xmlns="http://www.w3.org/2000/svg">
+      <text x="200" y="80" text-anchor="middle"
             font-family="'Playfair Display', Georgia, serif"
             font-style="italic" font-weight="400"
-            font-size="72" fill="none"
+            font-size="82" fill="none"
             stroke="var(--gold)" stroke-width="1.2">
-        Sagi
+        &ldquo;Sagi&rdquo;
       </text>
     </svg>
   </div>
