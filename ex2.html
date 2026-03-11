@@ -827,11 +827,150 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
    ==================================================== */
 
 /* Tablet */
+/* ====================================================
+   SMOKE / HAZE OVERLAY — top of hero, near handler's head
+   ==================================================== */
+.hero-smoke {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 55%;
+  z-index: 5;
+  pointer-events: none;
+  overflow: visible;
+}
+
+/* Individual smoke wisp — soft radial blobs distorted by SVG turbulence */
+.smoke-wisp {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+/* Wisp 1 — large, top-center, drifts right */
+.smoke-wisp--1 {
+  width: clamp(400px, 52vw, 800px);
+  height: clamp(180px, 22vh, 320px);
+  top: 8%;
+  left: 20%;
+  background: radial-gradient(ellipse 70% 55% at 50% 50%,
+    rgba(180,170,155,.14) 0%,
+    rgba(160,150,135,.09) 25%,
+    rgba(140,130,115,.04) 50%,
+    transparent 75%);
+  filter: url(#smokeFilter) blur(28px);
+  animation: smokeDrift1 18s ease-in-out 1.5s infinite, smokeIn 2.5s ease-out 1s forwards;
+}
+
+/* Wisp 2 — medium, upper-right, drifts left */
+.smoke-wisp--2 {
+  width: clamp(300px, 40vw, 650px);
+  height: clamp(140px, 18vh, 260px);
+  top: 5%;
+  right: 10%;
+  background: radial-gradient(ellipse 65% 50% at 50% 50%,
+    rgba(190,180,165,.12) 0%,
+    rgba(165,155,140,.07) 30%,
+    rgba(140,130,115,.03) 55%,
+    transparent 78%);
+  filter: url(#smokeFilter2) blur(32px);
+  animation: smokeDrift2 22s ease-in-out 2s infinite, smokeIn 3s ease-out 1.4s forwards;
+}
+
+/* Wisp 3 — wide and thin, horizontal band across top */
+.smoke-wisp--3 {
+  width: clamp(600px, 85vw, 1400px);
+  height: clamp(100px, 14vh, 200px);
+  top: 12%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse 80% 45% at 50% 50%,
+    rgba(175,165,150,.10) 0%,
+    rgba(155,145,130,.06) 30%,
+    rgba(135,125,110,.02) 55%,
+    transparent 80%);
+  filter: url(#smokeFilter) blur(36px);
+  animation: smokeDrift3 25s ease-in-out 2.5s infinite, smokeIn 3.5s ease-out 1.8s forwards;
+}
+
+/* Wisp 4 — small, upper-left accent */
+.smoke-wisp--4 {
+  width: clamp(200px, 28vw, 420px);
+  height: clamp(100px, 13vh, 190px);
+  top: 2%;
+  left: 5%;
+  background: radial-gradient(ellipse 60% 50% at 50% 50%,
+    rgba(200,190,170,.11) 0%,
+    rgba(170,160,145,.06) 35%,
+    rgba(140,130,115,.02) 60%,
+    transparent 80%);
+  filter: url(#smokeFilter2) blur(24px);
+  animation: smokeDrift4 20s ease-in-out 1.8s infinite, smokeIn 2.8s ease-out 1.2s forwards;
+}
+
+/* Wisp 5 — subtle haze drifting across mid-top */
+.smoke-wisp--5 {
+  width: clamp(350px, 45vw, 700px);
+  height: clamp(120px, 16vh, 240px);
+  top: 18%;
+  left: 35%;
+  background: radial-gradient(ellipse 75% 50% at 50% 50%,
+    rgba(185,175,160,.09) 0%,
+    rgba(160,150,135,.05) 30%,
+    rgba(135,125,110,.02) 55%,
+    transparent 80%);
+  filter: url(#smokeFilter) blur(30px);
+  animation: smokeDrift5 16s ease-in-out 3s infinite, smokeIn 3s ease-out 2s forwards;
+}
+
+/* Fade-in for smoke wisps */
+@keyframes smokeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Gentle drifting motions — each wisp has a unique path */
+@keyframes smokeDrift1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25%      { transform: translate(3%, -2%) scale(1.04); }
+  50%      { transform: translate(6%, 1%) scale(1.02); }
+  75%      { transform: translate(2%, -1%) scale(1.06); }
+}
+
+@keyframes smokeDrift2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  30%      { transform: translate(-4%, 2%) scale(1.05); }
+  60%      { transform: translate(-2%, -1.5%) scale(1.02); }
+  80%      { transform: translate(-5%, 1%) scale(1.04); }
+}
+
+@keyframes smokeDrift3 {
+  0%, 100% { transform: translateX(-50%) translate(0, 0) scale(1); }
+  33%      { transform: translateX(-50%) translate(2%, -1.5%) scale(1.03); }
+  66%      { transform: translateX(-50%) translate(-2%, 1%) scale(1.05); }
+}
+
+@keyframes smokeDrift4 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25%      { transform: translate(2%, 2.5%) scale(1.06); }
+  50%      { transform: translate(5%, -1%) scale(1.03); }
+  75%      { transform: translate(1%, 1.5%) scale(1.07); }
+}
+
+@keyframes smokeDrift5 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  30%      { transform: translate(-3%, -2%) scale(1.04); }
+  70%      { transform: translate(3%, 1.5%) scale(1.06); }
+}
+
 @media (max-width: 1024px) and (min-width: 769px) {
   .hero-cutout--gait-wrap { width: clamp(420px, 62vw, 650px); bottom: -1%; }
   .hero-cutout--sitting { width: clamp(290px, 38vw, 460px); left: clamp(40px, 9vw, 100px); }
   .hero-cutout--heeling { width: clamp(342px, 41.4vw, 540px); right: clamp(-50px, -2vw, 0px); }
   .hero-content { padding-top: clamp(32rem, 68vh, 48rem); }
+  .hero-smoke { height: 50%; }
 }
 
 /* Mobile */
@@ -929,6 +1068,13 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   .hero-badge { font-size: .5rem; }
   .hero-desc { font-size: .8rem; line-height: 1.7; }
 
+  /* Smoke — constrain to upper portion on mobile */
+  .hero-smoke { height: 42%; }
+  .smoke-wisp--1 { width: clamp(250px, 60vw, 400px); height: clamp(100px, 16vh, 180px); }
+  .smoke-wisp--2 { width: clamp(200px, 50vw, 350px); height: clamp(80px, 13vh, 160px); }
+  .smoke-wisp--3 { width: clamp(300px, 90vw, 500px); height: clamp(70px, 10vh, 140px); }
+  .smoke-wisp--4 { width: clamp(140px, 35vw, 250px); height: clamp(70px, 10vh, 130px); }
+  .smoke-wisp--5 { width: clamp(200px, 50vw, 360px); height: clamp(80px, 12vh, 150px); }
 }
 
 /* Small phone */
@@ -972,6 +1118,23 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 
 <body>
 
+<!-- SVG filter for organic smoke turbulence — hidden, referenced by CSS -->
+<svg style="position:absolute;width:0;height:0" aria-hidden="true">
+  <defs>
+    <filter id="smokeFilter" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012 0.008" numOctaves="5" seed="2" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="45" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="smokeFilter2" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.009 0.006" numOctaves="4" seed="8" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="55" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="smokeBlur">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+  </defs>
+</svg>
+
 <!-- ============================================
      HERO
      ============================================ -->
@@ -999,6 +1162,15 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
            alt="Sagar Faustus Moravia — side gait"
            loading="eager">
     </div>
+  </div>
+
+  <!-- Smoke / haze overlay — top of hero, near handler's head -->
+  <div class="hero-smoke">
+    <div class="smoke-wisp smoke-wisp--1"></div>
+    <div class="smoke-wisp smoke-wisp--2"></div>
+    <div class="smoke-wisp smoke-wisp--3"></div>
+    <div class="smoke-wisp smoke-wisp--4"></div>
+    <div class="smoke-wisp smoke-wisp--5"></div>
   </div>
 
   <!-- Animated "Sagi" callname — centered in hero -->
