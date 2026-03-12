@@ -550,24 +550,30 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 @media(max-width:600px){.temp-cert{flex-direction:column;gap:.25rem}.temp-cert-abbr{min-width:auto}}
 
 /* ===== BLUR CAROUSEL SYSTEM ===== */
-.carousel-pair{display:flex;gap:10px;margin-top:2.5rem}
+.carousel-pair{display:flex;gap:12px;margin-top:2.5rem}
 .carousel-pair .blur-carousel{flex:1;min-width:0}
 .blur-carousel{position:relative;overflow:hidden;padding:8px 0}
 .blur-carousel-label{font-size:.55rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);margin-bottom:.6rem;text-align:center}
-.bc-viewport{display:flex;justify-content:center;align-items:center;gap:6px;min-height:0}
-.bc-slide{flex:0 0 auto;width:180px;cursor:pointer;transition:all .4s var(--ease);opacity:.35;filter:blur(4px);transform:scale(.82);pointer-events:none}
-.bc-slide.bc-active{opacity:1;filter:none;transform:scale(1);pointer-events:auto}
-.bc-slide.bc-prev,.bc-slide.bc-next{opacity:.5;filter:blur(3px);transform:scale(.88);pointer-events:auto}
-.bc-slide.bc-hidden{display:none}
-.bc-thumb{aspect-ratio:16/9;background:var(--bg-card);border:1px solid var(--border-subtle);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;transition:border-color .3s}
+/* Viewport clips the edges; stage is a flex row of 3 visible slides */
+.bc-viewport{position:relative;width:100%;overflow:hidden}
+.bc-stage{display:flex;align-items:stretch;justify-content:center}
+/* All slides hidden by default */
+.bc-slide{flex:0 0 auto;cursor:pointer;transition:opacity .4s var(--ease),filter .4s var(--ease),flex-basis .4s var(--ease);pointer-events:none;display:none;overflow:hidden}
+/* Active center slide — large, clear */
+.bc-slide.bc-active{display:block;flex-basis:58%;max-width:58%;opacity:1;filter:none;pointer-events:auto;z-index:2}
+/* Prev/next — narrow, blurred, flanking */
+.bc-slide.bc-prev,.bc-slide.bc-next{display:block;flex-basis:21%;max-width:21%;opacity:.6;filter:blur(3px);pointer-events:auto;z-index:1}
+.bc-thumb{aspect-ratio:16/9;background:var(--bg-card);border:1px solid var(--border-subtle);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;transition:border-color .3s;width:100%}
 .bc-active .bc-thumb{border-color:rgba(201,169,110,.3)}
 .bc-thumb-play{font-size:1.4rem;color:var(--gold);width:38px;height:38px;border:2px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .3s;line-height:1}
 .bc-active:hover .bc-thumb-play{background:var(--gold);color:var(--bg-deep)}
 .bc-thumb-label{position:absolute;bottom:6px;left:6px;font-size:.55rem;font-weight:500;letter-spacing:.04em;color:var(--text-secondary);text-transform:uppercase}
+/* Hide label on blurred slides */
+.bc-prev .bc-thumb-label,.bc-next .bc-thumb-label{opacity:0}
 .bc-thumb-img{width:100%;height:100%;object-fit:cover;display:block}
-.bc-arrow{position:absolute;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;background:rgba(7,7,7,.85);border:1px solid var(--border-subtle);color:var(--text-primary);font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;transition:all .2s}
+.bc-arrow{position:absolute;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;background:rgba(7,7,7,.85);border:1px solid var(--border-subtle);color:var(--text-primary);font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:3;transition:all .2s}
 .bc-arrow:hover{background:var(--gold);color:var(--bg-deep);border-color:var(--gold)}
-.bc-prev-arrow{left:4px}.bc-next-arrow{right:4px}
+.bc-prev-arrow{left:2px}.bc-next-arrow{right:2px}
 /* Video modal */
 .vc-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:9999;align-items:center;justify-content:center}
 .vc-modal.active{display:flex}
@@ -577,15 +583,17 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 .vc-modal-close:hover{color:var(--gold)}
 @media(max-width:768px){
   .carousel-pair{gap:6px}
-  .bc-slide{width:clamp(100px,38vw,160px)}
-  .bc-thumb-play{width:28px;height:28px;font-size:1rem}
-  .bc-thumb-label{font-size:.48rem;bottom:4px;left:4px}
+  .bc-slide.bc-active{flex-basis:56%;max-width:56%}
+  .bc-slide.bc-prev,.bc-slide.bc-next{flex-basis:22%;max-width:22%}
+  .bc-thumb-play{width:26px;height:26px;font-size:.9rem}
+  .bc-thumb-label{font-size:.46rem;bottom:3px;left:3px}
   .bc-arrow{width:22px;height:22px;font-size:.8rem}
   .vc-modal-inner{width:95%}
 }
 @media(max-width:420px){
-  .bc-slide{width:clamp(80px,36vw,130px)}
-  .bc-thumb-play{width:24px;height:24px;font-size:.85rem}
+  .bc-slide.bc-active{flex-basis:54%;max-width:54%}
+  .bc-slide.bc-prev,.bc-slide.bc-next{flex-basis:23%;max-width:23%}
+  .bc-thumb-play{width:22px;height:22px;font-size:.8rem}
 }
 
 /* ===== HEALTH ===== */
@@ -621,17 +629,17 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 
 /* Embark blur carousel */
 .embark-carousel{position:relative;margin-top:1rem;overflow:hidden;padding:8px 0}
-.embark-track{display:flex;justify-content:center;align-items:center;gap:8px;transition:transform .3s var(--ease)}
-.embark-slide{flex:0 0 auto;width:160px;transition:all .4s var(--ease);opacity:.4;filter:blur(3px);transform:scale(.85)}
-.embark-slide.bc-active{opacity:1;filter:none;transform:scale(1)}
-.embark-slide.bc-prev,.embark-slide.bc-next{opacity:.5;filter:blur(2px);transform:scale(.9)}
-.embark-card{background:var(--bg-elevated);border:1px solid var(--border-subtle);padding:12px 14px;text-align:center;min-height:70px;display:flex;flex-direction:column;justify-content:center;gap:6px}
-.embark-test{font-size:.72rem;font-weight:400;color:var(--text-primary);line-height:1.3}
+.embark-track{display:flex;align-items:stretch;justify-content:center}
+.embark-slide{flex:0 0 auto;transition:opacity .4s var(--ease),filter .4s var(--ease),flex-basis .4s var(--ease);display:none;overflow:hidden}
+.embark-slide.bc-active{display:block;flex-basis:52%;max-width:52%;opacity:1;filter:none;z-index:2}
+.embark-slide.bc-prev,.embark-slide.bc-next{display:block;flex-basis:24%;max-width:24%;opacity:.5;filter:blur(3px);z-index:1}
+.embark-card{background:var(--bg-elevated);border:1px solid var(--border-subtle);padding:14px 16px;text-align:center;aspect-ratio:16/9;display:flex;flex-direction:column;justify-content:center;gap:6px;width:100%}
+.embark-test{font-size:.75rem;font-weight:400;color:var(--text-primary);line-height:1.3}
 .embark-result{font-size:.6rem;font-weight:600;color:#4ade80;letter-spacing:.1em;text-transform:uppercase}
-.embark-arrow{position:absolute;top:50%;transform:translateY(-50%);width:26px;height:26px;border-radius:50%;background:rgba(7,7,7,.8);border:1px solid var(--border-subtle);color:var(--text-primary);font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;transition:all .2s}
+.embark-arrow{position:absolute;top:50%;transform:translateY(-50%);width:26px;height:26px;border-radius:50%;background:rgba(7,7,7,.8);border:1px solid var(--border-subtle);color:var(--text-primary);font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:3;transition:all .2s}
 .embark-arrow:hover{background:var(--gold);color:var(--bg-deep);border-color:var(--gold)}
 .embark-prev{left:0}.embark-next{right:0}
-@media(max-width:640px){.embark-slide{width:130px}.embark-card{padding:10px 10px;min-height:60px}.embark-test{font-size:.65rem}}
+@media(max-width:640px){.embark-card{padding:10px 10px}.embark-test{font-size:.65rem}}
 
 /* ===== PEDIGREE ===== */
 .ped-hnode-photo{width:100%;aspect-ratio:16/9;background:#d8d8d8;margin-bottom:8px;display:block;overflow:hidden}
@@ -1111,17 +1119,19 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
     <div class="blur-carousel" id="videoBlurCarousel">
       <div class="blur-carousel-label">Videos</div>
       <div class="bc-viewport" id="vcViewport">
-        <div class="bc-slide" data-video="1.mp4" data-idx="0">
-          <div class="bc-thumb"><div class="bc-thumb-play">&#9654;</div><div class="bc-thumb-label">Training 1</div></div>
-        </div>
-        <div class="bc-slide" data-video="2.mp4" data-idx="1">
-          <div class="bc-thumb"><div class="bc-thumb-play">&#9654;</div><div class="bc-thumb-label">Training 2</div></div>
-        </div>
-        <div class="bc-slide" data-video="3.mp4" data-idx="2">
-          <div class="bc-thumb"><div class="bc-thumb-play">&#9654;</div><div class="bc-thumb-label">Protection</div></div>
-        </div>
-        <div class="bc-slide" data-video="4.mp4" data-idx="3">
-          <div class="bc-thumb"><div class="bc-thumb-play">&#9654;</div><div class="bc-thumb-label">Temperament</div></div>
+        <div class="bc-stage">
+          <div class="bc-slide" data-video="1.mp4" data-idx="0">
+            <div class="bc-thumb"><div class="bc-thumb-play">&#9654;</div><div class="bc-thumb-label">Training 1</div></div>
+          </div>
+          <div class="bc-slide" data-video="2.mp4" data-idx="1">
+            <div class="bc-thumb"><div class="bc-thumb-play">&#9654;</div><div class="bc-thumb-label">Training 2</div></div>
+          </div>
+          <div class="bc-slide" data-video="3.mp4" data-idx="2">
+            <div class="bc-thumb"><div class="bc-thumb-play">&#9654;</div><div class="bc-thumb-label">Protection</div></div>
+          </div>
+          <div class="bc-slide" data-video="4.mp4" data-idx="3">
+            <div class="bc-thumb"><div class="bc-thumb-play">&#9654;</div><div class="bc-thumb-label">Temperament</div></div>
+          </div>
         </div>
       </div>
       <button class="bc-arrow bc-prev-arrow" onclick="blurCarouselNav('vcViewport',-1)">&#8249;</button>
@@ -1131,17 +1141,19 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
     <div class="blur-carousel" id="picBlurCarousel">
       <div class="blur-carousel-label">Photos</div>
       <div class="bc-viewport" id="picViewport">
-        <div class="bc-slide" data-idx="0">
-          <div class="bc-thumb"><div class="bc-thumb-label">Photo 1</div></div>
-        </div>
-        <div class="bc-slide" data-idx="1">
-          <div class="bc-thumb"><div class="bc-thumb-label">Photo 2</div></div>
-        </div>
-        <div class="bc-slide" data-idx="2">
-          <div class="bc-thumb"><div class="bc-thumb-label">Photo 3</div></div>
-        </div>
-        <div class="bc-slide" data-idx="3">
-          <div class="bc-thumb"><div class="bc-thumb-label">Photo 4</div></div>
+        <div class="bc-stage">
+          <div class="bc-slide" data-idx="0">
+            <div class="bc-thumb"><div class="bc-thumb-label">Photo 1</div></div>
+          </div>
+          <div class="bc-slide" data-idx="1">
+            <div class="bc-thumb"><div class="bc-thumb-label">Photo 2</div></div>
+          </div>
+          <div class="bc-slide" data-idx="2">
+            <div class="bc-thumb"><div class="bc-thumb-label">Photo 3</div></div>
+          </div>
+          <div class="bc-slide" data-idx="3">
+            <div class="bc-thumb"><div class="bc-thumb-label">Photo 4</div></div>
+          </div>
         </div>
       </div>
       <button class="bc-arrow bc-prev-arrow" onclick="blurCarouselNav('picViewport',-1)">&#8249;</button>
@@ -1528,21 +1540,32 @@ function downloadPedigreePDF(){var w=window.open('','_blank');if(!w){alert('Plea
   function initBlurCarousel(viewportId){
     var viewport=document.getElementById(viewportId);
     if(!viewport)return;
-    var slides=viewport.querySelectorAll('.bc-slide');
-    if(!slides.length)return;
-    carousels[viewportId]={el:viewport,slides:slides,idx:0};
+    var stage=viewport.querySelector('.bc-stage');
+    if(!stage)return;
+    var slidesArr=Array.prototype.slice.call(stage.querySelectorAll('.bc-slide'));
+    if(!slidesArr.length)return;
+    carousels[viewportId]={stage:stage,slides:slidesArr,idx:0};
     updateBlurCarousel(viewportId);
   }
   function updateBlurCarousel(viewportId){
     var c=carousels[viewportId];if(!c)return;
     var len=c.slides.length;
-    c.slides.forEach(function(s,i){
-      s.classList.remove('bc-active','bc-prev','bc-next','bc-hidden');
-      if(i===c.idx){s.classList.add('bc-active')}
-      else if(i===(c.idx-1+len)%len){s.classList.add('bc-prev')}
-      else if(i===(c.idx+1)%len){s.classList.add('bc-next')}
-      else{s.classList.add('bc-hidden')}
-    });
+    var prevIdx=(c.idx-1+len)%len;
+    var nextIdx=(c.idx+1)%len;
+    /* Clear all classes first */
+    c.slides.forEach(function(s){s.classList.remove('bc-active','bc-prev','bc-next')});
+    /* Reorder in DOM: prev, active, next — rest stay hidden */
+    var prevSlide=c.slides[prevIdx];
+    var activeSlide=c.slides[c.idx];
+    var nextSlide=c.slides[nextIdx];
+    /* Append in order: prev → active → next (moves them in DOM) */
+    c.stage.appendChild(prevSlide);
+    c.stage.appendChild(activeSlide);
+    c.stage.appendChild(nextSlide);
+    /* Apply classes */
+    prevSlide.classList.add('bc-prev');
+    activeSlide.classList.add('bc-active');
+    nextSlide.classList.add('bc-next');
   }
   window.blurCarouselNav=function(viewportId,dir){
     var c=carousels[viewportId];if(!c)return;
@@ -1585,20 +1608,26 @@ function downloadPedigreePDF(){var w=window.open('','_blank');if(!w){alert('Plea
 (function(){
   var track=document.getElementById('embarkTrack');
   if(!track)return;
-  var slides=track.querySelectorAll('.embark-slide');
+  var slidesArr=Array.prototype.slice.call(track.querySelectorAll('.embark-slide'));
+  if(!slidesArr.length)return;
   var idx=0;
   function update(){
-    var len=slides.length;
-    slides.forEach(function(s,i){
-      s.classList.remove('bc-active','bc-prev','bc-next');
-      s.style.display='none';
-      if(i===idx){s.classList.add('bc-active');s.style.display=''}
-      else if(i===(idx-1+len)%len){s.classList.add('bc-prev');s.style.display=''}
-      else if(i===(idx+1)%len){s.classList.add('bc-next');s.style.display=''}
-    });
+    var len=slidesArr.length;
+    var prevIdx=(idx-1+len)%len;
+    var nextIdx=(idx+1)%len;
+    slidesArr.forEach(function(s){s.classList.remove('bc-active','bc-prev','bc-next')});
+    var prevSlide=slidesArr[prevIdx];
+    var activeSlide=slidesArr[idx];
+    var nextSlide=slidesArr[nextIdx];
+    track.appendChild(prevSlide);
+    track.appendChild(activeSlide);
+    track.appendChild(nextSlide);
+    prevSlide.classList.add('bc-prev');
+    activeSlide.classList.add('bc-active');
+    nextSlide.classList.add('bc-next');
   }
   window.embarkScroll=function(dir){
-    idx=(idx+dir+slides.length)%slides.length;
+    idx=(idx+dir+slidesArr.length)%slidesArr.length;
     update();
   };
   update();
