@@ -568,6 +568,8 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 .bc-thumb-play{font-size:1.4rem;color:var(--gold);width:38px;height:38px;border:2px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .3s;line-height:1}
 .bc-active:hover .bc-thumb-play{background:var(--gold);color:var(--bg-deep)}
 .bc-thumb-label{position:absolute;bottom:6px;left:6px;font-size:.55rem;font-weight:500;letter-spacing:.04em;color:var(--text-secondary);text-transform:uppercase}
+/* Placeholder text when no image — large and centered */
+.bc-thumb-placeholder{font-size:1rem;font-weight:400;color:var(--text-muted);letter-spacing:.04em;text-align:center}
 /* Hide label on blurred slides */
 .bc-prev .bc-thumb-label,.bc-next .bc-thumb-label{opacity:0}
 .bc-thumb-img{width:100%;height:100%;object-fit:cover;display:block}
@@ -581,19 +583,28 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 .vc-modal-inner video{width:100%;height:100%;object-fit:contain}
 .vc-modal-close{position:absolute;top:-36px;right:0;background:none;border:none;color:#fff;font-size:2rem;cursor:pointer;padding:4px 8px;transition:color .2s}
 .vc-modal-close:hover{color:var(--gold)}
+/* Photo lightbox */
+.photo-lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;align-items:center;justify-content:center;cursor:pointer}
+.photo-lightbox.active{display:flex}
+.photo-lightbox-inner{position:relative;max-width:90vw;max-height:85vh;background:var(--bg-card);border:1px solid var(--border-subtle);display:flex;align-items:center;justify-content:center;padding:1.5rem}
+.photo-lightbox-inner .bc-thumb-placeholder{font-size:1.6rem;color:var(--text-secondary)}
+.photo-lightbox-close{position:absolute;top:-36px;right:0;background:none;border:none;color:#fff;font-size:2rem;cursor:pointer;padding:4px 8px;transition:color .2s}
+.photo-lightbox-close:hover{color:var(--gold)}
+.photo-lightbox-img{max-width:100%;max-height:80vh;object-fit:contain;display:block}
 @media(max-width:768px){
-  .carousel-pair{gap:6px}
+  .carousel-pair{flex-direction:column;gap:1.5rem}
+  .carousel-pair .blur-carousel{flex:none;width:100%}
   .bc-slide.bc-active{flex-basis:56%;max-width:56%}
   .bc-slide.bc-prev,.bc-slide.bc-next{flex-basis:22%;max-width:22%}
-  .bc-thumb-play{width:26px;height:26px;font-size:.9rem}
-  .bc-thumb-label{font-size:.46rem;bottom:3px;left:3px}
-  .bc-arrow{width:22px;height:22px;font-size:.8rem}
+  .bc-thumb-play{width:30px;height:30px;font-size:1.1rem}
+  .bc-thumb-label{font-size:.5rem;bottom:4px;left:4px}
+  .bc-thumb-placeholder{font-size:.9rem}
+  .bc-arrow{width:24px;height:24px;font-size:.85rem}
   .vc-modal-inner{width:95%}
 }
 @media(max-width:420px){
-  .bc-slide.bc-active{flex-basis:54%;max-width:54%}
-  .bc-slide.bc-prev,.bc-slide.bc-next{flex-basis:23%;max-width:23%}
-  .bc-thumb-play{width:22px;height:22px;font-size:.8rem}
+  .bc-thumb-play{width:26px;height:26px;font-size:.9rem}
+  .bc-thumb-placeholder{font-size:.8rem}
 }
 
 /* ===== HEALTH ===== */
@@ -1142,17 +1153,17 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
       <div class="blur-carousel-label">Photos</div>
       <div class="bc-viewport" id="picViewport">
         <div class="bc-stage">
-          <div class="bc-slide" data-idx="0">
-            <div class="bc-thumb"><div class="bc-thumb-label">Photo 1</div></div>
+          <div class="bc-slide bc-photo" data-idx="0">
+            <div class="bc-thumb"><span class="bc-thumb-placeholder">Image 1</span></div>
           </div>
-          <div class="bc-slide" data-idx="1">
-            <div class="bc-thumb"><div class="bc-thumb-label">Photo 2</div></div>
+          <div class="bc-slide bc-photo" data-idx="1">
+            <div class="bc-thumb"><span class="bc-thumb-placeholder">Image 2</span></div>
           </div>
-          <div class="bc-slide" data-idx="2">
-            <div class="bc-thumb"><div class="bc-thumb-label">Photo 3</div></div>
+          <div class="bc-slide bc-photo" data-idx="2">
+            <div class="bc-thumb"><span class="bc-thumb-placeholder">Image 3</span></div>
           </div>
-          <div class="bc-slide" data-idx="3">
-            <div class="bc-thumb"><div class="bc-thumb-label">Photo 4</div></div>
+          <div class="bc-slide bc-photo" data-idx="3">
+            <div class="bc-thumb"><span class="bc-thumb-placeholder">Image 4</span></div>
           </div>
         </div>
       </div>
@@ -1165,6 +1176,13 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
     <div class="vc-modal-inner" onclick="event.stopPropagation()">
       <button class="vc-modal-close" onclick="vcCloseModal()">&times;</button>
       <video id="vcPlayer" controls playsinline></video>
+    </div>
+  </div>
+  <!-- Photo Lightbox -->
+  <div class="photo-lightbox" id="photoLightbox" onclick="closePhotoLightbox()">
+    <div class="photo-lightbox-inner" onclick="event.stopPropagation()">
+      <button class="photo-lightbox-close" onclick="closePhotoLightbox()">&times;</button>
+      <span class="bc-thumb-placeholder" id="photoLightboxPlaceholder"></span>
     </div>
   </div>
 </section>
@@ -1595,6 +1613,40 @@ function downloadPedigreePDF(){var w=window.open('','_blank');if(!w){alert('Plea
     player.src='';
   };
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal.classList.contains('active'))window.vcCloseModal()});
+
+  /* Photo lightbox */
+  var photoLightbox=document.getElementById('photoLightbox');
+  var photoPlaceholder=document.getElementById('photoLightboxPlaceholder');
+  var picViewport=document.getElementById('picViewport');
+  if(picViewport&&photoLightbox){
+    picViewport.querySelectorAll('.bc-slide.bc-photo').forEach(function(slide){
+      slide.addEventListener('click',function(){
+        if(!slide.classList.contains('bc-active'))return;
+        var img=slide.querySelector('img');
+        var placeholder=slide.querySelector('.bc-thumb-placeholder');
+        var inner=photoLightbox.querySelector('.photo-lightbox-inner');
+        /* Remove any previous image */
+        var prevImg=inner.querySelector('.photo-lightbox-img');
+        if(prevImg)prevImg.remove();
+        if(img){
+          var bigImg=document.createElement('img');
+          bigImg.className='photo-lightbox-img';
+          bigImg.src=img.src;
+          bigImg.alt=img.alt||'Photo';
+          photoPlaceholder.style.display='none';
+          inner.appendChild(bigImg);
+        }else{
+          photoPlaceholder.textContent=placeholder?placeholder.textContent:'Photo';
+          photoPlaceholder.style.display='';
+        }
+        photoLightbox.classList.add('active');
+      });
+    });
+  }
+  window.closePhotoLightbox=function(){
+    photoLightbox.classList.remove('active');
+  };
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&photoLightbox.classList.contains('active'))window.closePhotoLightbox()});
 })();
 
 /* --- Stud Flyer Carousel --- */
