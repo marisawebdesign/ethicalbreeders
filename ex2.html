@@ -255,7 +255,7 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   opacity: 0;
-  animation: heroSlideLeftFade 1.2s var(--ease-out) .75s forwards;
+  animation: heroRevealLeft 1.6s cubic-bezier(.25,.1,.25,1) .6s forwards;
 }
 
 /* Heeling — bottom-right anchor, blown up large to match sitting */
@@ -277,7 +277,7 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   opacity: 0;
-  animation: heroSlideRight 1.2s var(--ease-out) .85s forwards;
+  animation: heroRevealRight 1.8s cubic-bezier(.25,.1,.25,1) .7s forwards;
 }
 
 
@@ -446,17 +446,20 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   from { opacity: 0; transform: translateX(-55px); }
   to   { opacity: 1; transform: translateX(0); }
 }
-@keyframes heroSlideLeftFade {
-  from { opacity: 0; transform: translateX(-55px); }
-  to   { opacity: 1; transform: translateX(0); }
+@keyframes heroRevealLeft {
+  0%   { opacity: 0; filter: blur(12px) brightness(.6) saturate(.5) drop-shadow(0 2px 3px rgba(0,0,0,.55)); }
+  40%  { opacity: .6; filter: blur(5px) brightness(.75) saturate(.8) drop-shadow(0 2px 3px rgba(0,0,0,.55)); }
+  100% { opacity: 1; filter: blur(0) brightness(.82) saturate(.92) drop-shadow(0 2px 3px rgba(0,0,0,.55)) drop-shadow(0 0 0.4px rgba(0,0,0,.45)); }
 }
-@keyframes heroSlideRight {
-  from { opacity: 0; transform: translateX(55px); }
-  to   { opacity: 1; transform: translateX(0); }
+@keyframes heroRevealRight {
+  0%   { opacity: 0; filter: blur(14px) brightness(.5) saturate(.4); }
+  35%  { opacity: .5; filter: blur(6px) brightness(.9) saturate(.8); }
+  100% { opacity: 1; filter: blur(0) brightness(1.15) drop-shadow(0 0 3px rgba(201,169,110,.7)) drop-shadow(0 0 7px rgba(201,169,110,.4)) drop-shadow(0 0 14px rgba(201,169,110,.2)) drop-shadow(0 4px 12px rgba(0,0,0,.7)) drop-shadow(0 1px 2px rgba(0,0,0,.6)); }
 }
-@keyframes heroHeelingMobile {
-  from { opacity: 0; transform: translateX(-45%) translateX(30px); }
-  to   { opacity: .9; transform: translateX(-45%); }
+@keyframes heroRevealHeelingMobile {
+  0%   { opacity: 0; filter: blur(16px) brightness(.4); transform: translateX(-45%); }
+  40%  { opacity: .4; filter: blur(7px) brightness(.8); transform: translateX(-45%); }
+  100% { opacity: .9; filter: blur(0) brightness(1.15) drop-shadow(0 0 3px rgba(201,169,110,.7)) drop-shadow(0 0 7px rgba(201,169,110,.4)) drop-shadow(0 0 14px rgba(201,169,110,.2)) drop-shadow(0 3px 8px rgba(0,0,0,.55)) drop-shadow(0 1px 2px rgba(0,0,0,.4)); transform: translateX(-45%); }
 }
 @keyframes scrollBob {
   0%, 100% { transform: rotate(45deg) translateY(0); }
@@ -674,40 +677,44 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 .ped-gen-hdr{flex:1;min-width:0;padding:0 10px;font-size:.55rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#484848;text-align:center}
 .ped-gen-hdr:first-child{flex:1.1;padding-left:0;text-align:left}
 .ped-gen-hdr:last-child{padding-right:0}
-.ped-hnode{background:#ffffff;border:1px solid #e0e0e0;padding:12px 14px;cursor:pointer;transition:all .25s var(--ease);position:relative;color:#1a1a1a;overflow:hidden}
-.ped-hnode:hover{border-color:var(--gold);box-shadow:0 2px 12px rgba(201,169,110,.15)}
+.ped-hnode{background:#ffffff;border:none;border-radius:6px;padding:12px 14px;cursor:pointer;transition:all .3s var(--ease);position:relative;color:#1a1a1a;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04)}
+.ped-hnode:hover{box-shadow:0 4px 16px rgba(201,169,110,.15),0 2px 6px rgba(0,0,0,.06);transform:translateY(-1px)}
 .ped-hnode.ped-male{border-left:3px solid var(--ped-blue,#4a7fb5)}
 .ped-hnode.ped-female{border-left:3px solid var(--ped-pink,#b54a7f)}
-.ped-hnode.ped-hroot{border:2px solid #c9a96e;padding:16px 16px}
+.ped-hnode.ped-hroot{border:none;border-left:3px solid #c9a96e;padding:16px 16px;box-shadow:0 4px 16px rgba(201,169,110,.12),0 2px 8px rgba(0,0,0,.06)}
 .ped-hnode-rel{font-size:.52rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;margin-bottom:3px}
 .ped-hnode-name{font-family:var(--serif);font-size:.92rem;font-weight:500;line-height:1.25;color:#1a1a1a;margin-bottom:3px}
 .ped-hroot .ped-hnode-name{font-size:1.05rem}
 .ped-hnode-meta{font-size:.62rem;color:#777;font-weight:300;margin-bottom:6px}
 .ped-hnode-chips{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:5px}
 .ped-hnode-tags{display:flex;flex-wrap:wrap;gap:3px}
-.ped-title-chip{font-family:var(--mono);font-size:.56rem;font-weight:400;color:#555;background:#f4f4f4;border:1px solid #e2e2e2;padding:2px 6px;letter-spacing:.02em;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent}
-.ped-title-chip.ped-active-tip{background:#e8e8e8;border-color:#bbb}
-.ped-htag{font-size:.52rem;font-weight:500;letter-spacing:.03em;padding:2px 7px;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent}
-.ped-htag-green{background:#e8f5ee;border:1px solid #c3e6d1;color:#2d8a56}
-.ped-htag-gold{background:#f5f0e3;border:1px solid #e0d4b5;color:#8a7230}
-.ped-htag.ped-active-tip{filter:brightness(.92)}
+.ped-title-chip{font-family:var(--mono);font-size:.56rem;font-weight:400;color:#555;background:#f6f5f2;border:none;border-radius:4px;padding:3px 7px;letter-spacing:.02em;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;transition:all .2s ease;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ped-title-chip:hover{background:#ece9e2;box-shadow:0 2px 6px rgba(201,169,110,.15);transform:translateY(-1px)}
+.ped-title-chip:active{transform:scale(.96);box-shadow:none}
+.ped-title-chip.ped-active-tip{background:#e8e4da;box-shadow:0 0 0 2px rgba(201,169,110,.3)}
+.ped-htag{font-size:.52rem;font-weight:500;letter-spacing:.03em;padding:3px 8px;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;border:none;border-radius:4px;transition:all .2s ease;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.ped-htag:hover{transform:translateY(-1px);box-shadow:0 2px 6px rgba(0,0,0,.1)}
+.ped-htag:active{transform:scale(.96);box-shadow:none}
+.ped-htag-green{background:#e8f5ee;color:#2d8a56}
+.ped-htag-gold{background:#f5f0e3;color:#8a7230}
+.ped-htag.ped-active-tip{box-shadow:0 0 0 2px rgba(201,169,110,.3)}
 .ped-lines{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
 .ped-lines line{stroke-width:2}
-.ped-tip-popup{position:fixed;background:#161616;color:#fff;font-family:var(--sans);font-size:.75rem;line-height:1.55;padding:14px 16px 15px;width:min(280px,88vw);border-radius:6px;z-index:9999;display:none;box-shadow:0 6px 24px rgba(0,0,0,.55);border:1px solid #2a2a2a;pointer-events:none}
+.ped-tip-popup{position:fixed;background:#1a1a1a;color:#fff;font-family:var(--sans);font-size:.75rem;line-height:1.55;padding:14px 18px 16px;width:min(280px,88vw);border-radius:10px;z-index:9999;display:none;box-shadow:0 8px 32px rgba(0,0,0,.5),0 2px 8px rgba(0,0,0,.3);border:none;pointer-events:none;backdrop-filter:blur(4px)}
 .ped-tip-popup.ped-tip-show{display:block;pointer-events:auto}
 .ped-tip-abbr{font-family:var(--mono);font-size:.62rem;color:#c9a96e;letter-spacing:.06em;margin-bottom:4px;display:block}
 .ped-tip-full{font-size:.64rem;color:#888;font-style:italic;margin-bottom:5px;display:block;line-height:1.4}
 .ped-tip-body{font-size:.72rem;color:#e0e0e0;display:block}
 .ped-tip-popup::after{content:'';position:absolute;border:6px solid transparent}
-.ped-tip-popup.ped-arrow-below::after{bottom:100%;left:var(--ped-tip-arrow,50%);transform:translateX(-50%);border-bottom-color:#161616}
-.ped-tip-popup.ped-arrow-above::after{top:100%;left:var(--ped-tip-arrow,50%);transform:translateX(-50%);border-top-color:#161616}
+.ped-tip-popup.ped-arrow-below::after{bottom:100%;left:var(--ped-tip-arrow,50%);transform:translateX(-50%);border-bottom-color:#1a1a1a}
+.ped-tip-popup.ped-arrow-above::after{top:100%;left:var(--ped-tip-arrow,50%);transform:translateX(-50%);border-top-color:#1a1a1a}
 
 /* Pedigree mobile */
 .ped-mobile{--ped-card:#ffffff;--ped-card-border:#e0e0e0;--ped-text:#1a1a1a;--ped-text2:#555;--ped-blue:#4a7fb5;--ped-pink:#b54a7f;--ped-green:#2d8a56;--ped-gold:#c9a96e;max-width:520px;margin:0 auto}
 .ped-gen-label{text-align:center;font-size:.52rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#484848;padding:.7rem 0 .45rem}
 .ped-card-container{padding:0}
-.ped-dog-card{background:var(--ped-card);border:1px solid var(--ped-card-border,#e0e0e0);cursor:pointer;transition:box-shadow .2s ease;position:relative;color:var(--ped-text,#1a1a1a);overflow:hidden}
-.ped-dog-card:active{opacity:.92}
+.ped-dog-card{background:var(--ped-card);border:none;border-radius:8px;cursor:pointer;transition:all .3s ease;position:relative;color:var(--ped-text,#1a1a1a);overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.07),0 1px 3px rgba(0,0,0,.04)}
+.ped-dog-card:active{transform:scale(.985);box-shadow:0 1px 4px rgba(0,0,0,.06)}
 .ped-card-photo{width:100%;aspect-ratio:16/9;background:#d8d8d8;overflow:hidden;display:block;position:relative;flex-shrink:0}
 .ped-card-photo img{width:100%;height:100%;object-fit:cover;display:block}
 .ped-card-photo.ped-empty{background:#dcdcdc}
@@ -720,7 +727,7 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 .ped-mobile .ped-title-chip{font-size:.6rem;padding:4px 8px;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 .ped-card-tags{display:flex;flex-wrap:wrap;gap:4px}
 .ped-mobile .ped-htag{font-size:.56rem;padding:4px 8px;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
-.ped-dog-card.ped-root{border:2px solid var(--ped-gold,#c9a96e)}
+.ped-dog-card.ped-root{border:none;box-shadow:0 4px 16px rgba(201,169,110,.15),0 2px 6px rgba(0,0,0,.06);border-left:3px solid var(--ped-gold,#c9a96e)}
 .ped-dog-card.ped-root .ped-card-name{font-size:1.15rem}
 .ped-dog-card.ped-root .ped-card-photo{aspect-ratio:16/7}
 .ped-pair-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
@@ -743,11 +750,12 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 .ped-c-blue{background:#4a7fb5!important}
 .ped-c-pink{background:#b54a7f!important}
 .ped-switcher-wrap{margin-top:4px}
-.ped-side-switcher{display:flex;border-bottom:2px solid #1e1e1e}
-.ped-side-btn{flex:1;padding:.75rem 0 .65rem;text-align:center;font-family:var(--sans);font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;border:none;background:transparent;color:#444;border-bottom:3px solid transparent;margin-bottom:-2px;transition:color .2s ease,border-color .2s ease,background .2s ease}
-.ped-side-btn:not(.active):hover{color:#777;background:rgba(255,255,255,.02)}
-.ped-sire-btn.active{color:#4a7fb5;border-bottom-color:#4a7fb5;background:rgba(74,127,181,.06)}
-.ped-dam-btn.active{color:#b54a7f;border-bottom-color:#b54a7f;background:rgba(181,74,127,.06)}
+.ped-side-switcher{display:flex;gap:8px;padding:4px;background:rgba(255,255,255,.03);border-radius:8px}
+.ped-side-btn{flex:1;padding:.7rem 0 .6rem;text-align:center;font-family:var(--sans);font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;border:none;background:transparent;color:#555;border-radius:6px;transition:all .25s ease;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.ped-side-btn:not(.active):hover{color:#777;background:rgba(255,255,255,.04)}
+.ped-side-btn:active{transform:scale(.97)}
+.ped-sire-btn.active{color:#4a7fb5;background:rgba(74,127,181,.1);box-shadow:0 2px 8px rgba(74,127,181,.12)}
+.ped-dam-btn.active{color:#b54a7f;background:rgba(181,74,127,.1);box-shadow:0 2px 8px rgba(181,74,127,.12)}
 .ped-tab-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px;vertical-align:middle;margin-top:-1px}
 .ped-sire-btn .ped-tab-dot{background:#4a7fb5;opacity:.5}
 .ped-dam-btn .ped-tab-dot{background:#b54a7f;opacity:.5}
@@ -756,8 +764,9 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 .ped-side-panel.active{display:block;animation:sectionIn .25s var(--ease)}
 .ped-spacer{height:14px}
 .pedigree-actions{display:flex;gap:.75rem;flex-wrap:wrap}
-.action-btn{padding:.6rem 1.2rem;font-size:.7rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--text-secondary);cursor:pointer;border:1px solid var(--border-subtle);background:transparent;transition:all .3s var(--ease);font-family:var(--sans);display:flex;align-items:center;gap:.5rem}
-.action-btn:hover{border-color:var(--gold);color:var(--gold)}
+.action-btn{padding:.65rem 1.3rem;font-size:.7rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--text-secondary);cursor:pointer;border:none;border-radius:6px;background:rgba(255,255,255,.04);transition:all .3s var(--ease);font-family:var(--sans);display:flex;align-items:center;gap:.5rem;box-shadow:0 1px 4px rgba(0,0,0,.15);-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.action-btn:hover{color:var(--gold);background:rgba(201,169,110,.08);box-shadow:0 2px 8px rgba(201,169,110,.15);transform:translateY(-1px)}
+.action-btn:active{transform:scale(.97);box-shadow:0 1px 2px rgba(0,0,0,.1)}
 .action-btn svg{width:14px;height:14px}
 
 /* ===== TITLES ===== */
@@ -765,14 +774,13 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 @media(max-width:900px){.titles-desc-mobile{display:none}}
 #titles .temp-lead,#titles .temp-body{font-size:clamp(1rem,1.6vw,1.15rem);font-weight:300;color:var(--text-primary);line-height:1.75}
 .titles-category{margin-bottom:3rem}
-.titles-cat-header{font-size:.65rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:1px solid var(--border-subtle)}
-.title-row{display:flex;justify-content:space-between;align-items:flex-start;padding:1rem 0;border-bottom:1px solid var(--border-subtle);cursor:pointer;transition:all .3s var(--ease);gap:1rem}
-.title-row:hover{padding-left:.5rem}
+.titles-cat-header{font-size:.7rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;padding-bottom:.85rem;border-bottom:1px solid var(--border-subtle)}
+.title-row{display:flex;align-items:baseline;padding:1.1rem 0;border-bottom:1px solid var(--border-subtle);cursor:pointer;transition:all .3s var(--ease);gap:1.25rem}
+.title-row:hover{padding-left:.5rem;background:rgba(255,255,255,.015)}
 .title-row:last-child{border-bottom:none}
-.title-abbr{font-family:var(--mono);font-size:.9rem;font-weight:400;min-width:60px;color:var(--text-primary)}
-.title-full{font-size:.85rem;color:var(--text-secondary);font-weight:300;flex:1}
-.title-explain{font-size:.78rem;color:var(--text-muted);font-weight:300;text-align:right;max-width:200px}
-.title-expand{display:none;padding:.75rem 0 0;font-size:.82rem;color:var(--text-secondary);line-height:1.7;font-weight:300;grid-column:1/-1}
+.title-abbr{font-family:var(--serif);font-size:1.05rem;font-weight:500;min-width:75px;color:var(--gold);letter-spacing:.01em;flex-shrink:0}
+.title-full{font-size:1rem;color:var(--text-secondary);font-weight:300;flex:1;line-height:1.5;font-family:var(--sans);letter-spacing:.01em}
+.title-expand{display:none;padding:.85rem 0 .25rem;font-size:.9rem;color:var(--text-secondary);line-height:1.75;font-weight:300;width:100%}
 .title-row.expanded .title-expand{display:block;animation:sectionIn .3s var(--ease)}
 .title-row.expanded{flex-wrap:wrap}
 
@@ -888,7 +896,8 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
     bottom: 20%;
     max-height: none;
     z-index: 1;
-    opacity: 1;
+    opacity: 0;
+    animation: heroRevealLeft 1.8s cubic-bezier(.25,.1,.25,1) .5s forwards;
     filter:
       drop-shadow(0 2px 3px rgba(0,0,0,.55))
       drop-shadow(0 0 0.4px rgba(0,0,0,.45))
@@ -909,7 +918,7 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
     max-height: 92%;
     z-index: 0;
     opacity: 0;
-    animation: heroHeelingMobile 1.4s var(--ease-out) .85s forwards;
+    animation: heroRevealHeelingMobile 2s cubic-bezier(.25,.1,.25,1) .7s forwards;
     filter:
       drop-shadow(0 0 3px rgba(201,169,110,.7))
       drop-shadow(0 0 7px rgba(201,169,110,.4))
@@ -1159,16 +1168,16 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
       <div class="bc-viewport" id="vcViewport">
         <div class="bc-stage">
           <div class="bc-slide" data-idx="0">
-            <div class="bc-thumb"><span class="bc-thumb-placeholder">Video 1</span></div>
+            <div class="bc-thumb" style="background:linear-gradient(135deg,#1a1510,#2a2018)"><span class="bc-thumb-placeholder" style="color:#c9a96e">Video 1</span></div>
           </div>
           <div class="bc-slide" data-idx="1">
-            <div class="bc-thumb"><span class="bc-thumb-placeholder">Video 2</span></div>
+            <div class="bc-thumb" style="background:linear-gradient(135deg,#151a1c,#1e2a30)"><span class="bc-thumb-placeholder" style="color:#7ab5c9">Video 2</span></div>
           </div>
           <div class="bc-slide" data-idx="2">
-            <div class="bc-thumb"><span class="bc-thumb-placeholder">Video 3</span></div>
+            <div class="bc-thumb" style="background:linear-gradient(135deg,#1a1518,#2a1e24)"><span class="bc-thumb-placeholder" style="color:#c97a9e">Video 3</span></div>
           </div>
           <div class="bc-slide" data-idx="3">
-            <div class="bc-thumb"><span class="bc-thumb-placeholder">Video 4</span></div>
+            <div class="bc-thumb" style="background:linear-gradient(135deg,#141a15,#1e2a20)"><span class="bc-thumb-placeholder" style="color:#7ac98a">Video 4</span></div>
           </div>
         </div>
       </div>
@@ -1181,16 +1190,16 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
       <div class="bc-viewport" id="picViewport">
         <div class="bc-stage">
           <div class="bc-slide bc-photo" data-idx="0">
-            <div class="bc-thumb"><span class="bc-thumb-placeholder">Image 1</span></div>
+            <div class="bc-thumb" style="background:linear-gradient(145deg,#1c1815,#2c2520)"><span class="bc-thumb-placeholder" style="color:#d4b882">Photo 1</span></div>
           </div>
           <div class="bc-slide bc-photo" data-idx="1">
-            <div class="bc-thumb"><span class="bc-thumb-placeholder">Image 2</span></div>
+            <div class="bc-thumb" style="background:linear-gradient(145deg,#181c1a,#222e28)"><span class="bc-thumb-placeholder" style="color:#82c9a0">Photo 2</span></div>
           </div>
           <div class="bc-slide bc-photo" data-idx="2">
-            <div class="bc-thumb"><span class="bc-thumb-placeholder">Image 3</span></div>
+            <div class="bc-thumb" style="background:linear-gradient(145deg,#1c181c,#2c222e)"><span class="bc-thumb-placeholder" style="color:#b882c9">Photo 3</span></div>
           </div>
           <div class="bc-slide bc-photo" data-idx="3">
-            <div class="bc-thumb"><span class="bc-thumb-placeholder">Image 4</span></div>
+            <div class="bc-thumb" style="background:linear-gradient(145deg,#1c1a18,#302820)"><span class="bc-thumb-placeholder" style="color:#c9a068">Photo 4</span></div>
           </div>
         </div>
       </div>
@@ -1211,6 +1220,14 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
       <button class="photo-lightbox-close" onclick="closePhotoLightbox()">&times;</button>
       <span class="bc-thumb-placeholder" id="photoLightboxPlaceholder"></span>
     </div>
+  </div>
+  <!-- Temperament-Related Titles -->
+  <div class="titles-category" style="margin-top:3rem">
+    <div class="titles-cat-header">Temperament-Related Titles & Evaluations</div>
+    <div class="title-row" onclick="this.classList.toggle('expanded')"><span class="title-abbr">BH/VT</span><span class="title-full">Begleithundprüfung / Verkehrstest</span><div class="title-expand">The BH/VT is the mandatory temperament and traffic-safety test required before any IGP title. The dog must demonstrate stable behavior in public, around crowds, traffic, and other dogs. Sagi passed this evaluation confirming his neutral, stable temperament in all settings.</div></div>
+    <div class="title-row" onclick="this.classList.toggle('expanded')"><span class="title-abbr">TSB: P</span><span class="title-full">Triebveranlagung, Selbstsicherheit, Belastbarkeit — Pronounced</span><div class="title-expand">TSB evaluates three critical traits: drive, self-assurance, and stress capacity. "Pronounced" is the highest possible rating — confirming Sagi's exceptional nerve strength and ability to handle pressure while remaining stable and clear-headed.</div></div>
+    <div class="title-row" onclick="this.classList.toggle('expanded')"><span class="title-abbr">KKL</span><span class="title-full">Körklasse — Lifetime Breed Survey</span><div class="title-expand">A Lifetime Breed Survey evaluates the dog's character, working drives, and temperament alongside structure. Sagi's survey confirmed his excellent temperament — approachable, confident, and reliable under all conditions.</div></div>
+    <div class="title-row" onclick="this.classList.toggle('expanded')"><span class="title-abbr">FO</span><span class="title-full">Family Obedience</span><div class="title-expand">FO demonstrates the dog's ability to behave reliably and calmly in everyday family and public settings — reflecting Sagi's dual nature as both a high-drive working dog and a trustworthy family companion.</div></div>
   </div>
 </section>
 
@@ -1391,22 +1408,50 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
     <p class="temp-body">His willingness to work is matched by his focus. He reads his handler well and stays locked in through every phase of training. He has high ball drive and enjoys doing anything that is asked of by the handler.</p>
     <p class="temp-body">In protection, Sagi shows hard, committed grips and genuine courage under pressure. He does not hesitate and does not quit. His drive, self-assurance, and stress capacity have been formally evaluated and rated at the highest possible level (TSB Pronounced).</p>
   </div>
+  <!-- Working Media Carousel -->
+  <div class="blur-carousel" id="titlesCarousel" style="margin-bottom:2.5rem">
+    <div class="blur-carousel-label">Training & Working Media</div>
+    <div class="bc-viewport" id="titlesViewport">
+      <div class="bc-stage">
+        <div class="bc-slide" data-idx="0">
+          <div class="bc-thumb" style="background:linear-gradient(135deg,#1a1510,#2a2018)"><div class="bc-thumb-play">&#9654;</div><span class="bc-thumb-placeholder" style="color:#c9a96e;font-size:.65rem;margin-top:6px">Training Video 1</span></div>
+        </div>
+        <div class="bc-slide bc-photo" data-idx="1">
+          <div class="bc-thumb" style="background:linear-gradient(145deg,#1c1815,#2c2520)"><span class="bc-thumb-placeholder" style="color:#d4b882">Working Photo 1</span></div>
+        </div>
+        <div class="bc-slide" data-idx="2">
+          <div class="bc-thumb" style="background:linear-gradient(135deg,#151a1c,#1e2a30)"><div class="bc-thumb-play">&#9654;</div><span class="bc-thumb-placeholder" style="color:#7ab5c9;font-size:.65rem;margin-top:6px">Training Video 2</span></div>
+        </div>
+        <div class="bc-slide bc-photo" data-idx="3">
+          <div class="bc-thumb" style="background:linear-gradient(145deg,#181c1a,#222e28)"><span class="bc-thumb-placeholder" style="color:#82c9a0">Working Photo 2</span></div>
+        </div>
+        <div class="bc-slide" data-idx="4">
+          <div class="bc-thumb" style="background:linear-gradient(135deg,#1a1518,#2a1e24)"><div class="bc-thumb-play">&#9654;</div><span class="bc-thumb-placeholder" style="color:#c97a9e;font-size:.65rem;margin-top:6px">Training Video 3</span></div>
+        </div>
+        <div class="bc-slide bc-photo" data-idx="5">
+          <div class="bc-thumb" style="background:linear-gradient(145deg,#1c181c,#2c222e)"><span class="bc-thumb-placeholder" style="color:#b882c9">Working Photo 3</span></div>
+        </div>
+      </div>
+    </div>
+    <button class="bc-arrow bc-prev-arrow" onclick="blurCarouselNav('titlesViewport',-1)">&#8249;</button>
+    <button class="bc-arrow bc-next-arrow" onclick="blurCarouselNav('titlesViewport',1)">&#8250;</button>
+  </div>
   <div class="titles-category">
     <div class="titles-cat-header">Working Titles</div>
-    <div class="title-row" onclick="this.classList.toggle('expanded')"><span class="title-abbr">IGP3</span><span class="title-full">Internationale Gebrauchshund Prüfung 3</span><span class="title-explain">Highest level</span><div class="title-expand">IGP3 is the highest level of working dog sport — testing tracking, obedience, and protection at the most demanding level. The dog must demonstrate strong nose work across long aged tracks, reliable off-leash obedience in distracting environments, and confident protection work including searching, holding, and escorting.</div></div>
-    <div class="title-row" onclick="this.classList.toggle('expanded')"><span class="title-abbr">IGP2</span><span class="title-full">Internationale Gebrauchshund Prüfung 2</span><span class="title-explain">Advanced level</span><div class="title-expand">IGP2 tests intermediate-advanced tracking, obedience, and protection skills. It requires longer tracks, more complex obedience patterns, and more demanding protection scenarios than IGP1.</div></div>
-    <div class="title-row" onclick="this.classList.toggle('expanded')"><span class="title-abbr">IGP1</span><span class="title-full">Internationale Gebrauchshund Prüfung 1</span><span class="title-explain">Foundation level</span><div class="title-expand">IGP1 is the entry-level working dog title in the international system, testing basic tracking, obedience, and protection. Even this foundation level requires significant training and natural ability.</div></div>
-    <div class="title-row" onclick="this.classList.toggle('expanded')"><span class="title-abbr">FO</span><span class="title-full">Family Obedience</span><span class="title-explain">Obedience title</span><div class="title-expand">FO (Family Obedience) demonstrates the dog's ability to behave reliably and calmly in everyday family and public settings.</div></div>
-    <div class="title-row" onclick="this.classList.toggle('expanded')"><span class="title-abbr">BH/VT</span><span class="title-full">Begleithundprüfung / Verkehrstest</span><span class="title-explain">Temperament prerequisite</span><div class="title-expand">The BH/VT is the mandatory temperament and traffic-safety test required before any IGP title. The dog must demonstrate stable behavior in public, around crowds, traffic, and other dogs.</div></div>
-    <div class="title-row" onclick="this.classList.toggle('expanded')"><span class="title-abbr">AD</span><span class="title-full">Ausdauerprüfung (Endurance Test)</span><span class="title-explain">Physical fitness</span><div class="title-expand">The AD requires the dog to trot alongside a bicycle for 20 kilometers (12.4 miles) at a steady pace, followed by a simple obedience check.</div></div>
+    <div class="title-row" onclick="this.classList.toggle('expanded')"><span class="title-abbr">IGP3</span><span class="title-full">Internationale Gebrauchshund Prüfung 3</span><div class="title-expand">IGP3 is the highest level of working dog sport — testing tracking, obedience, and protection at the most demanding level. The dog must demonstrate strong nose work across long aged tracks, reliable off-leash obedience in distracting environments, and confident protection work including searching, holding, and escorting.</div></div>
+    <div class="title-row" onclick="this.classList.toggle('expanded')"><span class="title-abbr">IGP2</span><span class="title-full">Internationale Gebrauchshund Prüfung 2</span><div class="title-expand">IGP2 tests intermediate-advanced tracking, obedience, and protection skills. It requires longer tracks, more complex obedience patterns, and more demanding protection scenarios than IGP1.</div></div>
+    <div class="title-row" onclick="this.classList.toggle('expanded')"><span class="title-abbr">IGP1</span><span class="title-full">Internationale Gebrauchshund Prüfung 1</span><div class="title-expand">IGP1 is the entry-level working dog title in the international system, testing basic tracking, obedience, and protection. Even this foundation level requires significant training and natural ability.</div></div>
+    <div class="title-row" onclick="this.classList.toggle('expanded')"><span class="title-abbr">FO</span><span class="title-full">Family Obedience</span><div class="title-expand">FO (Family Obedience) demonstrates the dog's ability to behave reliably and calmly in everyday family and public settings.</div></div>
+    <div class="title-row" onclick="this.classList.toggle('expanded')"><span class="title-abbr">BH/VT</span><span class="title-full">Begleithundprüfung / Verkehrstest</span><div class="title-expand">The BH/VT is the mandatory temperament and traffic-safety test required before any IGP title. The dog must demonstrate stable behavior in public, around crowds, traffic, and other dogs.</div></div>
+    <div class="title-row" onclick="this.classList.toggle('expanded')"><span class="title-abbr">AD</span><span class="title-full">Ausdauerprüfung (Endurance Test)</span><div class="title-expand">The AD requires the dog to trot alongside a bicycle for 20 kilometers (12.4 miles) at a steady pace, followed by a simple obedience check.</div></div>
   </div>
   <div class="titles-category">
     <div class="titles-cat-header">Breed Survey & Conformation</div>
-    <div class="title-row" onclick="this.classList.toggle('expanded')"><span class="title-abbr">KKL</span><span class="title-full">Körklasse — Lifetime Breed Survey</span><span class="title-explain" style="color:var(--gold)">Elite distinction</span><div class="title-expand">A Lifetime Breed Survey (KKL) is an extensive evaluation of the dog's structure, temperament, and working ability conducted by a certified breed surveyor. Sagi's lifetime survey was conducted by USCA and carries a TSB rating of "Pronounced" — the highest possible drive and self-assurance assessment.</div></div>
-    <div class="title-row" onclick="this.classList.toggle('expanded')"><span class="title-abbr">TSB: P</span><span class="title-full">Triebveranlagung, Selbstsicherheit, Belastbarkeit — Pronounced</span><span class="title-explain" style="color:var(--gold)">Highest rating</span><div class="title-expand">TSB evaluates three critical traits: drive, self-assurance, and stress capacity. "Pronounced" is the highest possible rating.</div></div>
-    <div class="title-row" onclick="this.classList.toggle('expanded')"><span class="title-abbr">Ang*</span><span class="title-full">Angekört — Surveyed / Approved for Breeding</span><span class="title-explain">Breed approved</span><div class="title-expand">The Angekört designation means the dog has passed a breed survey and has been officially approved for breeding. The asterisk (*) indicates recommended for breeding.</div></div>
-    <div class="title-row" onclick="this.classList.toggle('expanded')"><span class="title-abbr">VD</span><span class="title-full">Vorzüglich (Czech Show Rating)</span><span class="title-explain">Very Good</span><div class="title-expand">VD ("Very Good") in the Czech conformation system evaluates the dog's physical structure against the breed standard.</div></div>
-    <div class="title-row" onclick="this.classList.toggle('expanded')"><span class="title-abbr">G1</span><span class="title-full">Good (USCA Show Rating)</span><span class="title-explain">USCA Conformation</span><div class="title-expand">The USCA conformation rating evaluates the dog's physical structure in the American branch of the SV system.</div></div>
+    <div class="title-row" onclick="this.classList.toggle('expanded')"><span class="title-abbr">KKL</span><span class="title-full">Körklasse — Lifetime Breed Survey</span><div class="title-expand">A Lifetime Breed Survey (KKL) is an extensive evaluation of the dog's structure, temperament, and working ability conducted by a certified breed surveyor. Sagi's lifetime survey was conducted by USCA and carries a TSB rating of "Pronounced" — the highest possible drive and self-assurance assessment.</div></div>
+    <div class="title-row" onclick="this.classList.toggle('expanded')"><span class="title-abbr">TSB: P</span><span class="title-full">Triebveranlagung, Selbstsicherheit, Belastbarkeit — Pronounced</span><div class="title-expand">TSB evaluates three critical traits: drive, self-assurance, and stress capacity. "Pronounced" is the highest possible rating.</div></div>
+    <div class="title-row" onclick="this.classList.toggle('expanded')"><span class="title-abbr">Ang*</span><span class="title-full">Angekört — Surveyed / Approved for Breeding</span><div class="title-expand">The Angekört designation means the dog has passed a breed survey and has been officially approved for breeding. The asterisk (*) indicates recommended for breeding.</div></div>
+    <div class="title-row" onclick="this.classList.toggle('expanded')"><span class="title-abbr">VD</span><span class="title-full">Vorzüglich (Czech Show Rating)</span><div class="title-expand">VD ("Very Good") in the Czech conformation system evaluates the dog's physical structure against the breed standard.</div></div>
+    <div class="title-row" onclick="this.classList.toggle('expanded')"><span class="title-abbr">G1</span><span class="title-full">Good (USCA Show Rating)</span><div class="title-expand">The USCA conformation rating evaluates the dog's physical structure in the American branch of the SV system.</div></div>
   </div>
 </section>
 
@@ -1605,6 +1650,7 @@ function downloadPedigreePDF(){var w=window.open('','_blank');if(!w){alert('Plea
   };
   initBlurCarousel('vcViewport');
   initBlurCarousel('picViewport');
+  initBlurCarousel('titlesViewport');
 
   /* Video modal */
   var modal=document.getElementById('vcModal');
