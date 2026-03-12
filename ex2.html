@@ -477,33 +477,19 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
    HERO BADGE TOOLTIPS — grey text, click-to-reveal
    ==================================================== */
 .hero-badge {
-  font-family: var(--mono);
-  font-size: .56rem;
-  letter-spacing: .05em;
-  padding: .2em .45em;
-  border: 1px solid rgba(201,169,110,.15);
-  border-radius: 3px;
-  color: var(--text-muted);
-  background: rgba(201,169,110,.04);
-  white-space: nowrap;
-  cursor: pointer;
-  transition: color .3s var(--ease), border-color .3s var(--ease), background .3s var(--ease);
-  position: relative;
-}
-.hero-badge:hover {
-  color: var(--gold);
-  background: rgba(201,169,110,.08);
-  border-color: rgba(201,169,110,.35);
-}
-.hero-badge--green {
-  border-color: transparent;
-  color: var(--text-muted);
-  background: none;
-}
-.hero-badge--green:hover {
-  background: none;
-  border-color: transparent;
+  font-family: var(--serif);
+  font-size: .72rem;
+  font-weight: 400;
+  letter-spacing: .03em;
+  padding: .1em .2em;
+  border: none;
+  border-radius: 0;
   color: var(--text-secondary);
+  background: none;
+  white-space: nowrap;
+  cursor: default;
+  position: relative;
+  text-shadow: 0 0 8px rgba(201,169,110,.3), 0 0 16px rgba(201,169,110,.15);
 }
 .hero-badges {
   display: flex;
@@ -521,51 +507,7 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   user-select: none;
 }
 
-/* Badge tooltip bubble */
-.badge-tip {
-  position: fixed;
-  background: rgba(22,22,22,.97);
-  border: 1px solid rgba(201,169,110,.25);
-  border-radius: 6px;
-  color: var(--text-primary);
-  font-family: var(--sans);
-  font-size: .74rem;
-  font-weight: 300;
-  line-height: 1.55;
-  letter-spacing: .01em;
-  padding: 12px 16px;
-  width: min(280px, 88vw);
-  white-space: normal;
-  word-wrap: break-word;
-  pointer-events: none;
-  opacity: 0;
-  transform: scale(.95);
-  transition: opacity .2s ease, transform .2s ease;
-  z-index: 50;
-  box-shadow: 0 8px 30px rgba(0,0,0,.6);
-}
-.badge-tip::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: var(--arrow-left, 50%);
-  transform: translateX(-50%);
-  border: 6px solid transparent;
-  border-top-color: rgba(22,22,22,.97);
-}
-.hero-badge.badge-active .badge-tip {
-  opacity: 1;
-  transform: scale(1);
-  pointer-events: auto;
-}
-.badge-tip-abbr {
-  font-family: var(--mono);
-  font-size: .6rem;
-  color: var(--gold);
-  letter-spacing: .06em;
-  display: block;
-  margin-bottom: 3px;
-}
+/* Badge tooltip bubble — removed, badges are now static display */
 
 /* ====================================================
    CATEGORY NAV — sticky tabs
@@ -607,27 +549,44 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 .temp-cert-desc{font-size:.82rem;color:var(--text-secondary);font-weight:300;line-height:1.6}
 @media(max-width:600px){.temp-cert{flex-direction:column;gap:.25rem}.temp-cert-abbr{min-width:auto}}
 
-/* ===== VIDEO CAROUSEL ===== */
-.video-carousel{position:relative;margin-top:2.5rem;overflow:hidden}
-.vc-track{display:flex;gap:12px;overflow-x:auto;scroll-behavior:smooth;scrollbar-width:none;padding:8px 0}
-.vc-track::-webkit-scrollbar{display:none}
-.vc-slide{flex:0 0 220px;cursor:pointer;transition:transform .3s var(--ease)}
-.vc-slide:hover{transform:translateY(-3px)}
-.vc-thumb{aspect-ratio:16/9;background:var(--bg-card);border:1px solid var(--border-subtle);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;transition:border-color .3s}
-.vc-slide:hover .vc-thumb{border-color:var(--gold)}
-.vc-thumb-play{font-size:1.8rem;color:var(--gold);width:48px;height:48px;border:2px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .3s;line-height:1}
-.vc-slide:hover .vc-thumb-play{background:var(--gold);color:var(--bg-deep)}
-.vc-thumb-label{position:absolute;bottom:8px;left:8px;font-size:.65rem;font-weight:500;letter-spacing:.06em;color:var(--text-secondary);text-transform:uppercase}
-.vc-arrow{position:absolute;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;background:rgba(7,7,7,.8);border:1px solid var(--border-subtle);color:var(--text-primary);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;transition:all .2s}
-.vc-arrow:hover{background:var(--gold);color:var(--bg-deep);border-color:var(--gold)}
-.vc-prev{left:8px}.vc-next{right:8px}
+/* ===== BLUR CAROUSEL SYSTEM ===== */
+.carousel-pair{display:flex;gap:10px;margin-top:2.5rem}
+.carousel-pair .blur-carousel{flex:1;min-width:0}
+.blur-carousel{position:relative;overflow:hidden;padding:8px 0}
+.blur-carousel-label{font-size:.55rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);margin-bottom:.6rem;text-align:center}
+.bc-viewport{display:flex;justify-content:center;align-items:center;gap:6px;min-height:0}
+.bc-slide{flex:0 0 auto;width:180px;cursor:pointer;transition:all .4s var(--ease);opacity:.35;filter:blur(4px);transform:scale(.82);pointer-events:none}
+.bc-slide.bc-active{opacity:1;filter:none;transform:scale(1);pointer-events:auto}
+.bc-slide.bc-prev,.bc-slide.bc-next{opacity:.5;filter:blur(3px);transform:scale(.88);pointer-events:auto}
+.bc-slide.bc-hidden{display:none}
+.bc-thumb{aspect-ratio:16/9;background:var(--bg-card);border:1px solid var(--border-subtle);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;transition:border-color .3s}
+.bc-active .bc-thumb{border-color:rgba(201,169,110,.3)}
+.bc-thumb-play{font-size:1.4rem;color:var(--gold);width:38px;height:38px;border:2px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .3s;line-height:1}
+.bc-active:hover .bc-thumb-play{background:var(--gold);color:var(--bg-deep)}
+.bc-thumb-label{position:absolute;bottom:6px;left:6px;font-size:.55rem;font-weight:500;letter-spacing:.04em;color:var(--text-secondary);text-transform:uppercase}
+.bc-thumb-img{width:100%;height:100%;object-fit:cover;display:block}
+.bc-arrow{position:absolute;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;background:rgba(7,7,7,.85);border:1px solid var(--border-subtle);color:var(--text-primary);font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;transition:all .2s}
+.bc-arrow:hover{background:var(--gold);color:var(--bg-deep);border-color:var(--gold)}
+.bc-prev-arrow{left:4px}.bc-next-arrow{right:4px}
+/* Video modal */
 .vc-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:9999;align-items:center;justify-content:center}
 .vc-modal.active{display:flex}
 .vc-modal-inner{position:relative;width:90%;max-width:900px;aspect-ratio:16/9;background:#000}
 .vc-modal-inner video{width:100%;height:100%;object-fit:contain}
 .vc-modal-close{position:absolute;top:-36px;right:0;background:none;border:none;color:#fff;font-size:2rem;cursor:pointer;padding:4px 8px;transition:color .2s}
 .vc-modal-close:hover{color:var(--gold)}
-@media(max-width:600px){.vc-slide{flex:0 0 160px}.vc-thumb-play{width:36px;height:36px;font-size:1.3rem}.vc-modal-inner{width:95%}}
+@media(max-width:768px){
+  .carousel-pair{gap:6px}
+  .bc-slide{width:clamp(100px,38vw,160px)}
+  .bc-thumb-play{width:28px;height:28px;font-size:1rem}
+  .bc-thumb-label{font-size:.48rem;bottom:4px;left:4px}
+  .bc-arrow{width:22px;height:22px;font-size:.8rem}
+  .vc-modal-inner{width:95%}
+}
+@media(max-width:420px){
+  .bc-slide{width:clamp(80px,36vw,130px)}
+  .bc-thumb-play{width:24px;height:24px;font-size:.85rem}
+}
 
 /* ===== HEALTH ===== */
 @media(min-width:901px){.health-header{display:none}.health-intro{display:none}}
@@ -653,26 +612,26 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   .health-table tbody td{display:block;padding:.15rem 0;border:none;font-size:.82rem}
   .health-table tbody td:first-child{font-size:.9rem;margin-bottom:.25rem}
 }
-.ethical-section{margin-top:3rem;padding-top:2.5rem;border-top:1px solid var(--border-subtle)}
-.ethical-header{font-family:var(--serif);font-size:clamp(1.2rem,2.5vw,1.6rem);font-weight:400;margin-bottom:.5rem}
-.ethical-desc{font-size:.88rem;font-weight:300;color:var(--text-secondary);line-height:1.7;margin-bottom:2rem;max-width:680px}
-.ethical-table{width:100%;border-collapse:collapse;margin-bottom:2rem}
-.ethical-table thead th{font-size:.55rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);padding:.6rem .75rem;text-align:left;border-bottom:2px solid var(--border-subtle)}
-.ethical-table thead th:first-child{padding-left:0}
-.ethical-table tbody td{padding:.75rem;border-bottom:1px solid var(--border-subtle);font-size:.82rem;font-weight:300;color:var(--text-secondary);vertical-align:top}
-.ethical-table tbody td:first-child{padding-left:0;font-weight:500;color:var(--text-primary)}
-.ethical-table .et-required{font-size:.65rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
-.ethical-table .et-required.yes{color:#4ade80}
-.ethical-table .et-required.rec{color:var(--gold)}
-.ethical-table .et-sagi{font-weight:600;color:#4ade80}
-@media(max-width:640px){
-  .ethical-table thead{display:none}
-  .ethical-table tbody tr{display:block;padding:.75rem 0;border-bottom:1px solid var(--border-subtle)}
-  .ethical-table tbody td{display:block;padding:.1rem 0;border:none}
-  .ethical-table tbody td:first-child{font-size:.85rem;margin-bottom:.2rem}
-}
-.ethical-resources{display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1.5rem}
-.ethical-resources .action-btn{font-size:.65rem}
+/* Health stats row */
+.health-stats{display:flex;gap:2rem;margin-bottom:2rem;padding:1.2rem 0;border-bottom:1px solid var(--border-subtle)}
+.health-stat{display:flex;flex-direction:column;gap:.2rem}
+.health-stat-label{font-size:.6rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.health-stat-value{font-family:var(--serif);font-size:1.3rem;font-weight:400;color:var(--text-primary)}
+@media(max-width:640px){.health-stats{gap:1.5rem}.health-stat-value{font-size:1.1rem}}
+
+/* Embark blur carousel */
+.embark-carousel{position:relative;margin-top:1rem;overflow:hidden;padding:8px 0}
+.embark-track{display:flex;justify-content:center;align-items:center;gap:8px;transition:transform .3s var(--ease)}
+.embark-slide{flex:0 0 auto;width:160px;transition:all .4s var(--ease);opacity:.4;filter:blur(3px);transform:scale(.85)}
+.embark-slide.bc-active{opacity:1;filter:none;transform:scale(1)}
+.embark-slide.bc-prev,.embark-slide.bc-next{opacity:.5;filter:blur(2px);transform:scale(.9)}
+.embark-card{background:var(--bg-elevated);border:1px solid var(--border-subtle);padding:12px 14px;text-align:center;min-height:70px;display:flex;flex-direction:column;justify-content:center;gap:6px}
+.embark-test{font-size:.72rem;font-weight:400;color:var(--text-primary);line-height:1.3}
+.embark-result{font-size:.6rem;font-weight:600;color:#4ade80;letter-spacing:.1em;text-transform:uppercase}
+.embark-arrow{position:absolute;top:50%;transform:translateY(-50%);width:26px;height:26px;border-radius:50%;background:rgba(7,7,7,.8);border:1px solid var(--border-subtle);color:var(--text-primary);font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;transition:all .2s}
+.embark-arrow:hover{background:var(--gold);color:var(--bg-deep);border-color:var(--gold)}
+.embark-prev{left:0}.embark-next{right:0}
+@media(max-width:640px){.embark-slide{width:130px}.embark-card{padding:10px 10px;min-height:60px}.embark-test{font-size:.65rem}}
 
 /* ===== PEDIGREE ===== */
 .ped-hnode-photo{width:100%;aspect-ratio:16/9;background:#d8d8d8;margin-bottom:8px;display:block;overflow:hidden}
@@ -708,8 +667,8 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 .ped-htag.ped-active-tip{filter:brightness(.92)}
 .ped-lines{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
 .ped-lines line{stroke-width:2}
-.ped-tip-popup{position:fixed;background:#161616;color:#fff;font-family:var(--sans);font-size:.72rem;line-height:1.5;padding:11px 14px 12px;width:260px;z-index:9999;display:none;box-shadow:0 6px 24px rgba(0,0,0,.55);border:1px solid #2a2a2a;pointer-events:none}
-.ped-tip-popup.ped-tip-show{display:block}
+.ped-tip-popup{position:fixed;background:#161616;color:#fff;font-family:var(--sans);font-size:.75rem;line-height:1.55;padding:14px 16px 15px;width:min(280px,88vw);border-radius:6px;z-index:9999;display:none;box-shadow:0 6px 24px rgba(0,0,0,.55);border:1px solid #2a2a2a;pointer-events:none}
+.ped-tip-popup.ped-tip-show{display:block;pointer-events:auto}
 .ped-tip-abbr{font-family:var(--mono);font-size:.62rem;color:#c9a96e;letter-spacing:.06em;margin-bottom:4px;display:block}
 .ped-tip-full{font-size:.64rem;color:#888;font-style:italic;margin-bottom:5px;display:block;line-height:1.4}
 .ped-tip-body{font-size:.72rem;color:#e0e0e0;display:block}
@@ -962,7 +921,7 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   .hero-titles { font-size: clamp(.52rem, 2.2vw, .65rem); letter-spacing: .08em; }
   .hero-sagi-wrap { top: 35%; }
   .hero-badges { gap: .4rem; }
-  .hero-badge { font-size: .5rem; }
+  .hero-badge { font-size: .62rem; }
   .hero-desc { font-size: .8rem; line-height: 1.7; }
 
 }
@@ -995,6 +954,40 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   .hero-desc { font-size: .76rem; }
 }
 
+
+/* ===== STUD SERVICES SECTION ===== */
+.stud-section{background:var(--bg-card);border-top:1px solid rgba(201,169,110,.2);padding:clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,6rem)}
+.stud-inner{max-width:820px;margin:0 auto}
+.stud-heading{font-family:var(--serif);font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:300;color:var(--text-primary);margin-bottom:.5rem}
+.stud-sep{width:clamp(40px,8vw,80px);height:1px;background:linear-gradient(90deg,var(--gold),transparent);margin-bottom:1.8rem}
+.stud-details{font-size:clamp(.88rem,1.2vw,1rem);font-weight:300;color:var(--text-secondary);line-height:1.8;margin-bottom:2rem}
+.stud-pricing{margin-bottom:2rem}
+.stud-price-row{display:flex;justify-content:space-between;align-items:baseline;padding:.65rem 0;border-bottom:1px solid var(--border-subtle);max-width:420px}
+.stud-price-type{font-size:.88rem;font-weight:400;color:var(--text-primary)}
+.stud-price-amount{font-family:var(--mono);font-size:.95rem;font-weight:400;color:var(--gold)}
+.stud-contact{font-size:.9rem;font-weight:300;color:var(--text-secondary);line-height:1.7}
+.stud-contact a{color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(201,169,110,.3);transition:border-color .2s}
+.stud-contact a:hover{border-color:var(--gold)}
+/* Stud flyer carousel */
+.stud-flyer-carousel{position:relative;margin-top:2.5rem;margin-bottom:1rem;overflow:hidden}
+.stud-flyer-label{font-size:.55rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);margin-bottom:.75rem}
+.sf-track{display:flex;gap:12px;overflow-x:auto;scroll-behavior:smooth;scrollbar-width:none;padding:4px 0}
+.sf-track::-webkit-scrollbar{display:none}
+.sf-slide{flex:0 0 min(400px,85vw);cursor:pointer;transition:transform .2s}
+.sf-slide:hover{transform:translateY(-2px)}
+.sf-thumb{aspect-ratio:16/9;background:var(--bg-elevated);border:1px solid var(--border-subtle);display:flex;align-items:center;justify-content:center;overflow:hidden;transition:border-color .3s}
+.sf-slide:hover .sf-thumb{border-color:var(--gold)}
+.sf-thumb-placeholder{font-size:.7rem;color:var(--text-muted);font-weight:300}
+.sf-arrow{position:absolute;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;background:rgba(7,7,7,.8);border:1px solid var(--border-subtle);color:var(--text-primary);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;transition:all .2s}
+.sf-arrow:hover{background:var(--gold);color:var(--bg-deep);border-color:var(--gold)}
+.sf-prev{left:8px}.sf-next{right:8px}
+@media(max-width:768px){
+  .stud-price-row{max-width:100%}
+  .sf-slide{flex:0 0 min(340px,90vw)}
+}
+@media(max-width:420px){
+  .sf-slide{flex:0 0 92vw}
+}
 
 /* ====================================================
    SCROLLBAR
@@ -1059,21 +1052,21 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
       <h1 class="hero-name">Sagar <em>Faustus Moravia</em></h1>
       <div class="hero-titles">FO &middot; BH/VT &middot; AD &middot; IGP3 &middot; KKL &middot; Ang*</div>
       <div class="hero-badges">
-        <span class="hero-badge" data-badge-tip="Triebveranlagung, Selbstsicherheit, Belastbarkeit — Drive, self-assurance, and stress capacity. 'Pronounced' is the highest possible rating.">TSB Pronounced<span class="badge-tip"><span class="badge-tip-abbr">TSB Pronounced</span>Triebveranlagung, Selbstsicherheit, Belastbarkeit — Drive, self-assurance, and stress capacity. "Pronounced" is the highest possible rating.</span></span>
+        <span class="hero-badge">TSB Pronounced</span>
         <span class="badge-sep">&middot;</span>
-        <span class="hero-badge" data-badge-tip>HD A1<span class="badge-tip"><span class="badge-tip-abbr">HD A1</span>Hüftgelenksdysplasie — Hip evaluation. A1 is the highest German SV hip grade: excellent hip joint formation.</span></span>
+        <span class="hero-badge">HD A1</span>
         <span class="badge-sep">&middot;</span>
-        <span class="hero-badge" data-badge-tip>ED A1<span class="badge-tip"><span class="badge-tip-abbr">ED A1</span>Ellbogendysplasie — Elbow evaluation. A1 is the best possible SV elbow result: both elbows completely clear.</span></span>
+        <span class="hero-badge">ED A1</span>
         <span class="badge-sep">&middot;</span>
-        <span class="hero-badge" data-badge-tip>DM N/N<span class="badge-tip"><span class="badge-tip-abbr">DM N/N</span>Degenerative Myelopathy DNA test. N/N means genetically clear — carries zero copies of the DM mutation.</span></span>
+        <span class="hero-badge">DM N/N</span>
         <span class="badge-sep">&middot;</span>
-        <span class="hero-badge" data-badge-tip>Embark Clear<span class="badge-tip"><span class="badge-tip-abbr">Embark Clear</span>Embark Veterinary genetic panel testing 230+ conditions. Clear means free of all tested genetic diseases.</span></span>
+        <span class="hero-badge">Embark Clear</span>
       </div>
       <div class="hero-sep"></div>
       <p class="hero-desc">
-        Sagi displays high handler engagement and is a breeze to work &mdash; always eager and willing.
-        High ball drive, hard grips in protection, and strong courage. An exceptional, powerful,
-        and fun-loving male. Owned by WoodWolf Kennels.
+        Sagi is easy to work and stays engaged with his handler &mdash; always eager and willing.
+        High ball drive, hard grips in protection, and strong courage. A strong, fun-loving
+        male. Owned by WoodWolf Kennels.
       </p>
     </div>
   </div>
@@ -1110,26 +1103,50 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   <div class="temperament-prose">
     <p class="temp-lead">Sagi is a neutral, well-rounded male. He is completely comfortable around children, other dogs, and animals in the home. His temperament is stable and predictable, making him as trustworthy in a family environment as he is on the field.</p>
     <p class="temp-body">He is social without being overbearing, calm in the house, and settles easily. He transitions between high-energy work and relaxed home life with no behavioral issues. He is the kind of dog you can trust around your family and take anywhere.</p>
-    <p class="temp-body">We are so thankful to add this exceptional, powerful, and fun loving male to our program. Sagi is owned by WoodWolf Kennels.</p>
+    <p class="temp-body">Sagi is owned by WoodWolf Kennels.</p>
   </div>
-  <!-- Video Carousel -->
-  <div class="video-carousel" id="videoCarousel">
-    <div class="vc-track" id="vcTrack">
-      <div class="vc-slide" data-video="1.mp4">
-        <div class="vc-thumb"><div class="vc-thumb-play">&#9654;</div><div class="vc-thumb-label">Training Session 1</div></div>
+  <!-- Dual Blur Carousels -->
+  <div class="carousel-pair">
+    <!-- Video Carousel -->
+    <div class="blur-carousel" id="videoBlurCarousel">
+      <div class="blur-carousel-label">Videos</div>
+      <div class="bc-viewport" id="vcViewport">
+        <div class="bc-slide" data-video="1.mp4" data-idx="0">
+          <div class="bc-thumb"><div class="bc-thumb-play">&#9654;</div><div class="bc-thumb-label">Training 1</div></div>
+        </div>
+        <div class="bc-slide" data-video="2.mp4" data-idx="1">
+          <div class="bc-thumb"><div class="bc-thumb-play">&#9654;</div><div class="bc-thumb-label">Training 2</div></div>
+        </div>
+        <div class="bc-slide" data-video="3.mp4" data-idx="2">
+          <div class="bc-thumb"><div class="bc-thumb-play">&#9654;</div><div class="bc-thumb-label">Protection</div></div>
+        </div>
+        <div class="bc-slide" data-video="4.mp4" data-idx="3">
+          <div class="bc-thumb"><div class="bc-thumb-play">&#9654;</div><div class="bc-thumb-label">Temperament</div></div>
+        </div>
       </div>
-      <div class="vc-slide" data-video="2.mp4">
-        <div class="vc-thumb"><div class="vc-thumb-play">&#9654;</div><div class="vc-thumb-label">Training Session 2</div></div>
-      </div>
-      <div class="vc-slide" data-video="3.mp4">
-        <div class="vc-thumb"><div class="vc-thumb-play">&#9654;</div><div class="vc-thumb-label">Protection Work</div></div>
-      </div>
-      <div class="vc-slide" data-video="4.mp4">
-        <div class="vc-thumb"><div class="vc-thumb-play">&#9654;</div><div class="vc-thumb-label">Temperament</div></div>
-      </div>
+      <button class="bc-arrow bc-prev-arrow" onclick="blurCarouselNav('vcViewport',-1)">&#8249;</button>
+      <button class="bc-arrow bc-next-arrow" onclick="blurCarouselNav('vcViewport',1)">&#8250;</button>
     </div>
-    <button class="vc-arrow vc-prev" onclick="vcScroll(-1)">&#8249;</button>
-    <button class="vc-arrow vc-next" onclick="vcScroll(1)">&#8250;</button>
+    <!-- Picture Carousel -->
+    <div class="blur-carousel" id="picBlurCarousel">
+      <div class="blur-carousel-label">Photos</div>
+      <div class="bc-viewport" id="picViewport">
+        <div class="bc-slide" data-idx="0">
+          <div class="bc-thumb"><div class="bc-thumb-label">Photo 1</div></div>
+        </div>
+        <div class="bc-slide" data-idx="1">
+          <div class="bc-thumb"><div class="bc-thumb-label">Photo 2</div></div>
+        </div>
+        <div class="bc-slide" data-idx="2">
+          <div class="bc-thumb"><div class="bc-thumb-label">Photo 3</div></div>
+        </div>
+        <div class="bc-slide" data-idx="3">
+          <div class="bc-thumb"><div class="bc-thumb-label">Photo 4</div></div>
+        </div>
+      </div>
+      <button class="bc-arrow bc-prev-arrow" onclick="blurCarouselNav('picViewport',-1)">&#8249;</button>
+      <button class="bc-arrow bc-next-arrow" onclick="blurCarouselNav('picViewport',1)">&#8250;</button>
+    </div>
   </div>
   <!-- Video Modal -->
   <div class="vc-modal" id="vcModal" onclick="vcCloseModal()">
@@ -1146,6 +1163,10 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
     <h2 class="section-title">Health Clearances</h2>
   </div>
   <p class="health-intro">Sagi is dual-certified across the Czech (ČMKU) and German (SV) registries, both at the highest possible marks. Every result listed below is independently verifiable through the issuing organization.</p>
+  <div class="health-stats">
+    <div class="health-stat"><span class="health-stat-label">Weight</span><span class="health-stat-value">70–75 lbs</span></div>
+    <div class="health-stat"><span class="health-stat-label">Height</span><span class="health-stat-value">25″ at the withers</span></div>
+  </div>
   <div class="health-table-wrap">
     <table class="health-table">
       <thead><tr><th>Test</th><th>Result</th><th>Registry</th><th>Details</th></tr></thead>
@@ -1154,32 +1175,11 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
         <tr class="ht-row" onclick="this.classList.toggle('ht-expanded')"><td>Elbows</td><td><span class="ht-result gold">ED: 0 (CZ) / A1 (SV)</span></td><td><div class="ht-registry">Czech ČMKU + German SV</div></td><td>Clear<div class="ht-expand">ED 0 indicates no evidence of elbow dysplasia under the Czech system. A1 is the highest SV elbow grade. Clean elbows in a large working breed are essential for long-term soundness.</div></td></tr>
         <tr class="ht-row" onclick="this.classList.toggle('ht-expanded')"><td>Spine</td><td><span class="ht-result">Spondylosis: 0</span></td><td><div class="ht-registry">Czech ČMKU</div></td><td>Free<div class="ht-expand">Spondylosis 0 means the spine shows no degenerative changes or bridging between vertebrae. Important for a working dog's long-term mobility and comfort.</div></td></tr>
         <tr class="ht-row" onclick="this.classList.toggle('ht-expanded')"><td>DM (Degenerative Myelopathy)</td><td><span class="ht-result">N/N</span></td><td><div class="ht-registry">DNA Tested</div></td><td>Genetically Clear<div class="ht-expand">N/N means Sagi carries zero copies of the DM gene mutation. He cannot develop or pass on this progressive neurological disease. WoodWolf maintains a strict DM-clear policy for all breeding stock.</div></td></tr>
-        <tr class="ht-row" onclick="this.classList.toggle('ht-expanded')"><td>Embark Genetic Panel</td><td><span class="ht-result">Clear</span></td><td><div class="ht-registry">Embark Veterinary</div></td><td>Full Panel Clear<div class="ht-expand">Embark tests for 230+ genetic health conditions and traits. Sagi's full panel returned clear, confirming he is free of all tested genetic diseases including MDR1, vWD, and breed-relevant conditions.</div></td></tr>
+        <tr class="ht-row" onclick="this.classList.toggle('ht-expanded')"><td>Embark Genetic Panel</td><td><span class="ht-result">Clear</span></td><td><div class="ht-registry">Embark Veterinary</div></td><td>Full Panel Clear<div class="ht-expand">Embark's breed-relevant genetic panel for German Shepherds screens for conditions including Degenerative Myelopathy (SOD1), MDR1 Multi-Drug Sensitivity, Hyperuricosuria, Factor VII Deficiency, von Willebrand Disease (Types I &amp; II), Pituitary Dwarfism, and more. Sagi's results returned clear across all tested conditions.<div class="embark-carousel" id="embarkCarousel"><div class="embark-track" id="embarkTrack"><div class="embark-slide" data-idx="0"><div class="embark-card"><span class="embark-test">Degenerative Myelopathy (SOD1)</span><span class="embark-result">Clear</span></div></div><div class="embark-slide" data-idx="1"><div class="embark-card"><span class="embark-test">MDR1 Multi-Drug Sensitivity</span><span class="embark-result">Clear</span></div></div><div class="embark-slide" data-idx="2"><div class="embark-card"><span class="embark-test">Hyperuricosuria</span><span class="embark-result">Clear</span></div></div><div class="embark-slide" data-idx="3"><div class="embark-card"><span class="embark-test">Factor VII Deficiency</span><span class="embark-result">Clear</span></div></div><div class="embark-slide" data-idx="4"><div class="embark-card"><span class="embark-test">von Willebrand Disease Type I</span><span class="embark-result">Clear</span></div></div><div class="embark-slide" data-idx="5"><div class="embark-card"><span class="embark-test">von Willebrand Disease Type II</span><span class="embark-result">Clear</span></div></div><div class="embark-slide" data-idx="6"><div class="embark-card"><span class="embark-test">Pituitary Dwarfism</span><span class="embark-result">Clear</span></div></div><div class="embark-slide" data-idx="7"><div class="embark-card"><span class="embark-test">Intestinal Cobalamin Malabsorption</span><span class="embark-result">Clear</span></div></div><div class="embark-slide" data-idx="8"><div class="embark-card"><span class="embark-test">Mucopolysaccharidosis VII</span><span class="embark-result">Clear</span></div></div><div class="embark-slide" data-idx="9"><div class="embark-card"><span class="embark-test">Exercise-Induced Collapse</span><span class="embark-result">Clear</span></div></div></div><button class="embark-arrow embark-prev" onclick="event.stopPropagation();embarkScroll(-1)">&#8249;</button><button class="embark-arrow embark-next" onclick="event.stopPropagation();embarkScroll(1)">&#8250;</button></div></div></td></tr>
         <tr class="ht-row" onclick="this.classList.toggle('ht-expanded')"><td>DNA Profile</td><td><span class="ht-result gold">SV + AKC</span></td><td><div class="ht-registry">German SV &amp; AKC</div></td><td>Dual Registry<div class="ht-expand">DNA profiles are on file with both the German SV and the American Kennel Club, ensuring verified parentage and identity for all breeding records and offspring registration.</div></td></tr>
       </tbody>
     </table>
     <p class="ht-tap-hint">Tap any row to read more about the rating.</p>
-  </div>
-  <div class="ethical-section">
-    <h3 class="ethical-header">Minimum Health Testing for Ethically Bred German Shepherds</h3>
-    <p class="ethical-desc">The following tests represent the minimum standard recommended by the GSDCA, OFA/CHIC, and the SV for any German Shepherd used in a breeding program.</p>
-    <table class="ethical-table">
-      <thead><tr><th>Test</th><th>Standard</th><th>Requirement Level</th></tr></thead>
-      <tbody>
-        <tr><td>Hip Evaluation</td><td>OFA, PennHIP, SV, or equivalent radiographic evaluation by a certified veterinarian</td><td><span class="et-required yes">Required</span></td></tr>
-        <tr><td>Elbow Evaluation</td><td>OFA, SV, or equivalent radiographic evaluation</td><td><span class="et-required yes">Required</span></td></tr>
-        <tr><td>DM DNA Test</td><td>SOD1 gene test (OFA or Embark) to determine clear, carrier, or at-risk status</td><td><span class="et-required yes">Required</span></td></tr>
-        <tr><td>Cardiac Evaluation</td><td>Basic cardiac exam by a licensed veterinarian (OFA)</td><td><span class="et-required rec">Recommended</span></td></tr>
-        <tr><td>Thyroid Panel</td><td>OFA thyroid evaluation from an approved laboratory</td><td><span class="et-required rec">Recommended</span></td></tr>
-        <tr><td>Temperament Test</td><td>GSDCA temperament test, BH/VT, or equivalent behavioral evaluation</td><td><span class="et-required yes">Required</span></td></tr>
-        <tr><td>DNA Profile</td><td>DNA on file with registry for parentage verification</td><td><span class="et-required yes">Required</span></td></tr>
-      </tbody>
-    </table>
-    <div class="ethical-resources">
-      <button class="action-btn" onclick="window.open('https://www.ofa.org/recommended-tests?breed=GS','_blank')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>OFA Recommended Tests</button>
-      <button class="action-btn" onclick="window.open('https://www.gsdca.org/health-genetics-committee/','_blank')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>GSDCA Health &amp; Genetics</button>
-      <button class="action-btn" onclick="window.open('https://www.caninehealthinfo.org/search.html','_blank')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>CHIC Database</button>
-    </div>
   </div>
 </section>
 
@@ -1336,7 +1336,7 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
   </div>
   <div class="titles-category">
     <div class="titles-cat-header">Working Titles</div>
-    <div class="title-row" onclick="this.classList.toggle('expanded')"><span class="title-abbr">IGP3</span><span class="title-full">Internationale Gebrauchshund Prüfung 3</span><span class="title-explain">Highest level</span><div class="title-expand">IGP3 is the pinnacle of working dog sport — testing tracking, obedience, and protection at the most demanding level. The dog must demonstrate exceptional nose work across long aged tracks, precise off-leash obedience in distracting environments, and confident protection work including searching, holding, and escorting. Very few dogs achieve this title.</div></div>
+    <div class="title-row" onclick="this.classList.toggle('expanded')"><span class="title-abbr">IGP3</span><span class="title-full">Internationale Gebrauchshund Prüfung 3</span><span class="title-explain">Highest level</span><div class="title-expand">IGP3 is the highest level of working dog sport — testing tracking, obedience, and protection at the most demanding level. The dog must demonstrate strong nose work across long aged tracks, reliable off-leash obedience in distracting environments, and confident protection work including searching, holding, and escorting.</div></div>
     <div class="title-row" onclick="this.classList.toggle('expanded')"><span class="title-abbr">IGP2</span><span class="title-full">Internationale Gebrauchshund Prüfung 2</span><span class="title-explain">Advanced level</span><div class="title-expand">IGP2 tests intermediate-advanced tracking, obedience, and protection skills. It requires longer tracks, more complex obedience patterns, and more demanding protection scenarios than IGP1.</div></div>
     <div class="title-row" onclick="this.classList.toggle('expanded')"><span class="title-abbr">IGP1</span><span class="title-full">Internationale Gebrauchshund Prüfung 1</span><span class="title-explain">Foundation level</span><div class="title-expand">IGP1 is the entry-level working dog title in the international system, testing basic tracking, obedience, and protection. Even this foundation level requires significant training and natural ability.</div></div>
     <div class="title-row" onclick="this.classList.toggle('expanded')"><span class="title-abbr">FO</span><span class="title-full">Family Obedience</span><span class="title-explain">Obedience title</span><div class="title-expand">FO (Family Obedience) demonstrates the dog's ability to behave reliably and calmly in everyday family and public settings.</div></div>
@@ -1357,7 +1357,7 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 <section class="section" id="offspring">
   <div class="section-header">
     <h2 class="section-title">Offspring</h2>
-    <p class="section-desc">Sagi's producing record. Each litter is listed with the dam's information and individual puppy achievements.</p>
+    <p class="section-desc">Sagi's producing record.</p>
   </div>
   <div class="litter-card" onclick="this.classList.toggle('expanded')">
     <div class="litter-header">
@@ -1393,12 +1393,12 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
     <div class="litter-header">
       <div style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap">
         <div class="litter-info"><h3>P-Litter Vom WoodWolf</h3><p>Born August 2024 · 6 puppies (3M / 3F)</p></div>
-        <div class="litter-dam-preview" onclick="event.stopPropagation()" style="position:relative"><div class="litter-dam-photo"></div><div class="litter-dam-text"><span>Dam</span>Shye-Ann European K9</div><div class="dam-tooltip"><h5>Shye-Ann European K9 Training Base</h5><p>BH · HD A · ED Normal · DM N/N<br>Confident, high-drive female with excellent structure.</p></div></div>
+        <div class="litter-dam-preview" onclick="event.stopPropagation()" style="position:relative"><div class="litter-dam-photo"></div><div class="litter-dam-text"><span>Dam</span>Shye-Ann European K9</div><div class="dam-tooltip"><h5>Shye-Ann European K9 Training Base</h5><p>BH · HD A · ED Normal · DM N/N<br>High-drive female with solid structure.</p></div></div>
       </div>
       <div class="litter-toggle">&#9660;</div>
     </div>
     <div class="litter-body">
-      <div class="litter-dam-detail"><h4>Dam: Shye-Ann European K9 Training Base</h4><p>BH · HD A · ED Normal · DM N/N · Embark Clear<br>Athletic, confident female with excellent nerve strength and a natural working temperament.</p></div>
+      <div class="litter-dam-detail"><h4>Dam: Shye-Ann European K9 Training Base</h4><p>BH · HD A · ED Normal · DM N/N · Embark Clear<br>Athletic female with good nerve strength and a willing working temperament.</p></div>
       <div class="offspring-carousel">
         <div class="oc-track">
           <div class="oc-slide"><div class="oc-thumb-square"></div><div class="oc-label">Puppy 1</div></div>
@@ -1413,6 +1413,34 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
         <div class="puppy-card"><div class="puppy-name">Brutus Vom WoodWolf</div><div class="puppy-meta">Male · Dark Sable</div><div class="puppy-status available">Available</div></div>
         <div class="puppy-card"><div class="puppy-name">Bella Vom WoodWolf</div><div class="puppy-meta">Female · Bi-Color</div><div class="puppy-status placed">Placed — K9 Unit</div></div>
       </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     STUD SERVICES — anchored section, outside tabs
+     ============================================ -->
+<section class="stud-section" id="studServices">
+  <div class="stud-inner">
+    <h2 class="stud-heading">Inquire for Stud Services</h2>
+    <div class="stud-sep"></div>
+    <p class="stud-details">Dark / Black Sable Long Coat. Carries for Solid Black. DNA SV and AKC. Live Cover, Fresh Chilled &amp; Frozen Semen (on File at WoodWolf Kennels) available.</p>
+    <div class="stud-pricing">
+      <div class="stud-price-row"><span class="stud-price-type">Live Cover Stud Fee</span><span class="stud-price-amount">$1,500</span></div>
+      <div class="stud-price-row"><span class="stud-price-type">Fresh Chilled / Frozen</span><span class="stud-price-amount">$1,000</span></div>
+    </div>
+    <p class="stud-contact">Email us at <a href="mailto:woodwolfkennels@gmail.com">woodwolfkennels@gmail.com</a> for further details &amp; female requirements.</p>
+    <!-- Stud Flyer Carousel -->
+    <div class="stud-flyer-carousel">
+      <div class="stud-flyer-label">Stud Flyers</div>
+      <div class="sf-track" id="sfTrack">
+        <div class="sf-slide"><div class="sf-thumb"><span class="sf-thumb-placeholder">Stud Flyer 1</span></div></div>
+        <div class="sf-slide"><div class="sf-thumb"><span class="sf-thumb-placeholder">Stud Flyer 2</span></div></div>
+        <div class="sf-slide"><div class="sf-thumb"><span class="sf-thumb-placeholder">Stud Flyer 3</span></div></div>
+      </div>
+      <button class="sf-arrow sf-prev" onclick="sfScroll(-1)">&#8249;</button>
+      <button class="sf-arrow sf-next" onclick="sfScroll(1)">&#8250;</button>
     </div>
   </div>
 </section>
@@ -1466,46 +1494,7 @@ body { background: var(--bg-deep); color: var(--text-primary); font-family: var(
 
 })();
 
-/* --- Hero badge tooltip click with viewport-safe positioning --- */
-(function() {
-  var badges = document.querySelectorAll('.hero-badge[data-badge-tip]');
-  function closeAll() {
-    badges.forEach(function(b) { b.classList.remove('badge-active'); });
-  }
-  function positionTip(badge) {
-    var tip = badge.querySelector('.badge-tip');
-    if (!tip) return;
-    var rect = badge.getBoundingClientRect();
-    var tipW = Math.min(280, window.innerWidth * .88);
-    var pad = 8;
-    /* Center under badge, clamp to viewport edges */
-    var idealLeft = rect.left + rect.width / 2 - tipW / 2;
-    var left = Math.max(pad, Math.min(idealLeft, window.innerWidth - tipW - pad));
-    var top = rect.top - tip.offsetHeight - 10;
-    /* If no room above, show below */
-    if (top < pad) top = rect.bottom + 10;
-    tip.style.left = left + 'px';
-    tip.style.top = top + 'px';
-    /* Position the arrow to point at the badge center */
-    var badgeCenter = rect.left + rect.width / 2;
-    var arrowLeft = badgeCenter - left;
-    arrowLeft = Math.max(14, Math.min(arrowLeft, tipW - 14));
-    tip.style.setProperty('--arrow-left', arrowLeft + 'px');
-  }
-  badges.forEach(function(badge) {
-    badge.addEventListener('click', function(e) {
-      e.stopPropagation();
-      var wasActive = badge.classList.contains('badge-active');
-      closeAll();
-      if (!wasActive) {
-        badge.classList.add('badge-active');
-        positionTip(badge);
-      }
-    });
-  });
-  document.addEventListener('click', closeAll);
-  window.addEventListener('scroll', closeAll, { passive: true });
-})();
+/* Hero badge tooltips removed — badges are now static display */
 
 /* --- Section navigation --- */
 document.querySelectorAll('.nav-tab').forEach(function(tab) {
@@ -1523,7 +1512,7 @@ function downloadPedigreePDF(){var w=window.open('','_blank');if(!w){alert('Plea
 /* --- Pedigree tooltip + lines --- */
 (function(){
   var popup=document.getElementById('ped-tip-popup'),elAbbr=document.getElementById('ped-tip-abbr'),elFull=document.getElementById('ped-tip-full'),elBody=document.getElementById('ped-tip-body');if(!popup)return;var activeTip=null;
-  function openTip(chip){if(activeTip===chip){closeTip();return}if(activeTip){activeTip.classList.remove('ped-active-tip');activeTip=null}elAbbr.textContent=chip.dataset.abbr||'';elFull.textContent=chip.dataset.full||'';elBody.textContent=chip.dataset.body||'';elFull.style.display=chip.dataset.full?'block':'none';popup.style.visibility='hidden';popup.classList.add('ped-tip-show');popup.classList.remove('ped-arrow-above','ped-arrow-below');var cRect=chip.getBoundingClientRect(),pW=popup.offsetWidth,pH=popup.offsetHeight,gap=10,margin=8;var top,arrowClass;if(cRect.top-pH-gap-margin>0){top=cRect.top-pH-gap;arrowClass='ped-arrow-above'}else{top=cRect.bottom+gap;arrowClass='ped-arrow-below'}var left=cRect.left+cRect.width/2-pW/2;left=Math.max(margin,Math.min(left,window.innerWidth-pW-margin));var arrowX=(cRect.left+cRect.width/2)-left;popup.style.top=top+'px';popup.style.left=left+'px';popup.style.setProperty('--ped-tip-arrow',Math.max(10,Math.min(arrowX,pW-10))+'px');popup.classList.add(arrowClass);popup.style.visibility='';chip.classList.add('ped-active-tip');activeTip=chip}
+  function openTip(chip){if(activeTip===chip){closeTip();return}if(activeTip){activeTip.classList.remove('ped-active-tip');activeTip=null}elAbbr.textContent=chip.dataset.abbr||'';elFull.textContent=chip.dataset.full||'';elBody.textContent=chip.dataset.body||'';elFull.style.display=chip.dataset.full?'block':'none';popup.style.visibility='hidden';popup.classList.add('ped-tip-show');popup.classList.remove('ped-arrow-above','ped-arrow-below');var cRect=chip.getBoundingClientRect(),pW=popup.offsetWidth,pH=popup.offsetHeight,gap=10,margin=8;var top,arrowClass;if(cRect.top-pH-gap-margin>0){top=cRect.top-pH-gap;arrowClass='ped-arrow-above'}else{top=cRect.bottom+gap;arrowClass='ped-arrow-below'}top=Math.max(margin,Math.min(top,window.innerHeight-pH-margin));var left=cRect.left+cRect.width/2-pW/2;left=Math.max(margin,Math.min(left,window.innerWidth-pW-margin));var arrowX=(cRect.left+cRect.width/2)-left;popup.style.top=top+'px';popup.style.left=left+'px';popup.style.setProperty('--ped-tip-arrow',Math.max(10,Math.min(arrowX,pW-10))+'px');popup.classList.add(arrowClass);popup.style.visibility='';chip.classList.add('ped-active-tip');activeTip=chip}
   function closeTip(){if(activeTip){activeTip.classList.remove('ped-active-tip');activeTip=null}popup.classList.remove('ped-tip-show','ped-arrow-above','ped-arrow-below')}
   document.addEventListener('touchstart',function(e){var chip=e.target.closest('[data-abbr]');if(chip){e.preventDefault();e.stopPropagation();openTip(chip);return}if(activeTip&&!popup.contains(e.target))closeTip()},true);
   document.addEventListener('click',function(e){var chip=e.target.closest('[data-abbr]');if(chip){e.stopPropagation();openTip(chip);return}if(activeTip&&!popup.contains(e.target))closeTip()});
@@ -1533,27 +1522,86 @@ function downloadPedigreePDF(){var w=window.open('','_blank');if(!w){alert('Plea
   function schedDraw(){requestAnimationFrame(drawLines)}window.addEventListener('resize',schedDraw);document.querySelectorAll('.nav-tab').forEach(function(tab){tab.addEventListener('click',function(){setTimeout(schedDraw,100)})});setTimeout(schedDraw,200);
 })();
 
-/* --- Video Carousel --- */
+/* --- Blur Carousel System --- */
 (function(){
-  var track=document.getElementById('vcTrack');
+  var carousels={};
+  function initBlurCarousel(viewportId){
+    var viewport=document.getElementById(viewportId);
+    if(!viewport)return;
+    var slides=viewport.querySelectorAll('.bc-slide');
+    if(!slides.length)return;
+    carousels[viewportId]={el:viewport,slides:slides,idx:0};
+    updateBlurCarousel(viewportId);
+  }
+  function updateBlurCarousel(viewportId){
+    var c=carousels[viewportId];if(!c)return;
+    var len=c.slides.length;
+    c.slides.forEach(function(s,i){
+      s.classList.remove('bc-active','bc-prev','bc-next','bc-hidden');
+      if(i===c.idx){s.classList.add('bc-active')}
+      else if(i===(c.idx-1+len)%len){s.classList.add('bc-prev')}
+      else if(i===(c.idx+1)%len){s.classList.add('bc-next')}
+      else{s.classList.add('bc-hidden')}
+    });
+  }
+  window.blurCarouselNav=function(viewportId,dir){
+    var c=carousels[viewportId];if(!c)return;
+    c.idx=(c.idx+dir+c.slides.length)%c.slides.length;
+    updateBlurCarousel(viewportId);
+  };
+  initBlurCarousel('vcViewport');
+  initBlurCarousel('picViewport');
+
+  /* Video modal */
   var modal=document.getElementById('vcModal');
   var player=document.getElementById('vcPlayer');
-  if(!track)return;
-  window.vcScroll=function(dir){track.scrollBy({left:dir*240,behavior:'smooth'})};
-  track.querySelectorAll('.vc-slide').forEach(function(slide){
-    slide.addEventListener('click',function(){
-      var src=slide.dataset.video;
-      player.src=src;
-      modal.classList.add('active');
-      player.play().catch(function(){});
+  var vcViewport=document.getElementById('vcViewport');
+  if(vcViewport){
+    vcViewport.querySelectorAll('.bc-slide[data-video]').forEach(function(slide){
+      slide.addEventListener('click',function(){
+        if(!slide.classList.contains('bc-active'))return;
+        player.src=slide.dataset.video;
+        modal.classList.add('active');
+        player.play().catch(function(){});
+      });
     });
-  });
+  }
   window.vcCloseModal=function(){
     modal.classList.remove('active');
     player.pause();
     player.src='';
   };
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal.classList.contains('active'))window.vcCloseModal()});
+})();
+
+/* --- Stud Flyer Carousel --- */
+(function(){
+  var track=document.getElementById('sfTrack');
+  if(!track)return;
+  window.sfScroll=function(dir){track.scrollBy({left:dir*350,behavior:'smooth'})};
+})();
+
+/* --- Embark Blur Carousel --- */
+(function(){
+  var track=document.getElementById('embarkTrack');
+  if(!track)return;
+  var slides=track.querySelectorAll('.embark-slide');
+  var idx=0;
+  function update(){
+    var len=slides.length;
+    slides.forEach(function(s,i){
+      s.classList.remove('bc-active','bc-prev','bc-next');
+      s.style.display='none';
+      if(i===idx){s.classList.add('bc-active');s.style.display=''}
+      else if(i===(idx-1+len)%len){s.classList.add('bc-prev');s.style.display=''}
+      else if(i===(idx+1)%len){s.classList.add('bc-next');s.style.display=''}
+    });
+  }
+  window.embarkScroll=function(dir){
+    idx=(idx+dir+slides.length)%slides.length;
+    update();
+  };
+  update();
 })();
 </script>
 
